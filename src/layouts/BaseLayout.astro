@@ -1,0 +1,35 @@
+---
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+
+interface Props {
+    title: string;
+    description?: string;
+}
+
+const { title, description = "NUS SoC AI Society - AI Soc Corpus" } = Astro.props;
+const pageTitle = title ? `${title} | AI Soc Corpus` : "AI Soc Corpus";
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content={description} />
+        <meta name="viewport" content="width=device-width" />
+        <title>{pageTitle}</title>
+    </head>
+    <body class="site-shell">
+        <div aria-hidden="true" class="site-backdrop"></div>
+        <Navigation />
+        <main class="site-main">
+            <div class="container">
+                <div class="content-frame">
+                    <slot />
+                </div>
+            </div>
+        </main>
+        <Footer />
+    </body>
+</html>

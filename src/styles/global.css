@@ -1,0 +1,246 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap");
+
+:root {
+    color-scheme: dark;
+
+    --font-display: "Outfit", "Inter", system-ui, -apple-system, sans-serif;
+    --font-body: "Inter", system-ui, -apple-system, sans-serif;
+
+    --color-background: #0a0a0c;
+    --color-surface: #121218;
+    --color-surface-elevated: #161b25;
+    --color-border: rgba(255, 255, 255, 0.08);
+
+    --color-text: #f4f5f7;
+    --color-muted: #a1a1aa;
+    --color-muted-strong: #cbd5f5;
+
+    --color-accent: #10b981;
+    --color-accent-strong: #14f195;
+    --color-accent-secondary: #6366f1;
+    --color-accent-tertiary: #8b5cf6;
+
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+
+    --shadow-panel: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 28px 65px -45px rgba(0, 0, 0, 0.9);
+    --shadow-glow: 0 0 18px rgba(16, 185, 129, 0.35);
+
+    --gradient-hero:
+        radial-gradient(60% 50% at 50% 0%, rgba(99, 102, 241, 0.22) 0%, rgba(99, 102, 241, 0.08) 45%, rgba(10, 10, 12, 0) 70%),
+        radial-gradient(40% 35% at 10% 10%, rgba(16, 185, 129, 0.18) 0%, rgba(10, 10, 12, 0) 60%),
+        linear-gradient(180deg, rgba(10, 10, 12, 0.98) 0%, rgba(10, 10, 12, 1) 100%);
+    --gradient-panel: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+}
+
+.container {
+    width: min(1200px, 100% - 2.5rem);
+    margin: 0 auto;
+}
+
+.site-shell {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.site-backdrop {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: var(--gradient-hero);
+}
+
+.site-main {
+    position: relative;
+    z-index: 1;
+    padding: 2.5rem 0 3rem;
+    flex: 1;
+}
+
+.content-frame {
+    position: relative;
+    background: rgba(12, 12, 16, 0.85);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-panel);
+    overflow: hidden;
+    padding: clamp(1.5rem, 2vw, 2.5rem);
+}
+
+.content-frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-panel);
+    pointer-events: none;
+}
+
+.content-frame > * {
+    position: relative;
+    z-index: 1;
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid var(--color-border);
+    background: rgba(10, 10, 12, 0.7);
+    backdrop-filter: blur(18px);
+}
+
+.navbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 0;
+    gap: 1.5rem;
+}
+
+.navbar__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    text-transform: uppercase;
+}
+
+.navbar__brand span {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    font-size: 0.75rem;
+    color: var(--color-muted);
+}
+
+.navbar__brand strong {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+}
+
+.navbar__links {
+    display: flex;
+    gap: 2rem;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+}
+
+.navbar__link {
+    color: var(--color-muted);
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.navbar__link:hover,
+.navbar__link--active {
+    color: var(--color-accent);
+    text-shadow: 0 0 12px rgba(16, 185, 129, 0.45);
+}
+
+.site-footer {
+    border-top: 1px solid var(--color-border);
+    background: rgba(12, 12, 16, 0.9);
+    padding: 2.5rem 0;
+    position: relative;
+    z-index: 1;
+}
+
+.site-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+}
+
+.site-footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.site-footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+.site-footer__links a {
+    color: var(--color-muted);
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.site-footer__links a:hover {
+    color: var(--color-accent);
+    text-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+.footer-tagline {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    opacity: 0.55;
+}
+
+@media (max-width: 768px) {
+    .navbar__inner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar__links {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .site-main {
+        padding: 2rem 0 2.5rem;
+    }
+}

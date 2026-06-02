@@ -1,0 +1,27 @@
+---
+import { SOCIAL_LINKS } from "../lib/socialLinks";
+---
+
+<footer class="site-footer">
+    <div class="container site-footer__inner">
+        <div class="site-footer__brand">
+            <span>NUS SoC AI Society</span>
+            <span class="footer-tagline">COM1, 13 Computing Dr, Singapore 117417</span>
+        </div>
+
+        <div class="site-footer__links">
+            <a href={SOCIAL_LINKS.telegramAlerts.href} target="_blank" rel="noopener noreferrer">
+                {SOCIAL_LINKS.telegramAlerts.label}
+            </a>
+            <a href={SOCIAL_LINKS.github.href} target="_blank" rel="noopener noreferrer">
+                {SOCIAL_LINKS.github.label}
+            </a>
+            <a href={SOCIAL_LINKS.email.href}>{SOCIAL_LINKS.email.label}</a>
+            <a href={SOCIAL_LINKS.linkedin.href} target="_blank" rel="noopener noreferrer">
+                {SOCIAL_LINKS.linkedin.label}
+            </a>
+        </div>
+
+        <div class="footer-tagline">// ENGINEERED IN SINGAPORE</div>
+    </div>
+</footer>
