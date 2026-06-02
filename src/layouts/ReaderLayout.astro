@@ -1,0 +1,233 @@
+---
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  headings: { depth: number; slug: string; text: string }[];
+  backlinks: { slug: string; title: string }[];
+}
+
+const { title, headings, backlinks } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title} | AI Soc Corpus</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    />
+  </head>
+  <body class="site-shell">
+    <div aria-hidden="true" class="site-backdrop"></div>
+    <Navigation />
+    <main class="reader-layout">
+      <aside class="reader-sidebar" aria-label="Table of contents">
+        <nav class="toc">
+          <h4>On this page</h4>
+          <ul>
+            {headings.filter((h) => h.depth <= 3).map((h) => (
+              <li class={`toc-item toc-depth-${h.depth}`}>
+                <a href={`#${h.slug}`} data-heading={h.slug}>{h.text}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </aside>
+
+      <article class="reader-content">
+        <slot />
+      </article>
+
+      <aside class="reader-panel" aria-label="Backlinks">
+        <h4>Backlinks</h4>
+        {backlinks.length > 0 ? (
+          <ul class="backlinks-list">
+            {backlinks.map((bl) => (
+              <li><a href={`/topics/${bl.slug}`}>{bl.title}</a></li>
+            ))}
+          </ul>
+        ) : (
+          <p class="no-backlinks">No pages link here yet.</p>
+        )}
+      </aside>
+    </main>
+    <Footer />
+
+    <script>
+      // ScrollSpy: highlight active heading in sidebar
+      const tocLinks = document.querySelectorAll<HTMLAnchorElement>(".toc a[data-heading]");
+      const headingEls = Array.from(tocLinks).map((a) =>
+        document.getElementById(a.dataset.heading!)
+      ).filter(Boolean) as HTMLElement[];
+
+      function updateActive() {
+        let active = headingEls[0];
+        for (const el of headingEls) {
+          if (el.getBoundingClientRect().top <= 100) active = el;
+        }
+        tocLinks.forEach((a) => {
+          a.classList.toggle("active", a.dataset.heading === active?.id);
+        });
+      }
+      window.addEventListener("scroll", updateActive, { passive: true });
+      updateActive();
+    </script>
+  </body>
+</html>
+
+<style>
+  .reader-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr 220px;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    position: relative;
+    z-index: 1;
+    min-height: calc(100vh - 200px);
+  }
+
+  .reader-sidebar {
+    position: sticky;
+    top: 80px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+
+  .toc h4 {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .toc-item {
+    margin-bottom: 0.3rem;
+  }
+
+  .toc-item a {
+    font-size: 0.78rem;
+    color: var(--color-muted);
+    transition: color 0.2s ease;
+    display: block;
+    padding: 0.15rem 0;
+    border-left: 2px solid transparent;
+    padding-left: 0.6rem;
+  }
+
+  .toc-depth-3 a {
+    padding-left: 1.2rem;
+  }
+
+  .toc-item a:hover,
+  .toc-item a:global(.active) {
+    color: var(--color-accent);
+    border-left-color: var(--color-accent);
+  }
+
+  .reader-content {
+    min-width: 0;
+    font-size: 0.92rem;
+    line-height: 1.8;
+  }
+
+  .reader-content :global(h1) {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .reader-content :global(h2) {
+    font-size: 1.4rem;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+  }
+
+  .reader-content :global(h3) {
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+  }
+
+  .reader-content :global(code) {
+    background: var(--color-surface);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+
+  .reader-content :global(.wikilink) {
+    color: var(--color-accent);
+    border-bottom: 1px dashed rgba(204, 255, 0, 0.4);
+    transition: border-color 0.2s ease;
+  }
+
+  .reader-content :global(.wikilink:hover) {
+    border-bottom-color: var(--color-accent);
+  }
+
+  .reader-panel {
+    position: sticky;
+    top: 80px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+
+  .reader-panel h4 {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .backlinks-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .backlinks-list li {
+    margin-bottom: 0.4rem;
+  }
+
+  .backlinks-list a {
+    font-size: 0.8rem;
+    color: var(--color-accent-secondary);
+    transition: color 0.2s ease;
+  }
+
+  .backlinks-list a:hover {
+    color: var(--color-accent);
+  }
+
+  .no-backlinks {
+    font-size: 0.78rem;
+    color: var(--color-muted);
+    font-style: italic;
+  }
+
+  @media (max-width: 1024px) {
+    .reader-layout {
+      grid-template-columns: 1fr;
+    }
+    .reader-sidebar,
+    .reader-panel {
+      position: static;
+      max-height: none;
+    }
+  }
+</style>

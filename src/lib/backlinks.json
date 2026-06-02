@@ -1,0 +1,60 @@
+{
+  "neural-networks": [
+    {
+      "slug": "gradient-descent",
+      "title": "Gradient Descent"
+    },
+    {
+      "slug": "q-learning",
+      "title": "Q-Learning"
+    },
+    {
+      "slug": "transformers",
+      "title": "Transformers"
+    }
+  ],
+  "transformers": [
+    {
+      "slug": "gradient-descent",
+      "title": "Gradient Descent"
+    },
+    {
+      "slug": "neural-networks",
+      "title": "Neural Networks"
+    }
+  ],
+  "gradient-descent": [
+    {
+      "slug": "linear-regression",
+      "title": "Linear Regression"
+    },
+    {
+      "slug": "neural-networks",
+      "title": "Neural Networks"
+    },
+    {
+      "slug": "q-learning",
+      "title": "Q-Learning"
+    },
+    {
+      "slug": "support-vector-machines",
+      "title": "Support Vector Machines"
+    },
+    {
+      "slug": "transformers",
+      "title": "Transformers"
+    }
+  ],
+  "support-vector-machines": [
+    {
+      "slug": "linear-regression",
+      "title": "Linear Regression"
+    }
+  ],
+  "linear-regression": [
+    {
+      "slug": "support-vector-machines",
+      "title": "Support Vector Machines"
+    }
+  ]
+}

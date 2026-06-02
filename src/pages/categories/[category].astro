@@ -1,0 +1,96 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const categories = [
+    "classical-ml",
+    "deep-learning",
+    "generative",
+    "reinforcement-learning",
+    "world-modelling",
+  ];
+  return categories.map((id) => ({ params: { category: id } }));
+}
+
+const { category } = Astro.params;
+const allTopics = await getCollection("topics");
+const topics = allTopics.filter((t) => t.data.category === category);
+const label = category!.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+---
+
+<BaseLayout title={label}>
+  <h1>{label}</h1>
+  <p style="color: var(--color-muted); margin-bottom: 2rem;">
+    {topics.length} topic{topics.length !== 1 ? "s" : ""} in this category.
+  </p>
+
+  <div class="topic-grid">
+    {topics.map((topic) => (
+      <a href={`/topics/${topic.id.replace(/\.md$/, "")}`} class="topic-card">
+        <span class="topic-difficulty" data-level={topic.data.difficulty}>
+          {topic.data.difficulty}
+        </span>
+        <h3>{topic.data.title}</h3>
+        <p>{topic.data.description}</p>
+      </a>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .topic-card {
+    padding: 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .topic-card:hover {
+    border-color: rgba(204, 255, 0, 0.4);
+    box-shadow: 0 0 16px rgba(204, 255, 0, 0.1);
+  }
+
+  .topic-card h3 {
+    font-size: 1rem;
+    margin: 0.5rem 0 0.4rem;
+  }
+
+  .topic-card p {
+    font-size: 0.82rem;
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  .topic-difficulty {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    background: rgba(204, 255, 0, 0.1);
+    color: var(--color-accent);
+  }
+
+  .topic-difficulty[data-level="intermediate"] {
+    background: rgba(99, 102, 241, 0.15);
+    color: var(--color-accent-secondary);
+  }
+
+  .topic-difficulty[data-level="advanced"] {
+    background: rgba(139, 92, 246, 0.15);
+    color: var(--color-accent-tertiary);
+  }
+</style>

@@ -1,0 +1,47 @@
+{
+  "name": "aisoc-corpus",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "node scripts/generate-graph.mjs && astro build",
+    "preview": "astro preview",
+    "typecheck": "astro check && tsc --noEmit",
+    "lint": "prettier --check . --plugin=prettier-plugin-astro",
+    "format": "prettier --write . --plugin=prettier-plugin-astro",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@astrojs/check": "0.9.4",
+    "@astrojs/react": "4.2.0",
+    "astro": "5.2.5",
+    "d3-drag": "3.0.0",
+    "d3-force": "3.0.0",
+    "d3-selection": "3.0.0",
+    "d3-zoom": "3.0.0",
+    "katex": "0.16.11",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "rehype-katex": "7.0.1",
+    "remark-math": "6.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-stringify": "^11.0.0",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.49.1",
+    "@types/d3-drag": "3.0.7",
+    "@types/d3-force": "3.0.10",
+    "@types/d3-selection": "3.0.11",
+    "@types/d3-zoom": "3.0.8",
+    "@types/react": "19.0.7",
+    "@types/react-dom": "19.0.3",
+    "prettier": "3.4.2",
+    "prettier-plugin-astro": "0.14.1",
+    "typescript": "5.7.3",
+    "vitest": "2.1.8"
+  }
+}

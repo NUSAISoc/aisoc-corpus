@@ -14,7 +14,7 @@ fail() {
 # Applies to all markdown files in the repository except .git.
 
 mapfile -t md_files < <(
-  cd "${ROOT_DIR}" && find . -type f -name '*.md' -not -path './.git/*' | LC_ALL=C sort
+  cd "${ROOT_DIR}" && find . -type f -name '*.md' -not -path './.git/*' -not -path './node_modules/*' -not -path './dist/*' | LC_ALL=C sort
 )
 
 if ((${#md_files[@]} == 0)); then

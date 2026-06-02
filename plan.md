@@ -7,21 +7,29 @@ Please follow this detailed, step-by-step implementation guide to build the appl
 ---
 
 ## 🎨 Brand Identity & Design Specifications
-- **Colors**: Deep premium dark mode aligned to nusaisociety.org.
+- **Colors & Styles**: Deep premium dark mode fully defined in `/src/styles/global.css` using custom CSS variables.
   - Background: `#0a0a0c` (void black).
   - Surfaces: `#121218` / `#161b25` for cards and panels.
   - Text: `#f4f5f7` primary, `#a1a1aa` muted.
-  - Accents: Emerald `#10b981` (primary), Indigo `#6366f1` + Purple `#8b5cf6` (secondary glows).
+  - Accents: Neon Lime-Green `#ccff00` (strict primary accent), Indigo `#6366f1` + Purple `#8b5cf6` (secondary glows).
   - Borders: `rgba(255, 255, 255, 0.08)`.
-- **Gradients & glow**:
-  - Hero backdrop: `radial-gradient(60% 50% at 50% 0%, rgba(99, 102, 241, 0.22) 0%, rgba(99, 102, 241, 0.08) 45%, rgba(10, 10, 12, 0) 70%)`
-  - Secondary glow: `radial-gradient(40% 35% at 10% 10%, rgba(16, 185, 129, 0.18) 0%, rgba(10, 10, 12, 0) 60%)`
-  - Panel sheen: `linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 100%)`
-- **Typography**: Import Google Fonts **Outfit** (headings) and **Inter** (body text). Global definitions live in `src/styles/global.css`.
-- **Layout**: Two-column responsive dashboard as pictured in `aisoc_corpus_homepage_mockup.png`.
-  - Left Column (Sidebar / Categories): Search bar, category filters, and cards showing machine learning topics (title, description, tags, and progress/stats).
-  - Right Column (Main Interactive Area): A large, stunning force-directed **KnowledgeGraph** illustrating topic relationships, clickable to navigate directly to pages.
-  - Reader View: Double-pane view with Sidebar Outline (left), Topic Content with beautifully formatted text, KaTeX LaTeX math formulas, and code snippets (center), and Backlinks + mini graph view (right).
+- **Gradients & Glow**: Custom `--gradient-hero` (radial dark-blue/indigo and `#ccff00` backdrop glows) and `--shadow-glow` (neon `#ccff00` highlights) are declared globally.
+- **Typography**: STRICT REQUIREMENT: Imports and uses **Tomorrow** (headings) and **JetBrains Mono** (body text / code / all other elements). Global definitions live in `/src/styles/global.css`.
+- **Layout & Interaction Model**:
+  - **Homepage**: The visual centerpiece is **exclusively the massive, interactive, force-directed KnowledgeGraph**. There are no cards or side-by-side lists shown by default on the homepage.
+  - **Witty Introduction**: Positioned elegantly at the top of the homepage, there is a short, elegant, and witty paragraph explaining what the knowledge graph is and how it maps learning prerequisites and tag similarities.
+  - **Category Navigation Buttons**: A prominent row of neon-bordered category buttons sits directly above the knowledge graph, representing mutually exclusive AI categories:
+    * **CLASSICAL ML**: Supervised & Unsupervised, SVMs, PCA, Random Forests, etc.
+    * **DEEP LEARNING**: Deep Representation Learning, MLPs, CNNs, GNNs, Autoencoders.
+    * **GENERATIVE**: Generative Models, VAEs, GANs, Diffusion Models, Flow Models, Attention Mechanisms, Self-Attention, RNNs/LSTMs, Transformers.
+    * **REINFORCEMENT LEARNING**: MDPs, Q-Learning, Policy Gradients, Actor-Critic, RLHF.
+    * **WORLD MODELLING**: World Models, Model-based RL, MCTS, Active Inference.
+    * *Clicking a category navigates to the list of topics organized under that specific category.*
+  - **No Front-End Contribution Feature**: To ensure high academic quality, there are no "Create a Card" or edit forms on the front-end. All contributions are backend-only, driven by markdown files in Git pull requests.
+  - **Contribution Guide**: There should be a contribution guide page that has a witty quote on why collective knowledge is important. Then it should lead people to the contribution guide on GitHub to get further details.
+  - **Footer**: The exact base footer layout from `https://nusaisociety.org/` is used, fully implemented in `/src/components/Footer.astro` and styled in `/src/styles/global.css`.
+  - **Reader View**: Double-pane view with Sidebar Outline (left) supporting ScrollSpy outline tracking read progress, Center Panel displaying beautifully parsed markdown content, KaTeX equations, and citations, and Right Panel showing backlinks and a mini-graph float index.
+  - **Development**: Create all the pages but populate them with sample content of what might be there. This is placeholder text so that I can verify that the content render correctly. However, it should be easy to delete unecessary pages and change the contents of the pages in line with the contribution system.
 
 ---
 
@@ -64,35 +72,34 @@ Instead of a standard flat hierarchy, construct a relation network:
 
 ## 🏃‍♂️ Step-by-Step Implementation Roadmap
 
-### Slice 1: Website Style Extraction & Theme Initialization
-1. Create a temporary folder inside the workspace and clone the repository `https://github.com/NUSAISoc/aisoc-website`.
-2. Extract all brand colors, Outfit/Inter typography imports, custom margins, and nav/header styles into a global CSS spec `src/styles/global.css`.
-3. Reconstruct the global header navbar, footer, logo, and buttons to match the main AISoc website's aesthetic.
-4. Clean up the workspace by deleting the cloned folder.
+### Slice 1: Website Style Extraction & Theme Initialization (Completed ✅)
+1. **Status**: Fully completed and validated.
+2. **Details**: Global CSS variables, custom dark background radial gradient `--gradient-hero`, Typography (Outfit + Inter fonts), and layout classes are defined in `/src/styles/global.css`.
+3. **Components**: The responsive global navigation header (`src/components/Navigation.astro`) and exact official footer (`src/components/Footer.astro` replicating `nusaisociety.org`) are fully functional and integrated with `BaseLayout.astro`.
 
-### Slice 2: Content Collection & LaTeX Markdown Parser
+### Slice 2: Content Collection & LaTeX Markdown Parser (Completed ✅)
 1. Setup Astro Content Collections in `src/content/config.ts` using the Zod schema detailed above.
 2. Integrate KaTeX and Rehype plugins into `astro.config.mjs` for beautiful, performant server-side LaTeX compilation.
 3. Write the custom Remark WikiLink parser. Generate a static build-time `backlinks.json` indexing file linking references.
 4. Write unit tests (Vitest) validating your Markdown compiler, Jaccard similarity calculator, and backlinks generator.
 
-### Slice 3: Force-Directed Knowledge Graph React Component
+### Slice 3: Force-Directed Knowledge Graph React Component (Completed ✅)
 1. Compute the graph structure (nodes representing topics, edges representing prerequisites or semantic kNN similarities) at build time, and write it to a static `graph-data.json` file.
 2. Build `src/components/KnowledgeGraph.tsx` using React and D3-force to render a responsive, styled SVG network map.
 3. Add drag-and-zoom behavior, neon glow animations on active nodes, and hover paths.
 4. Implement toggles to swap between the Prerequisite learning tree and Semantic tag similarity groups.
 
-### Slice 4: Double-Pane Reader Layout & Hover Previews
+### Slice 4: Double-Pane Reader Layout & Hover Previews (Completed ✅)
 1. Build `src/layouts/ReaderLayout.astro`. Implement the double-pane view: Left Sidebar navigation with ScrollSpy outline tracking read progress, Center Panel with the parsed markdown article, and Right Panel with backlinks and a mini interactive float graph.
 2. Build the `HoverPreview.tsx` component that retrieves precomputed topic cards asynchronously, rendering a preview popover when mouse-hovering a WikiLink.
 
-### Slice 5: Linter Scripts & Automated PR Verification
+### Slice 5: Linter Scripts & Automated PR Verification (Completed ✅)
 1. Create `scripts/validate-content.sh` implementing frontmatter schema checks, LaTeX math safety scans, broken internal links checker, and image citation validation.
 2. Draft a complete `CONTRIBUTING.md` guide that includes step-by-step instructions on writing markdown, formatting LaTeX formulas, local editor setups (Obsidian/VS Code + Foam), and a Reviewer Checklist for PR maintainers.
 3. Setup the GitHub Actions workflow at `.github/workflows/verify-pr.yml` executing the validation script. 
 4. Create a `README.md` file that goes in detail to the contribution process and where reviewers can obtain their checklist/where they can use their checklist.
 
-### Slice 6: E2E Playwright Tests & Cloudflare Deployment
+### Slice 6: E2E Playwright Tests & Cloudflare Deployment (Completed ✅)
 1. Configure Playwright E2E browser tests under `tests/e2e/` verifying clicking graph nodes navigates pages, KaTeX compiles successfully on pages, and hover popovers work correctly.
 2. Deploy the build outputs to Cloudflare Pages. Hook up automated CI triggers to build and publish preview versions of the application. To the `README.md` add a section on how to host the website, covering all the hosting information in detail.
 

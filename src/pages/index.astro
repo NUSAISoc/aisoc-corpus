@@ -1,0 +1,91 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import KnowledgeGraph from "../components/KnowledgeGraph.tsx";
+
+const categories = [
+  { id: "classical-ml", label: "Classical ML" },
+  { id: "deep-learning", label: "Deep Learning" },
+  { id: "generative", label: "Generative" },
+  { id: "reinforcement-learning", label: "Reinforcement Learning" },
+  { id: "world-modelling", label: "World Modelling" },
+];
+---
+
+<BaseLayout title="Home">
+  <section class="hero-intro">
+    <h1>The Corpus</h1>
+    <p class="intro-text">
+      An interconnected knowledge graph mapping the landscape of artificial intelligence.
+      Each node is a concept. Each edge is a relationship&mdash;either a learning
+      prerequisite or a semantic similarity computed via Jaccard index over shared tags.
+      Drag, zoom, and click to explore how ideas connect.
+    </p>
+  </section>
+
+  <nav class="category-nav" aria-label="Topic categories">
+    {categories.map(({ id, label }) => (
+      <a href={`/categories/${id}`} class="category-btn">
+        {label}
+      </a>
+    ))}
+  </nav>
+
+  <section class="graph-section">
+    <KnowledgeGraph client:load />
+  </section>
+</BaseLayout>
+
+<style>
+  .hero-intro {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .hero-intro h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    background: linear-gradient(135deg, #ccff00 0%, #6366f1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.75rem;
+  }
+
+  .intro-text {
+    max-width: 640px;
+    margin: 0 auto;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .category-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+  }
+
+  .category-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.72rem;
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    border: 1px solid rgba(204, 255, 0, 0.3);
+    border-radius: 6px;
+    background: transparent;
+    transition: all 0.2s ease;
+  }
+
+  .category-btn:hover {
+    background: rgba(204, 255, 0, 0.1);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 12px rgba(204, 255, 0, 0.25);
+  }
+
+  .graph-section {
+    min-height: 500px;
+  }
+</style>

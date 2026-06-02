@@ -39,11 +39,10 @@ To maintain the high-quality, "no-slop" ethos:
 - **Formatting Standards**: Provide templates for LaTeX (inline `$` and block `$$`), syntax-highlighted code blocks, and citations (defining a `citations` array in frontmatter).
 - **Automated Validation (PR Verification)**: Run CI checks on PRs verifying frontmatter structures, KaTeX compile success, image citations, and internal link integrity.
 
-### 4. Style Copying & component alignment
-- Clone `https://github.com/NUSAISoc/aisoc-website` locally to extract the core brand guidelines.
-- Save global styling tokens (such as the main modern dark gradients, fonts like Outfit/Inter, and core branding colors) in a central `src/styles/global.css`.
+### 4. Styling & Typography Constraints
+- Enforce **ccff00** (strict neon lime-green) as the primary accent color.
+- Save global styling tokens (such as modern dark radial gradients, strict fonts: **Tomorrow** for headings and **JetBrains Mono** for all body/code text, and core branding colors) in `/src/styles/global.css`.
 - Copy or reconstruct key components (Navigation Header, Footer, Brand Logo, and Button designs) matching the aesthetics of `nusaisociety.org`.
-- Delete the cloned repository and any unnecessary files when extraction is finished.
 
 ### 5. Free Premium Hosting Plan
 - **Cloudflare Pages**: Extremely fast, globally distributed, completely free tier. Natively supports Astro builds, integrates with GitHub, offers automatic PR preview deployments, and handles custom domains with free SSL.
@@ -61,13 +60,12 @@ graph TD
     S5 --> S6[Slice 6: E2E Browser Testing & Cloudflare]
 ```
 
-### Slice 1: Website Style Extraction & Theme Initialization
+### Slice 1: Website Style Extraction & Theme Initialization (Completed ✅)
 - **Goal**: Initialize the Astro + React project and align typography and colors with the main AISoc website.
 - **Tasks**:
-  1. Clone `NUSAISoc/aisoc-website` temporarily.
-  2. Extract colors, typography, Outfit/Inter font declarations, and nav styles into `src/styles/global.css`.
-  3. Set up the base layout file (`src/layouts/BaseLayout.astro`) with modern dark gradient schemes and responsive navigation copied from the main site.
-  4. Run clean up to remove the cloned repo.
+  1. **Status**: Fully completed and validated.
+  2. **Details**: Global CSS variables, custom dark background radial gradient `--gradient-hero`, Typography (strict **Tomorrow** for headings and **JetBrains Mono** for all body/code elements), and layout classes are defined in `/src/styles/global.css`.
+  3. **Components**: The responsive global navigation header (`src/components/Navigation.astro`) and exact official footer (`src/components/Footer.astro` replicating `nusaisociety.org` with strict styling) are fully functional and integrated with `BaseLayout.astro`.
 
 ### Slice 2: Content Schema & Custom Markdown Compiler
 - **Goal**: Configure Astro Content Collections with frontmatter validation, KaTeX support, and WikiLink resolution.

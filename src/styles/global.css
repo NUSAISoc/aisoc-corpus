@@ -1,10 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Tomorrow:wght@400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 
 :root {
     color-scheme: dark;
 
-    --font-display: "Outfit", "Inter", system-ui, -apple-system, sans-serif;
-    --font-body: "Inter", system-ui, -apple-system, sans-serif;
+    --font-display: "Tomorrow", "JetBrains Mono", monospace;
+    --font-body: "JetBrains Mono", monospace;
 
     --color-background: #0a0a0c;
     --color-surface: #121218;
@@ -15,8 +15,8 @@
     --color-muted: #a1a1aa;
     --color-muted-strong: #cbd5f5;
 
-    --color-accent: #10b981;
-    --color-accent-strong: #14f195;
+    --color-accent: #ccff00;
+    --color-accent-strong: #d4ff1a;
     --color-accent-secondary: #6366f1;
     --color-accent-tertiary: #8b5cf6;
 
@@ -25,11 +25,11 @@
     --radius-lg: 24px;
 
     --shadow-panel: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 28px 65px -45px rgba(0, 0, 0, 0.9);
-    --shadow-glow: 0 0 18px rgba(16, 185, 129, 0.35);
+    --shadow-glow: 0 0 18px rgba(204, 255, 0, 0.35);
 
     --gradient-hero:
         radial-gradient(60% 50% at 50% 0%, rgba(99, 102, 241, 0.22) 0%, rgba(99, 102, 241, 0.08) 45%, rgba(10, 10, 12, 0) 70%),
-        radial-gradient(40% 35% at 10% 10%, rgba(16, 185, 129, 0.18) 0%, rgba(10, 10, 12, 0) 60%),
+        radial-gradient(40% 35% at 10% 10%, rgba(204, 255, 0, 0.18) 0%, rgba(10, 10, 12, 0) 60%),
         linear-gradient(180deg, rgba(10, 10, 12, 0.98) 0%, rgba(10, 10, 12, 1) 100%);
     --gradient-panel: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 100%);
 }
@@ -176,7 +176,7 @@ h6 {
 .navbar__link:hover,
 .navbar__link--active {
     color: var(--color-accent);
-    text-shadow: 0 0 12px rgba(16, 185, 129, 0.45);
+    text-shadow: 0 0 12px rgba(204, 255, 0, 0.45);
 }
 
 .site-footer {
@@ -219,7 +219,7 @@ h6 {
 
 .site-footer__links a:hover {
     color: var(--color-accent);
-    text-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+    text-shadow: 0 0 10px rgba(204, 255, 0, 0.4);
 }
 
 .footer-tagline {
