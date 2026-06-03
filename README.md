@@ -1,25 +1,24 @@
 # AI Soc Corpus
 
-An interactive knowledge graph and educational corpus for the NUS AI Society. Built with Astro, React, and D3.
+[![Verify PR](https://github.com/NUSAISoc/aisoc-corpus/actions/workflows/verify-pr.yml/badge.svg)](https://github.com/NUSAISoc/aisoc-corpus/actions/workflows/verify-pr.yml)
+[![Deterministic Checks](https://github.com/NUSAISoc/aisoc-corpus/actions/workflows/deterministic-checks.yml/badge.svg)](https://github.com/NUSAISoc/aisoc-corpus/actions/workflows/deterministic-checks.yml)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
+[![Astro](https://img.shields.io/badge/Astro-5.2-ff5d01.svg?logo=astro&logoColor=white)](https://astro.build)
+[![React](https://img.shields.io/badge/React-19.0-61dafb.svg?logo=react&logoColor=black)](https://react.dev)
+[![D3.js](https://img.shields.io/badge/D3.js-3.0-f9a03f.svg?logo=d3.js&logoColor=white)](https://d3js.org/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+
+An interactive knowledge corpus for the NUS AI Society.
 
 ## Overview
 
-AI Soc Corpus is a static website that presents AI/ML topics as an interconnected knowledge graph. Each topic is a Markdown file with structured frontmatter; at build time, the system computes:
+AI Soc Corpus is a static website that presents AI/ML topics as an interconnected knowledge graph. Each topic is a Markdown file with structured frontmatter. These are connected with:
 
 - **Prerequisite edges** (directed, from frontmatter declarations)
 - **Similarity edges** (undirected, via Jaccard index over shared tags/domains)
 - **Backlinks** (which topics reference each other via WikiLinks)
 
 The result is a navigable, explorable network of concepts rendered as an interactive force-directed graph.
-
-## Quick Start
-
-```bash
-npm install
-npm run build    # Generates graph data + builds static site
-npm run dev      # Start dev server with hot reload
-npm run preview  # Preview production build
-```
 
 ## Project Structure
 
@@ -50,42 +49,23 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed instructions on adding top
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Generate graph + build for production |
-| `npm run preview` | Preview production build |
-| `npm test` | Run unit tests (Vitest) |
-| `npm run test:e2e` | Run E2E tests (Playwright) |
-| `./scripts/validate-content.sh` | Validate content files |
-| `./scripts/check.sh` | Run all deterministic checks |
-
-## Hosting
-
-The site is deployed to **Cloudflare Pages**.
-
-### Manual Deployment
-
-```bash
-npm run build
-npx wrangler pages deploy dist --project-name aisoc-corpus
-```
-
-### Automated Deployment
-
-Cloudflare Pages is connected to the GitHub repository. On push to `main`:
-
-1. Cloudflare triggers a build using `npm run build`.
-2. The `dist/` directory is deployed to `aisoc-corpus.pages.dev`.
-3. Preview deployments are created for every pull request.
+| Command                           | Description                           |
+| --------------------------------- | ------------------------------------- |
+| `npm run dev`                   | Start development server              |
+| `npm run build`                 | Generate graph + build for production |
+| `npm run preview`               | Preview production build              |
+| `npm test`                      | Run unit tests (Vitest)               |
+| `npm run test:e2e`              | Run E2E tests (Playwright)            |
+| `./scripts/validate-content.sh` | Validate content files                |
+| `./scripts/check.sh`            | Run all deterministic checks          |
 
 ### Environment Configuration
 
-| Variable | Value |
-|----------|-------|
+| Variable      | Value             |
+| ------------- | ----------------- |
 | Build command | `npm run build` |
-| Build output | `dist` |
-| Node version | `20` |
+| Build output  | `dist`          |
+| Node version  | `20`            |
 
 ## Tech Stack
 
@@ -98,6 +78,6 @@ Cloudflare Pages is connected to the GitHub repository. On push to `main`:
 
 ## License
 
-MIT
+This project is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](file:///home/prane/coding/aisoc-corpus/LICENSE) license.
 
 _Built by Praneeth-Suresh for NUS AI Society._
