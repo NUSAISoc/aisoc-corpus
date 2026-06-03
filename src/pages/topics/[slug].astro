@@ -1,24 +1,34 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection, render, type CollectionEntry } from "astro:content";
 import ReaderLayout from "../../layouts/ReaderLayout.astro";
 import HoverPreview from "../../components/HoverPreview.tsx";
 import backlinksData from "../../lib/backlinks.json";
 
+interface Props {
+  topic: CollectionEntry<"topics">;
+}
+
 export async function getStaticPaths() {
   const topics = await getCollection("topics");
-  return topics.map((topic) => ({
+  return topics.map((topic: CollectionEntry<"topics">) => ({
     params: { slug: topic.id.replace(/\.md$/, "") },
     props: { topic },
   }));
 }
 
-const { topic } = Astro.props;
+const { topic } = Astro.props as Props;
 const { Content, headings } = await render(topic);
 const slug = topic.id.replace(/\.md$/, "");
-const backlinks = (backlinksData as Record<string, {slug: string; title: string}[]>)[slug] || [];
+const backlinks =
+  (backlinksData as Record<string, { slug: string; title: string }[]>)[slug] ||
+  [];
 ---
 
-<ReaderLayout title={topic.data.title} headings={headings} backlinks={backlinks}>
+<ReaderLayout
+  title={topic.data.title}
+  headings={headings}
+  backlinks={backlinks}
+>
   <header>
     <h1>{topic.data.title}</h1>
     <div class="topic-meta">
@@ -28,16 +38,22 @@ const backlinks = (backlinksData as Record<string, {slug: string; title: string}
     </div>
   </header>
   <Content />
-  {topic.data.citations && topic.data.citations.length > 0 && (
-    <section class="citations">
-      <h2>Citations</h2>
-      <ol>
-        {topic.data.citations.map((c: {title: string; url: string}) => (
-          <li><a href={c.url} target="_blank" rel="noopener noreferrer">{c.title}</a></li>
-        ))}
-      </ol>
-    </section>
-  )}
+  {
+    topic.data.citations && topic.data.citations.length > 0 && (
+      <section class="citations">
+        <h2>Citations</h2>
+        <ol>
+          {topic.data.citations.map((c: { title: string; url: string }) => (
+            <li>
+              <a href={c.url} target="_blank" rel="noopener noreferrer">
+                {c.title}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )
+  }
   <HoverPreview client:load />
 </ReaderLayout>
 

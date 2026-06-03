@@ -1,0 +1,22 @@
+# .github/CODEOWNERS
+# This file is used to automatically assign reviewers for pull requests.
+# More details: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-collaborators-and-permissions-in-your-repository/about-code-owners
+
+# Each line specifies a path pattern followed by one or more owners.
+# The owners can be GitHub usernames (prefixed with @) or team names inside an organization (e.g. @org/team-name).
+
+# By default, make @Praneeth-Suresh the owner/reviewer for all files in the repository.
+*       @Praneeth-Suresh
+
+# To add specific reviewers for specific paths, define them below.
+# Note: The last matching pattern has the highest precedence.
+
+# Examples:
+# 1. To make @another-reviewer own the markdown topic files (where content is added):
+# /src/content/topics/      @another-reviewer
+
+# 2. To make a team or multiple reviewers own the GitHub workflows configuration:
+# /.github/workflows/       @Praneeth-Suresh @another-reviewer
+
+# 3. To make a designer/frontend developer own the global style sheets:
+# /src/styles/              @designer-username

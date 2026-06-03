@@ -2,7 +2,7 @@
 
 ## Current Design Concept
 
-An interconnected learning ecosystem that leverages Astro's performance for content reading and React's interactivity for an Obsidian-style **KnowledgeGraph**. Content is authored in standard Markdown/MDX with frontmatter defining metadata (difficulty, domains, prerequisites, tags). At build time, Astro compiles these topics into a static single-page-routing structure, resolves relationships (hierarchical and semantic similarity), generates a precomputed graph JSON, and renders a stunning 2D/3D force-directed interactive node visualization.
+An interconnected learning ecosystem that leverages Astro's performance for content reading and React's interactivity for an Obsidian-style **KnowledgeGraph**. Content is authored in standard Markdown/MDX with frontmatter defining metadata (difficulty, domains, prerequisites, tags). At build time, Astro compiles these topics into a static single-page-routing structure, resolves relationships (hierarchical and semantic similarity), generates a precomputed graph JSON, and renders a force-directed interactive node visualization with a category colour legend and a discreet collapsible relationship explanation.
 
 ## Open Decisions
 

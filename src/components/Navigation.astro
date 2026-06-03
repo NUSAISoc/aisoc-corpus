@@ -1,31 +1,35 @@
 ---
 const links = [
-    { href: "/", label: "Graph" },
-    { href: "/categories/classical-ml", label: "Topics" },
-    { href: "/contribute", label: "Contribute" },
+  { href: "/", label: "Graph" },
+  { href: "/topics", label: "Topics" },
+  { href: "/contribute", label: "Contribute" },
 ];
 
 const pathname = Astro.url?.pathname ?? "/";
 ---
 
 <nav class="navbar">
-    <div class="container navbar__inner">
-        <a class="navbar__brand" href="/">
-            <span>NUS AI Society</span>
-            <strong>AI Soc Corpus</strong>
-        </a>
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="/">
+      <span>NUS AI Society</span>
+      <strong>AI Soc Corpus</strong>
+    </a>
 
-        <div class="navbar__links">
-            {
-                links.map(({ href, label }) => {
-                    const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
-                    return (
-                        <a href={href} class:list={["navbar__link", isActive && "navbar__link--active"]}>
-                            {label}
-                        </a>
-                    );
-                })
-            }
-        </div>
+    <div class="navbar__links">
+      {
+        links.map(({ href, label }) => {
+          const isActive =
+            href === "/" ? pathname === "/" : pathname.startsWith(href);
+          return (
+            <a
+              href={href}
+              class:list={["navbar__link", isActive && "navbar__link--active"]}
+            >
+              {label}
+            </a>
+          );
+        })
+      }
     </div>
+  </div>
 </nav>

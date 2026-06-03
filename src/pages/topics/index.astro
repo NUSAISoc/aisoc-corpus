@@ -5,40 +5,37 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 type Topic = CollectionEntry<"topics">;
 type TopicCategory = Topic["data"]["category"];
 
-export async function getStaticPaths() {
-  const categories: TopicCategory[] = [
-    "classical-ml",
-    "deep-learning",
-    "generative",
-    "reinforcement-learning",
-    "world-modelling",
-  ];
-  return categories.map((id) => ({ params: { category: id } }));
-}
+const categoryLabels: Record<TopicCategory, string> = {
+  "classical-ml": "Classical ML",
+  "deep-learning": "Deep Learning",
+  generative: "Generative",
+  "reinforcement-learning": "Reinforcement Learning",
+  "world-modelling": "World Modelling",
+};
 
-const category = Astro.params.category as TopicCategory;
-const allTopics = await getCollection("topics");
-const topics = allTopics.filter(
-  (topic: Topic) => topic.data.category === category,
+const topics = (await getCollection("topics")).sort((a: Topic, b: Topic) =>
+  a.data.title.localeCompare(b.data.title),
 );
-const label = category
-  .replace(/-/g, " ")
-  .replace(/\b\w/g, (c: string) => c.toUpperCase());
 ---
 
-<BaseLayout title={label}>
-  <h1>{label}</h1>
-  <p style="color: var(--color-muted); margin-bottom: 2rem;">
-    {topics.length} topic{topics.length !== 1 ? "s" : ""} in this category.
+<BaseLayout title="Topics">
+  <h1>Topics</h1>
+  <p class="topic-count">
+    {topics.length} topic{topics.length !== 1 ? "s" : ""} across the corpus.
   </p>
 
   <div class="topic-grid">
     {
       topics.map((topic: Topic) => (
         <a href={`/topics/${topic.id.replace(/\.md$/, "")}`} class="topic-card">
-          <span class="topic-difficulty" data-level={topic.data.difficulty}>
-            {topic.data.difficulty}
-          </span>
+          <div class="topic-card__meta">
+            <span class="topic-difficulty" data-level={topic.data.difficulty}>
+              {topic.data.difficulty}
+            </span>
+            <span class="topic-category">
+              {categoryLabels[topic.data.category]}
+            </span>
+          </div>
           <h3>{topic.data.title}</h3>
           <p>{topic.data.description}</p>
         </a>
@@ -51,6 +48,11 @@ const label = category
   h1 {
     font-size: 2rem;
     margin-bottom: 0.5rem;
+  }
+
+  .topic-count {
+    color: var(--color-muted);
+    margin-bottom: 2rem;
   }
 
   .topic-grid {
@@ -74,6 +76,13 @@ const label = category
     box-shadow: 0 0 16px rgba(204, 255, 0, 0.1);
   }
 
+  .topic-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+  }
+
   .topic-card h3 {
     font-size: 1rem;
     margin: 0.5rem 0 0.4rem;
@@ -85,12 +94,16 @@ const label = category
     margin: 0;
   }
 
-  .topic-difficulty {
+  .topic-difficulty,
+  .topic-category {
     font-size: 0.65rem;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.12em;
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
+  }
+
+  .topic-difficulty {
     background: rgba(204, 255, 0, 0.1);
     color: var(--color-accent);
   }
@@ -103,5 +116,11 @@ const label = category
   .topic-difficulty[data-level="advanced"] {
     background: rgba(139, 92, 246, 0.15);
     color: var(--color-accent-tertiary);
+  }
+
+  .topic-category {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--color-border);
+    color: var(--color-muted);
   }
 </style>

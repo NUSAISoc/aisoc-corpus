@@ -11,8 +11,10 @@ All contributions are made via **Git pull requests**. There is no web editor —
 
 ### 1. Fork & Clone
 
+Fork the repo first! Here's how you can do that: [Fork a repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
+
 ```bash
-git clone https://github.com/NUSAISoc/aisoc-corpus.git
+git clone https://github.com/YOUR-USERNAME/aisoc-corpus.git
 cd aisoc-corpus
 npm install
 ```
@@ -27,7 +29,7 @@ title: Your Topic Title
 description: A one-sentence summary of the concept.
 difficulty: beginner  # beginner | intermediate | advanced
 category: classical-ml  # classical-ml | deep-learning | generative | reinforcement-learning | world-modelling
-domains: ["supervised-learning", "regression"]
+domains: ["supervised-learning", "regression"] # these are just examples
 tags: ["relevant", "tags", "here"]
 prerequisites: ["slug-of-prerequisite"]  # optional
 citations:
@@ -43,7 +45,7 @@ Your content here...
 - Use standard Markdown with LaTeX via `$inline$` and `$$display$$` syntax.
 - Link to other topics using WikiLink syntax: `[[Topic Name]]` or `[[slug|Custom Label]]`.
 - Keep explanations concise and technically accurate.
-- Include at least one citation to a primary source.
+- Include at least one citation to a primary source!
 
 ### 4. LaTeX Guidelines
 
@@ -56,7 +58,7 @@ $$\nabla_\theta \mathcal{L} = \frac{1}{n}\sum_{i=1}^n \nabla_\theta \ell(f_\thet
 
 ### 5. Local Validation
 
-Before submitting your PR:
+Before submitting your PR, run the following and ensure they work:
 
 ```bash
 ./scripts/validate-content.sh   # Schema + links + LaTeX
@@ -66,7 +68,8 @@ npm test                         # Unit tests
 
 ### 6. Submit a Pull Request
 
-- Branch from `main`.
+Go ahead and create a PR to get your work merged into the Corpus:
+
 - One topic per PR (unless they are tightly coupled).
 - Fill in the PR template with a summary and self-review checklist.
 
@@ -83,6 +86,8 @@ Reviewers should verify:
 - [ ] Difficulty level is appropriate for the content depth.
 
 ## Editor Setup
+
+We know that not everyone swears by markdown. But, its the standard we use so here are some tools you can use to get started with Markdown editing:
 
 ### VS Code + Foam
 

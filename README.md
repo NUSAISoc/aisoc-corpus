@@ -99,3 +99,5 @@ Cloudflare Pages is connected to the GitHub repository. On push to `main`:
 ## License
 
 MIT
+
+_Built by Praneeth-Suresh for NUS AI Society._
