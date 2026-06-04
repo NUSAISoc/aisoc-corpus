@@ -2,150 +2,67 @@
   "nodes": [
     {
       "id": "gradient-descent",
-      "title": "Gradient Descent",
+      "title": "gradient-descent",
       "category": "classical-ml",
       "difficulty": "beginner",
-      "domains": [
-        "optimisation",
-        "calculus"
-      ],
-      "tags": [
-        "optimisation",
-        "calculus",
-        "learning-rate",
-        "convergence"
-      ],
-      "prerequisites": [
-        "linear-regression"
-      ]
+      "domains": [],
+      "tags": [],
+      "prerequisites": []
+    },
+    {
+      "id": "lime",
+      "title": "lime",
+      "category": "classical-ml",
+      "difficulty": "beginner",
+      "domains": [],
+      "tags": [],
+      "prerequisites": []
     },
     {
       "id": "linear-regression",
-      "title": "Linear Regression",
+      "title": "linear-regression",
       "category": "classical-ml",
       "difficulty": "beginner",
-      "domains": [
-        "supervised-learning",
-        "regression"
-      ],
-      "tags": [
-        "linear-algebra",
-        "optimisation",
-        "statistics",
-        "least-squares"
-      ],
+      "domains": [],
+      "tags": [],
       "prerequisites": []
     },
     {
       "id": "neural-networks",
-      "title": "Neural Networks",
-      "category": "deep-learning",
-      "difficulty": "intermediate",
-      "domains": [
-        "deep-learning",
-        "representation-learning"
-      ],
-      "tags": [
-        "backpropagation",
-        "activation-functions",
-        "optimisation",
-        "universal-approximation"
-      ],
-      "prerequisites": [
-        "gradient-descent"
-      ]
+      "title": "neural-networks",
+      "category": "classical-ml",
+      "difficulty": "beginner",
+      "domains": [],
+      "tags": [],
+      "prerequisites": []
     },
     {
       "id": "q-learning",
-      "title": "Q-Learning",
-      "category": "reinforcement-learning",
-      "difficulty": "intermediate",
-      "domains": [
-        "reinforcement-learning",
-        "control"
-      ],
-      "tags": [
-        "bellman-equation",
-        "temporal-difference",
-        "exploration",
-        "optimisation"
-      ],
-      "prerequisites": [
-        "gradient-descent"
-      ]
+      "title": "q-learning",
+      "category": "classical-ml",
+      "difficulty": "beginner",
+      "domains": [],
+      "tags": [],
+      "prerequisites": []
     },
     {
       "id": "support-vector-machines",
-      "title": "Support Vector Machines",
+      "title": "support-vector-machines",
       "category": "classical-ml",
-      "difficulty": "intermediate",
-      "domains": [
-        "supervised-learning",
-        "classification"
-      ],
-      "tags": [
-        "kernel-methods",
-        "optimisation",
-        "margin",
-        "classification",
-        "statistics"
-      ],
-      "prerequisites": [
-        "linear-regression"
-      ]
+      "difficulty": "beginner",
+      "domains": [],
+      "tags": [],
+      "prerequisites": []
     },
     {
       "id": "transformers",
-      "title": "Transformers",
-      "category": "generative",
-      "difficulty": "advanced",
-      "domains": [
-        "deep-learning",
-        "nlp",
-        "attention"
-      ],
-      "tags": [
-        "self-attention",
-        "positional-encoding",
-        "optimisation",
-        "sequence-modelling"
-      ],
-      "prerequisites": [
-        "neural-networks"
-      ]
+      "title": "transformers",
+      "category": "classical-ml",
+      "difficulty": "beginner",
+      "domains": [],
+      "tags": [],
+      "prerequisites": []
     }
   ],
-  "edges": [
-    {
-      "source": "linear-regression",
-      "target": "gradient-descent",
-      "type": "prerequisite"
-    },
-    {
-      "source": "gradient-descent",
-      "target": "neural-networks",
-      "type": "prerequisite"
-    },
-    {
-      "source": "gradient-descent",
-      "target": "q-learning",
-      "type": "prerequisite"
-    },
-    {
-      "source": "linear-regression",
-      "target": "support-vector-machines",
-      "type": "prerequisite"
-    },
-    {
-      "source": "neural-networks",
-      "target": "transformers",
-      "type": "prerequisite"
-    },
-    {
-      "source": "linear-regression",
-      "target": "support-vector-machines",
-      "type": "similarity",
-      "weight": 0.33
-    }
-  ]
+  "edges": []
 }

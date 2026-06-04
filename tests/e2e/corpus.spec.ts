@@ -7,18 +7,24 @@ test("homepage loads with graph and category buttons", async ({ page }) => {
   await expect(
     page.locator("svg[aria-label='Knowledge graph visualization']"),
   ).toBeVisible();
+  await expect(
+    page.locator("svg[aria-label='Knowledge graph visualization'] text", {
+      hasText: "lime",
+    }),
+  ).toBeVisible();
 });
 
 test("topics page lists all topics", async ({ page }) => {
   await page.goto("/topics");
   await expect(page.locator("h1")).toContainText("Topics");
-  await expect(page.locator(".topic-card")).toHaveCount(6);
+  await expect(page.locator(".topic-card")).toHaveCount(7);
   await expect(
     page.locator(".topic-card", { hasText: "Transformers" }),
   ).toBeVisible();
   await expect(
     page.locator(".topic-card", { hasText: "Q-Learning" }),
   ).toBeVisible();
+  await expect(page.locator(".topic-card", { hasText: "LIME" })).toBeVisible();
 });
 
 test("topics page searches indexed topic metadata", async ({ page }) => {
@@ -46,7 +52,7 @@ test("topics page searches indexed topic metadata", async ({ page }) => {
 test("category page lists topics", async ({ page }) => {
   await page.goto("/categories/classical-ml");
   await expect(page.locator("h1")).toContainText("Classical Ml");
-  await expect(page.locator(".topic-card")).toHaveCount(3);
+  await expect(page.locator(".topic-card")).toHaveCount(4);
 });
 
 test("graph keeps edges attached when switching relation modes", async ({
@@ -134,6 +140,12 @@ test("topic page renders KaTeX equations", async ({ page }) => {
   await expect(page.locator("h1")).toContainText("Gradient Descent");
   // KaTeX renders .katex elements
   await expect(page.locator(".katex").first()).toBeVisible();
+});
+
+test("LIME topic page renders", async ({ page }) => {
+  await page.goto("/topics/lime");
+  await expect(page.locator("h1")).toContainText("LIME");
+  await expect(page.getByRole("heading", { name: "Overview" })).toBeVisible();
 });
 
 test("topic page renders tags and author", async ({ page }) => {
