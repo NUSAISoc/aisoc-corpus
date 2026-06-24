@@ -1,6 +1,6 @@
 ---
 title: Joint-Embedding Predictive Architecture
-description: An introduction to how JEPA learns by predicting latent representations, with examples from I-JEPA and action-conditioned world models.
+description: An introduction to how JEPA learns by predicting latent representations, examples of how JEPA is used and the challenges that comes with using JEPA
 author: Kia-Lok
 difficulty: intermediate
 category: world-models
