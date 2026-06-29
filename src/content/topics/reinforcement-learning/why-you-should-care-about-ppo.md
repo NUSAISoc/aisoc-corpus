@@ -12,13 +12,10 @@ citations:
     url: https://arxiv.org/pdf/1502.05477
   - title: Proximal Policy Optimization Algorithms
     url: https://arxiv.org/pdf/1707.06347
+  - title: Training language models to follow instructions with human feedback
+    url: https://arxiv.org/abs/2203.02155
 ---
 
-## What is Proximal about my Policy? Optimization
-
-$$\tiny
-that title makes no sense i just wanted to have a funny question in the title but also have PPO. but then i couldnt fit optimization in there so i just threw it outside of the question mark
-$$
 
 Welcome to the corpus entry for PPO! As a general rule, I will be glossing over a decent amount of foundation you typically see in many of those 'intros to RL' that you see plenty of. Those usually build up to PPO by starting with MDP/POMDP problem formulations, then going into Q tables and Q learning, then onto the RL and policy side of things. We will do less of such steps here since, yknow, those already exist in other corpus entries, or if they dont, you can always refer to those youtube videos. 
 
@@ -108,24 +105,44 @@ The other parameters that typically matter in practice:
 - **Entropy coefficient**: directly controls how much the policy is encouraged to stay stochastic. This needs domain tuning, since what works for Atari is wrong for continuous robotics control.
 - **GAE $\lambda$**: affects the bias-variance tradeoff in advantage estimation. Usually left at 0.95 but can matter on long-horizon tasks.
 
-
-Now, is PPO perfect? Absolutely not, and we'll cover some limitations in subsequent sections. Next we
+These are the reasons [INSERT TITLE CARD HERE]: it works well, it scales well, and it has a nice sounding name! Now, there are nuances in its application across various domains, which we will subsequently cover. Note: I was writing 
 
 ## PPO in LLMs
 
-The application that put PPO on the map in NLP is RLHF — Reinforcement Learning from Human Feedback — the training stage that turns a pretrained LLM into something you'd actually want to talk to. The key insight (which sounds obvious in hindsight but wasn't for a while) is that text generation *is* a sequential decision process: the policy is the language model, the state is the prompt plus all tokens generated so far, the action is the next token chosen from the vocabulary (~50k–100k options), and the episode terminates when the model outputs an EOS token or hits a length limit.
+"Making language models bigger does not inherently make them better at following a user’s intent. For example, large language models can generate outputs that are untruthful, toxic, or simply not helpful to the user. In other words, these models are not aligned with their users." - Ouyang et al. (2022), in InstructGPT, considered the landmark paper of RLHF. We should have a corpus article on RLHF, but in case we don't here are some shallow details.
 
-The reward signal here is interesting. You don't get a reward after every token — a reward model (RM), trained separately on human preference data, scores the entire completed response as a single scalar. Credit has to propagate backward across hundreds of tokens to tell the model which early choices contributed to a good or bad response. GAE handles this, but it's a much harder credit assignment problem than Atari where reward comes every few frames.
+Reinforcement Learning from Human Feedback is the training stage that turns a pretrained LLM into something arguably far more helpful (next-token prediction on internet text may not necessarily to helpful to humans specifically after all, given... its **the internet**). Whilst Supervised Fine-Tuning (SFT) improves things, its fundementally bounded by behaviours you can record and write down, and the model may simply learn to imitate them without any feedback signal about whether it's achieving the underlying goal. A better framing instead would be to imagine an environment or playgorund, where the model should maximize some metric of "helpfulness" or "safety" in a sequential decision process. Thats pretty MDP pilled, so we can use RL for that! 
 
-There's a subtlety worth dwelling on: **the clip and the KL penalty are doing different jobs in RLHF.** The PPO clip prevents the policy from drifting too far from the reference policy *within* each update batch — the usual optimization stability role. The KL penalty (between the current LLM and a frozen reference model, typically the SFT checkpoint) is a separate *training-time regularizer* that prevents reward hacking. The RM is an imperfect proxy for human preferences, and a smart enough policy will find responses that score well on the RM without being helpful — or worse. The KL penalty keeps the LLM anchored near the SFT distribution as a prior against this. Two separate mechanisms, two separate problems.
+Note the abuse of language you typically observe in Deep Learning literature: the same applies here where the same fundemental concept is called something far different depending on the domain, oh what fun. "Policy" is the language model, the "State" is the prompt plus all tokens generated so far, the "Action" corresponds with the LLM's output: whether that is the individual token or the entire completion is a specific semantic (MDP vs Bandit formulation). As for rewards, in the RL toy examples you play with in a Youtube or Huggingface tutorial, you'd imagine a task-sepcific reward function. In RLHF, it's a model trained on human preferences (creating a handcrafted reward function for human preferences is rather challenging of course). termed the Reward model (RM).
 
-One practical pain point with standard PPO in LLMs: you need a critic (value network) to estimate advantages. For LLMs, the critic needs to be approximately the same size as the policy to produce useful estimates — which roughly doubles your memory footprint. DeepSeek's **GRPO (Group Relative Policy Optimization)** sidesteps this entirely. Sample $G$ completions per prompt, score each with the RM, then normalize within the group:
+Okay hm since this isn't an RLHF corpus entry I won't go into too much detail, but there are some helpful notes here to think about. Perhaps you can see these points and maybe generalize it to whatever you're building, if you are applying PPO somewhere. Or maybe not IDK, since frankly the subsequent sections are even more general beyond a specific RL architecture. What can you really comment about PPO if it just works well a lot of the time?
 
-$$
-\hat{A}_i = \frac{r_i - \text{mean}(\mathbf{r})}{\text{std}(\mathbf{r})}
-$$
+###  Clipping
 
-No critic, no value function, no second model. The group's reward distribution serves as its own baseline. This is the approach behind DeepSeek-R1, and part of why reasoning-focused RLHF has become so computationally tractable recently.
+Generating completions from an LLM is expensive, since each token requires a full autoregressive forward pass. In plain policy gradient (REINFORCE), you'd need fresh completions every gradient step, since using old data without correction gives biased gradients. By bounding how far the policy can drift from where it was when the batch was collected, PPO can safely run several epochs of gradient updates on the same set of completions. In LLM training this matters, since a single rollout of 512+ tokens from a large model takes real wall-clock time. It all comes back to that again I suppose :D
+
+### The idea of a critic
+
+In toy RL cases, the critic need only be a small model mapping state to a value scalar. But in RLHF, that's... has to be another LLM, which essentially doubles your memory footprint during training. Not good! Additionally, the critic can overfit or diverge independently of the actor, destabilizing training; if the backbone is shared the gradients from value loss and policy loss compete; and you're essentially tuning two models simultaneously.
+
+So what the amazing folks at DeepSeek did, in the landmark paper in Jan 2025 that sent waves across the AI field and alo the stock market, was the idea of GRPO. They brought back the bandit formulation under it, with one reward $R(x, y)$ at the end, no value function (critic), no per-step signal, and no GAE. The Advantage is instead a scalar at the sequence level, applied uniformly across every token:
+
+$$\nabla_\theta J = \hat{\mathbb{E}}_t\!\left[\hat{A}(x, y) \cdot \sum_{t=1}^T \nabla_\theta \log \pi_\theta(a_t \mid s_t)\right]$$
+
+GRPO computes this scalar via group-relative normalization: sample $G$ completions per prompt, score each with the RM, normalize within the group:
+
+$$\hat{A}^i = \frac{r^i - \mu_\mathbf{r}}{\sigma_\mathbf{r}}$$
+
+so group's own reward distribution is the baseline, with no critic required! The PPO-Clip objective still applies token-by-token, but every token in completion $i$ carries the same advantage $\hat{A}^i$, regardless of where in the sequence it appeared.
+
+Whilst the MDP formulation is theoretically more powerful, in that per-token advantages may let the model identify _where_ in a sequence things went right or wrong, this is harder to realize that it sounds. If you think about it, the RM only runs per response, so rewards are scarce and you have to pray GAE does its thing well. The only per-step signal is the KL-penalty (used to regularize our current policy against a pretrained baseline) which is small by design. Thus, you really are trying to predict "how good the remaining trajectory is, given what's been said so far". So yeah, the value function will be noisy, meaningfully limitting the credit assignment they actually provide. What GRPO does is a pretty reasonable substitute that comes with a pretty sweet discount!
+
+### How to reward conversations?
+
+Because yeah, sometimes trying should be well rewarded! And since our chatbots try so hard when doing their reasoning/thinking for even more complex reasoning tasks, it opens a bigger question of process rewards vs outcome rewards. A process reward model (PRM), explored by OpenAI in "Let's Verify Step by Step" (2023), while requiring much more expensive labelling, did move closer to the MDP ideal of reasoning tasks.
+
+Credit assignment in school: If you answer a 10 mark math question wrongly, but 8 of 10 of your steps are correct, you'd expect to be dispensed 8 working marks. If we penalized only by outcome, you'd get zero sadly. The same idea applies for reasoning tasks we throw at LLMs. Thankfully, verifiable domains like code execution or math proofs are the greatest successes here, so you can thank PRMs for threatening your chances of getting a job in software!
+
 
 ## PPO in Robotics
 
