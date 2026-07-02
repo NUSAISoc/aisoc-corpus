@@ -30,7 +30,7 @@ test("topics page lists all topics", async ({ page }) => {
     page.getByRole("navigation", { name: "Browse topics by category" }),
   ).toBeVisible();
   await expect(page.locator(".category-nav .category-btn")).toHaveCount(5);
-  await expect(page.locator(".topic-card")).toHaveCount(7);
+  await expect(page.locator(".topic-card")).toHaveCount(8);
   await expect(
     page.locator(".topic-card", { hasText: "Transformers" }),
   ).toBeVisible();
@@ -38,6 +38,9 @@ test("topics page lists all topics", async ({ page }) => {
     page.locator(".topic-card", { hasText: "Q-Learning" }),
   ).toBeVisible();
   await expect(page.locator(".topic-card", { hasText: "LIME" })).toBeVisible();
+  await expect(
+    page.locator(".topic-card", { hasText: "World Models" }),
+  ).toBeVisible();
 });
 
 test("topics page category buttons navigate to category pages", async ({
@@ -58,11 +61,14 @@ test("topics page searches indexed topic metadata", async ({ page }) => {
   const search = page.getByLabel("Search topics");
 
   await search.fill("reinforcement");
-  await expect(page.locator(".topic-card:visible")).toHaveCount(1);
+  await expect(page.locator(".topic-card:visible")).toHaveCount(2);
   await expect(
     page.locator(".topic-card:visible", { hasText: "Q-Learning" }),
   ).toBeVisible();
-  await expect(page.locator("#topic-search-count")).toContainText("1 shown");
+  await expect(
+    page.locator(".topic-card:visible", { hasText: "World Models" }),
+  ).toBeVisible();
+  await expect(page.locator("#topic-search-count")).toContainText("2 shown");
 
   await search.fill("Praneeth-Suresh calculus");
   await expect(page.locator(".topic-card:visible")).toHaveCount(1);
