@@ -1,8 +1,9 @@
 ---
 title: "PEFT"
-description: Parameter-Efficient Fine-Tuning — Adapt large models on a single GPU by freezing the base weights and training a small delta.
+description: Parameter-efficient fine-tuning — adapt large models on a single GPU by freezing the base weights and training a small delta.
 author: Marcus-Wee
-difficulty: advanced
+updatedDate: "2026-07-09"
+difficulty: intermediate
 category: generative
 domains: ["llm", "fine-tuning", "quantization"]
 tags:
@@ -22,6 +23,10 @@ citations:
     url: "https://arxiv.org/abs/2305.14314"
   - title: "DoRA: Weight-Decomposed Low-Rank Adaptation — Liu et al. (2024)"
     url: "https://arxiv.org/abs/2402.09353"
+  - title: "Parameter-Efficient Transfer Learning for NLP — Houlsby et al. (2019)"
+    url: "https://arxiv.org/abs/1902.00751"
+  - title: "Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning (IA³) — Liu et al. (2022)"
+    url: "https://arxiv.org/abs/2205.05638"
 ---
 
 ## Overview
