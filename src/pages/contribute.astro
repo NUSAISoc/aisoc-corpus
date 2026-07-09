@@ -1,31 +1,49 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { breadcrumbSchema } from "../lib/seo";
 ---
 
-<BaseLayout title="Contribute">
+<BaseLayout
+  title="Contribute"
+  description="Learn how to contribute AI and machine learning topic pages to the AI Soc Corpus through reviewed GitHub pull requests."
+  canonicalPath="/contribute/"
+  jsonLd={breadcrumbSchema([
+    { name: "Home", path: "/" },
+    { name: "Contribute", path: "/contribute/" },
+  ])}
+>
   <section class="contribute-page">
     <h1>Contribute</h1>
     <blockquote class="witty-quote">
-      "If I have seen further, it is by standing on the shoulders of giants — and occasionally
-      writing better documentation."
+      "If I have seen further, it is by standing on the shoulders of giants —
+      and occasionally writing better documentation."
     </blockquote>
 
     <p>
-      The AI Soc Corpus grows through collective intelligence. Every topic you contribute
-      strengthens the graph and lights the path for the community in the future.
+      The AI Soc Corpus grows through collective intelligence. Every topic you
+      contribute strengthens the graph and lights the path for the community in
+      the future.
     </p>
 
     <h2>How It Works</h2>
     <p>
-      Contributions are made via <strong>Git pull requests</strong>. This ensures every addition
-      is peer-reviewed for accuracy, clarity, and academic rigour.
+      Contributions are made via <strong>Git pull requests</strong>. This
+      ensures every addition is peer-reviewed for accuracy, clarity, and
+      academic rigour.
     </p>
 
     <ol>
       <li>Fork the repository on GitHub.</li>
-      <li>Add a Markdown file to <code>src/content/topics/&lt;category&gt;/</code> (e.g. <code>deep-learning/</code>) with the required frontmatter.</li>
-      <li>Use <code>[[WikiLinks]]</code> to connect your topic to related concepts.</li>
-      <li>Run <code>./scripts/validate-content.sh</code> locally to check your work.</li>
+      <li>
+        Add a Markdown file to <code>src/content/topics/&lt;category&gt;/</code>
+        (e.g. <code>deep-learning/</code>) with the required frontmatter.
+      </li>
+      <li>
+        Use <code>[[WikiLinks]]</code> to connect your topic to related concepts.
+      </li>
+      <li>
+        Run <code>./scripts/validate-content.sh</code> locally to check your work.
+      </li>
       <li>Submit a pull request. CI verifies everything automatically.</li>
     </ol>
 

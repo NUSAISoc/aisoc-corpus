@@ -125,6 +125,34 @@ export function generateGraphData() {
     }
   }
 
+  // Compute topological depth (BFS distance from root nodes with no prerequisites)
+  const depthMap = {};
+  const childrenOf = {};
+  for (const node of nodes) {
+    depthMap[node.id] = 0;
+    childrenOf[node.id] = [];
+  }
+  for (const edge of edges) {
+    if (edge.type === "prerequisite") {
+      childrenOf[edge.source].push(edge.target);
+    }
+  }
+  const roots = nodes.filter((n) => n.prerequisites.length === 0).map((n) => n.id);
+  const queue = [...roots];
+  while (queue.length > 0) {
+    const id = queue.shift();
+    for (const child of childrenOf[id]) {
+      const newDepth = depthMap[id] + 1;
+      if (newDepth > depthMap[child]) {
+        depthMap[child] = newDepth;
+        queue.push(child);
+      }
+    }
+  }
+  for (const node of nodes) {
+    node.depth = depthMap[node.id] || 0;
+  }
+
   const graphData = { nodes, edges };
   fs.mkdirSync(path.dirname(OUTPUT_PATH), { recursive: true });
   fs.writeFileSync(OUTPUT_PATH, JSON.stringify(graphData, null, 2));

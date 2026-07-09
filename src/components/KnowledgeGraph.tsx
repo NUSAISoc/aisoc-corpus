@@ -3,8 +3,9 @@ import {
   forceSimulation,
   forceLink,
   forceManyBody,
-  forceCenter,
   forceCollide,
+  forceY,
+  forceX,
   type SimulationNodeDatum,
   type SimulationLinkDatum,
 } from "d3-force";
@@ -19,6 +20,7 @@ interface GraphNode extends SimulationNodeDatum {
   title: string;
   category: string;
   difficulty: string;
+  depth?: number;
 }
 
 interface GraphDataEdge {
@@ -39,6 +41,26 @@ function endpointId(endpoint: string | GraphNode): string {
   return typeof endpoint === "string" ? endpoint : endpoint.id;
 }
 
+/** Split title into lines of roughly maxChars, breaking at word boundaries. */
+function wrapText(title: string, maxChars: number): string[] {
+  const words = title.split(/\s+/);
+  const lines: string[] = [];
+  let cur = "";
+  for (const word of words) {
+    if (cur && cur.length + 1 + word.length > maxChars) {
+      lines.push(cur);
+      cur = word;
+    } else {
+      cur = cur ? cur + " " + word : word;
+    }
+  }
+  if (cur) lines.push(cur);
+  return lines;
+}
+
+const NODE_RADIUS = 16;
+const MAX_LABEL_CHARS = 14;
+
 export default function KnowledgeGraph() {
   const svgRef = useRef<SVGSVGElement>(null);
   const [viewMode, setViewMode] = useState<ViewMode>("all");
@@ -49,6 +71,21 @@ export default function KnowledgeGraph() {
     const height = svgRef.current!.clientHeight || 500;
 
     svg.selectAll("*").remove();
+
+    // Defs: arrowhead marker for prerequisite edges
+    const defs = svg.append("defs");
+    defs
+      .append("marker")
+      .attr("id", "arrow-prerequisite")
+      .attr("viewBox", "0 0 10 10")
+      .attr("refX", 10)
+      .attr("refY", 5)
+      .attr("markerWidth", 6)
+      .attr("markerHeight", 6)
+      .attr("orient", "auto-start-reverse")
+      .append("path")
+      .attr("d", "M 0 0 L 10 5 L 0 10 z")
+      .attr("fill", "rgba(204,255,0,0.7)");
 
     const g = svg.append("g");
 
@@ -70,18 +107,30 @@ export default function KnowledgeGraph() {
 
     const nodes: GraphNode[] = graphData.nodes.map((n) => ({ ...n }));
 
+    // Find max depth for vertical stratification
+    const maxDepth = Math.max(...nodes.map((n) => n.depth || 0), 1);
+    const verticalPadding = 60;
+    const usableHeight = height - verticalPadding * 2;
+
     const simulation = forceSimulation(nodes)
       .force(
         "link",
         forceLink<GraphNode, GraphEdge>(edges)
           .id((d) => d.id)
-          .distance(120),
+          .distance((d) => (d.type === "prerequisite" ? 160 : 80))
+          .strength((d) => (d.type === "prerequisite" ? 1 : 0)),
       )
-      .force("charge", forceManyBody().strength(-300))
-      .force("center", forceCenter(width / 2, height / 2))
-      .force("collide", forceCollide(40));
+      .force("charge", forceManyBody().strength(-700).distanceMax(600))
+      .force("centerX", forceX(width / 2).strength(0.05))
+      .force(
+        "layerY",
+        forceY<GraphNode>(
+          (d) => verticalPadding + ((d.depth || 0) / maxDepth) * usableHeight,
+        ).strength(0.8),
+      )
+      .force("collide", forceCollide(55));
 
-    // Edges
+    // Edges — use line but shorten endpoints to node radius for arrow placement
     const link = g
       .append("g")
       .attr("class", "links")
@@ -96,6 +145,9 @@ export default function KnowledgeGraph() {
       .attr("stroke-width", (d) => (d.type === "prerequisite" ? 2 : 2.25))
       .attr("stroke-dasharray", (d) =>
         d.type === "similarity" ? "5,5" : "none",
+      )
+      .attr("marker-end", (d) =>
+        d.type === "prerequisite" ? "url(#arrow-prerequisite)" : null,
       );
 
     // Nodes
@@ -112,21 +164,32 @@ export default function KnowledgeGraph() {
 
     node
       .append("circle")
-      .attr("r", 16)
+      .attr("r", NODE_RADIUS)
       .attr("fill", (d) => CATEGORY_COLORS[d.category] || "#ccff00")
       .attr("opacity", 0.85)
       .attr("stroke", (d) => CATEGORY_COLORS[d.category] || "#ccff00")
       .attr("stroke-width", 2)
       .attr("filter", "drop-shadow(0 0 6px currentColor)");
 
-    node
-      .append("text")
-      .text((d) => d.title)
-      .attr("dy", 30)
-      .attr("text-anchor", "middle")
-      .attr("fill", "#f4f5f7")
-      .attr("font-size", "11px")
-      .attr("font-family", "JetBrains Mono, monospace");
+    // Multi-line text labels
+    node.each(function (d) {
+      const lines = wrapText(d.title, MAX_LABEL_CHARS);
+      const textEl = select(this)
+        .append("text")
+        .attr("text-anchor", "middle")
+        .attr("fill", "#f4f5f7")
+        .attr("font-size", "11px")
+        .attr("font-family", "JetBrains Mono, monospace");
+
+      const startDy = NODE_RADIUS + 12;
+      lines.forEach((line, i) => {
+        textEl
+          .append("tspan")
+          .attr("x", 0)
+          .attr("dy", i === 0 ? startDy : 13)
+          .text(line);
+      });
+    });
 
     // Drag behavior
     const dragBehavior = drag<SVGGElement, GraphNode>()
@@ -148,11 +211,32 @@ export default function KnowledgeGraph() {
     node.call(dragBehavior);
 
     simulation.on("tick", () => {
+      // Shorten line endpoints by NODE_RADIUS so arrow sits at circle edge
       link
-        .attr("x1", (d: any) => d.source.x)
-        .attr("y1", (d: any) => d.source.y)
-        .attr("x2", (d: any) => d.target.x)
-        .attr("y2", (d: any) => d.target.y);
+        .attr("x1", (d: any) => {
+          const dx = d.target.x - d.source.x;
+          const dy = d.target.y - d.source.y;
+          const len = Math.sqrt(dx * dx + dy * dy) || 1;
+          return d.source.x + (dx / len) * NODE_RADIUS;
+        })
+        .attr("y1", (d: any) => {
+          const dx = d.target.x - d.source.x;
+          const dy = d.target.y - d.source.y;
+          const len = Math.sqrt(dx * dx + dy * dy) || 1;
+          return d.source.y + (dy / len) * NODE_RADIUS;
+        })
+        .attr("x2", (d: any) => {
+          const dx = d.target.x - d.source.x;
+          const dy = d.target.y - d.source.y;
+          const len = Math.sqrt(dx * dx + dy * dy) || 1;
+          return d.target.x - (dx / len) * NODE_RADIUS;
+        })
+        .attr("y2", (d: any) => {
+          const dx = d.target.x - d.source.x;
+          const dy = d.target.y - d.source.y;
+          const len = Math.sqrt(dx * dx + dy * dy) || 1;
+          return d.target.y - (dy / len) * NODE_RADIUS;
+        });
       node.attr("transform", (d) => `translate(${d.x},${d.y})`);
     });
 

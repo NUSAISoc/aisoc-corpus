@@ -6,6 +6,10 @@ const topics = defineCollection({
     title: z.string(),
     description: z.string(),
     author: z.string().regex(/^[A-Za-z0-9-]+$/, "Use a GitHub username"),
+    updatedDate: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/)
+      .optional(),
     difficulty: z.enum(["beginner", "intermediate", "advanced"]),
     category: z.enum([
       "classical-ml",

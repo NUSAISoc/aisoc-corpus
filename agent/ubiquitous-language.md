@@ -18,5 +18,5 @@
 | kNN Relation | `kNNRelation` | A dynamic undirected connection between nodes based on semantic tag similarity. | Calculated based on frontmatter overlap or tag lists. | `SoftLink`, `RelatedTopic` |
 | Hover Preview | `HoverPreview` | UI tooltip displaying a snapshot of a topic when hovering over its link. | Loaded asynchronously or from build-time manifest. | `Tooltip` |
 | Reviewer Checklist | `ReviewerChecklist` | Pre-merge manual list of checks for PR maintainers. | Verifies quality of explanations, slop, and tone. | `PRRules` |
+| Automated Topic Review | `AutomatedTopicReview` | Maintainer-run local review flow that packages changed topic markdown, asks a selected coding agent for advisory feedback, and posts a marked PR comment. | Must remain advisory and must not execute PR code. | `AutoApproval`, `MergeBot` |
 | Verification CI | `VerificationCI` | Automated pipeline validating Markdown, LaTeX, citations, and links. | Must run and pass on every pull request. | `BuildCheck` |
-

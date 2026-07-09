@@ -2,10 +2,12 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import {
+  CATEGORY_DESCRIPTIONS,
   CATEGORY_LABELS,
   TOPIC_CATEGORIES,
   type TopicCategoryId,
 } from "../../lib/categories";
+import { breadcrumbSchema } from "../../lib/seo";
 import { topicSlugFromId } from "../../lib/topic-slugs";
 
 type Topic = CollectionEntry<"topics">;
@@ -22,11 +24,23 @@ const topics = allTopics.filter(
   (topic: Topic) => topic.data.category === category,
 );
 const label = CATEGORY_LABELS[category];
+const description = CATEGORY_DESCRIPTIONS[category];
+const canonicalPath = `/categories/${category}/`;
 ---
 
-<BaseLayout title={label}>
+<BaseLayout
+  title={label}
+  description={`${description} Browse related AI Soc Corpus topics and prerequisites.`}
+  canonicalPath={canonicalPath}
+  jsonLd={breadcrumbSchema([
+    { name: "Home", path: "/" },
+    { name: "Topics", path: "/topics/" },
+    { name: label, path: canonicalPath },
+  ])}
+>
   <h1>{label}</h1>
   <p style="color: var(--color-muted); margin-bottom: 2rem;">
+    {description}
     {topics.length} topic{topics.length !== 1 ? "s" : ""} in this category.
   </p>
 

@@ -1,15 +1,21 @@
 ---
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
+import SeoHead from "../components/SeoHead.astro";
 import "../styles/global.css";
 
 interface Props {
   title: string;
+  description: string;
+  canonicalPath: string;
   headings: { depth: number; slug: string; text: string }[];
   backlinks: { slug: string; title: string }[];
+  jsonLd?: unknown | unknown[];
 }
 
-const { title, headings, backlinks } = Astro.props;
+const { title, description, canonicalPath, headings, backlinks, jsonLd } =
+  Astro.props;
+const tocHeadings = headings.filter((heading) => heading.depth <= 3);
 ---
 
 <!doctype html>
@@ -17,7 +23,13 @@ const { title, headings, backlinks } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>{title} | AI Soc Corpus</title>
+    <SeoHead
+      title={`${title} | AI Soc Corpus`}
+      description={description}
+      canonicalPath={canonicalPath}
+      type="article"
+      jsonLd={jsonLd}
+    />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
@@ -31,11 +43,15 @@ const { title, headings, backlinks } = Astro.props;
         <nav class="toc">
           <h4>On this page</h4>
           <ul>
-            {headings.filter((h) => h.depth <= 3).map((h) => (
-              <li class={`toc-item toc-depth-${h.depth}`}>
-                <a href={`#${h.slug}`} data-heading={h.slug}>{h.text}</a>
-              </li>
-            ))}
+            {
+              tocHeadings.map((h) => (
+                <li class={`toc-item toc-depth-${h.depth}`}>
+                  <a href={`#${h.slug}`} data-heading={h.slug}>
+                    {h.text}
+                  </a>
+                </li>
+              ))
+            }
           </ul>
         </nav>
       </aside>
@@ -46,25 +62,31 @@ const { title, headings, backlinks } = Astro.props;
 
       <aside class="reader-panel" aria-label="Backlinks">
         <h4>Backlinks</h4>
-        {backlinks.length > 0 ? (
-          <ul class="backlinks-list">
-            {backlinks.map((bl) => (
-              <li><a href={`/topics/${bl.slug}`}>{bl.title}</a></li>
-            ))}
-          </ul>
-        ) : (
-          <p class="no-backlinks">No pages link here yet.</p>
-        )}
+        {
+          backlinks.length > 0 ? (
+            <ul class="backlinks-list">
+              {backlinks.map((bl) => (
+                <li>
+                  <a href={`/topics/${bl.slug}`}>{bl.title}</a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="no-backlinks">No pages link here yet.</p>
+          )
+        }
       </aside>
     </main>
     <Footer />
 
     <script>
       // ScrollSpy: highlight active heading in sidebar
-      const tocLinks = document.querySelectorAll<HTMLAnchorElement>(".toc a[data-heading]");
-      const headingEls = Array.from(tocLinks).map((a) =>
-        document.getElementById(a.dataset.heading!)
-      ).filter(Boolean) as HTMLElement[];
+      const tocLinks = document.querySelectorAll<HTMLAnchorElement>(
+        ".toc a[data-heading]",
+      );
+      const headingEls = Array.from(tocLinks)
+        .map((a) => document.getElementById(a.dataset.heading!))
+        .filter(Boolean) as HTMLElement[];
 
       function updateActive() {
         let active = headingEls[0];

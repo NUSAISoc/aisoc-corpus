@@ -2,6 +2,7 @@
 title: Transformers
 description: Self-attention-based sequence models that power modern LLMs and vision models.
 author: Praneeth-Suresh
+updatedDate: "2026-06-24"
 difficulty: advanced
 category: generative
 domains: ["deep-learning", "nlp", "attention"]

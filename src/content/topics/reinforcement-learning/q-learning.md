@@ -2,6 +2,7 @@
 title: Q-Learning
 description: Model-free reinforcement learning algorithm that learns optimal action-value functions.
 author: Praneeth-Suresh
+updatedDate: "2026-06-24"
 difficulty: intermediate
 category: reinforcement-learning
 domains: ["reinforcement-learning", "control"]

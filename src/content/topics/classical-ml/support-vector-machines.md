@@ -2,6 +2,7 @@
 title: Support Vector Machines
 description: Maximum-margin classifiers using kernel methods for non-linear decision boundaries.
 author: Praneeth-Suresh
+updatedDate: "2026-06-24"
 difficulty: intermediate
 category: classical-ml
 domains: ["supervised-learning", "classification"]

@@ -1,0 +1,81 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { breadcrumbSchema } from "../lib/seo";
+---
+
+<BaseLayout
+  title="About"
+  description="Learn who maintains AI Soc Corpus, how NUS AI Society reviews corpus topics, and how the knowledge base supports AI learners."
+  canonicalPath="/about/"
+  jsonLd={breadcrumbSchema([
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about/" },
+  ])}
+>
+  <section class="about-page">
+    <h1>About AI Soc Corpus</h1>
+    <p>
+      AI Soc Corpus is an interconnected artificial intelligence and machine
+      learning knowledge base maintained for NUS AI Society members and
+      beginners. It turns individual concepts into a navigable learning graph,
+      so readers can move between prerequisites, related ideas, citations, and
+      topic explanations without losing context.
+    </p>
+
+    <h2>Maintainers</h2>
+    <p>
+      The corpus is maintained by contributors connected to NUS AI Society.
+      Topic pages are authored through GitHub pull requests, checked with local
+      validation scripts, and reviewed for clarity, mathematical correctness,
+      citations, and internal links before they become part of the public
+      corpus.
+    </p>
+
+    <h2>Editorial Standard</h2>
+    <ul>
+      <li>Every corpus topic must include validated frontmatter metadata.</li>
+      <li>Explanations should be beginner-aware without sacrificing rigor.</li>
+      <li>LaTeX, citations, and wiki links are checked before publication.</li>
+      <li>Topics should connect to prerequisites and related concepts.</li>
+    </ul>
+
+    <h2>Contact</h2>
+    <p>
+      For contributions, use the GitHub workflow described on the contribution
+      page. For society contact, email
+      <a href="mailto:outreach@nusaisociety.org">outreach@nusaisociety.org</a>.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-page {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .about-page h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .about-page h2 {
+    margin-top: 2rem;
+    margin-bottom: 0.7rem;
+    font-size: 1.25rem;
+  }
+
+  .about-page p,
+  .about-page li {
+    color: var(--color-muted);
+    line-height: 1.8;
+  }
+
+  .about-page ul {
+    padding-left: 1.2rem;
+  }
+
+  .about-page a {
+    color: var(--color-accent);
+  }
+</style>

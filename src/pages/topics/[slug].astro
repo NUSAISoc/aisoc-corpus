@@ -3,6 +3,8 @@ import { getCollection, render, type CollectionEntry } from "astro:content";
 import ReaderLayout from "../../layouts/ReaderLayout.astro";
 import HoverPreview from "../../components/HoverPreview.tsx";
 import backlinksData from "../../lib/backlinks.json";
+import { CATEGORY_LABELS } from "../../lib/categories";
+import { breadcrumbSchema, faqSchema, topicSchema } from "../../lib/seo";
 import { topicSlugFromId } from "../../lib/topic-slugs";
 
 interface Props {
@@ -20,18 +22,67 @@ export async function getStaticPaths() {
 const { topic } = Astro.props as Props;
 const { Content, headings } = await render(topic);
 const slug = topicSlugFromId(topic.id);
+const canonicalPath = `/topics/${slug}/`;
+const categoryLabel = CATEGORY_LABELS[topic.data.category];
 const backlinks =
   (backlinksData as Record<string, { slug: string; title: string }[]>)[slug] ||
   [];
+const prerequisites = topic.data.prerequisites ?? [];
+const prerequisiteAnswer =
+  prerequisites.length > 0
+    ? `Start with ${prerequisites.join(", ")} before studying ${topic.data.title}.`
+    : `${topic.data.title} is marked as a starting topic with no required prerequisites in the corpus.`;
+const connectionAnswer = `${topic.data.title} belongs to ${categoryLabel} and connects to ${[
+  ...topic.data.domains,
+  ...topic.data.tags,
+].join(", ")}.`;
+const faqItems = [
+  {
+    question: `What is ${topic.data.title}?`,
+    answer: topic.data.description,
+  },
+  {
+    question: `What should I learn before ${topic.data.title}?`,
+    answer: prerequisiteAnswer,
+  },
+  {
+    question: `How does ${topic.data.title} connect to other AI topics?`,
+    answer: connectionAnswer,
+  },
+];
+const pageJsonLd = [
+  breadcrumbSchema([
+    { name: "Home", path: "/" },
+    { name: "Topics", path: "/topics/" },
+    { name: topic.data.title, path: canonicalPath },
+  ]),
+  topicSchema({
+    title: topic.data.title,
+    description: topic.data.description,
+    path: canonicalPath,
+    author: topic.data.author,
+    difficulty: topic.data.difficulty,
+    category: categoryLabel,
+    domains: topic.data.domains,
+    tags: topic.data.tags,
+    citations: topic.data.citations,
+    updatedDate: topic.data.updatedDate,
+  }),
+  faqSchema(faqItems),
+];
 ---
 
 <ReaderLayout
   title={topic.data.title}
+  description={topic.data.description}
+  canonicalPath={canonicalPath}
   headings={headings}
   backlinks={backlinks}
+  jsonLd={pageJsonLd}
 >
   <header>
     <h1>{topic.data.title}</h1>
+    <p class="topic-answer">{topic.data.description}</p>
     <div class="topic-meta">
       <span class="meta-badge">{topic.data.difficulty}</span>
       <span class="meta-badge">{topic.data.category.replace(/-/g, " ")}</span>
@@ -48,9 +99,25 @@ const backlinks =
       Author <a href={`https://github.com/${topic.data.author}`}
         >@{topic.data.author}</a
       >
+      {
+        topic.data.updatedDate && (
+          <span class="topic-updated">Updated {topic.data.updatedDate}</span>
+        )
+      }
     </p>
   </header>
   <Content />
+  <section class="topic-faq">
+    <h2>Frequently Asked Questions</h2>
+    {
+      faqItems.map((item) => (
+        <details>
+          <summary>{item.question}</summary>
+          <p>{item.answer}</p>
+        </details>
+      ))
+    }
+  </section>
   {
     topic.data.citations && topic.data.citations.length > 0 && (
       <section class="citations">
@@ -85,6 +152,13 @@ const backlinks =
     margin-bottom: 0.7rem;
   }
 
+  .topic-answer {
+    margin: 0 0 1rem;
+    color: var(--color-muted-strong);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
   .topic-author {
     margin: 0 0 2rem;
     color: var(--color-muted);
@@ -94,6 +168,12 @@ const backlinks =
   .topic-author a {
     color: var(--color-muted-strong);
     transition: color 0.2s ease;
+  }
+
+  .topic-updated {
+    display: inline-block;
+    margin-left: 0.75rem;
+    color: var(--color-muted);
   }
 
   .topic-author a:hover {
@@ -123,6 +203,32 @@ const backlinks =
     margin-top: 3rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--color-border);
+  }
+
+  .topic-faq {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .topic-faq h2 {
+    font-size: 1.1rem;
+  }
+
+  .topic-faq details {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .topic-faq summary {
+    cursor: pointer;
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .topic-faq p {
+    margin: 0.7rem 0 0;
+    color: var(--color-muted);
   }
 
   .citations h2 {

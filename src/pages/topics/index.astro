@@ -3,6 +3,7 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import CategoryNav from "../../components/CategoryNav.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { CATEGORY_LABELS } from "../../lib/categories";
+import { breadcrumbSchema } from "../../lib/seo";
 import { topicSlugFromId } from "../../lib/topic-slugs";
 
 type Topic = CollectionEntry<"topics">;
@@ -36,7 +37,15 @@ const searchIndex = topics.map((topic: Topic) => {
 const searchIndexJson = JSON.stringify(searchIndex).replace(/</g, "\\u003c");
 ---
 
-<BaseLayout title="Topics">
+<BaseLayout
+  title="Topics"
+  description="Browse AI Soc Corpus machine learning topics by title, tag, category, difficulty, and author."
+  canonicalPath="/topics/"
+  jsonLd={breadcrumbSchema([
+    { name: "Home", path: "/" },
+    { name: "Topics", path: "/topics/" },
+  ])}
+>
   <h1>Topics</h1>
 
   <section class="topic-categories">

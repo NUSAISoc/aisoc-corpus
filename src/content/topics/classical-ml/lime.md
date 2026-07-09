@@ -2,10 +2,17 @@
 title: LIME (Local Interpretable Model-agnostic Explanations)
 description: Local surrogate explanations that approximate a black-box model around a specific input.
 author: Praneeth-Suresh
+updatedDate: "2026-06-24"
 difficulty: beginner
 category: classical-ml
 domains: ["interpretability", "model-agnostic", "explainability"]
-tags: ["local-explanations", "surrogate-models", "perturbation", "feature-importance"]
+tags:
+  [
+    "local-explanations",
+    "surrogate-models",
+    "perturbation",
+    "feature-importance",
+  ]
 prerequisites: ["linear-regression"]
 citations:
   - title: "Why Should I Trust You? Explaining the Predictions of Any Classifier — Ribeiro, Singh, Guestrin (2016)"

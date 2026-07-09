@@ -65,6 +65,10 @@ Your content here...
 - Keep explanations concise and technically accurate.
 - Include at least one citation to a primary source!
 
+#### Article Length & Subpages
+
+Keep each article **short and focused**. If you want to go into detail on a subtopic, create a subpage rather than expanding the parent article. This keeps the knowledge graph navigable and encourages readers to explore related nodes rather than scrolling through a single long page.
+
 ### 4. LaTeX Guidelines
 
 The corpus compiles math equations server-side during the build using **KaTeX** (via the `remark-math` and `rehype-katex` plugins). While writing LaTeX, follow these strict rules to avoid compilation failures or layout shifts:
@@ -105,6 +109,31 @@ Before submitting your PR, run the following and ensure they work:
 npm run build                    # Full site build
 npm test                         # Unit tests
 ```
+
+#### Automated Validation with an AI Agent
+
+If you have access to an AI coding agent (e.g. Codex, Cursor, Claude Code), you can paste the following prompt to have it thoroughly verify your changes are deployment-ready:
+
+> **Agent Prompt:**
+>
+> ```
+> I've made changes to topic files in this repository. Please verify that everything is ready to deploy:
+>
+> 1. Run `./scripts/validate-content.sh` and fix any errors.
+> 2. Run `npm run build` and ensure there are no build failures.
+> 3. Run `npm test` and confirm all unit tests pass.
+> 4. Run `npm run preview` and use a browser tool to visit the site.
+> 5. Navigate to each page affected by my changes and verify:
+>    - The page renders without layout issues.
+>    - All LaTeX equations display correctly (no raw syntax or KaTeX errors).
+>    - All WikiLinks resolve to valid pages (no broken links).
+>    - The Table of Contents sidebar generates correctly from headings.
+>    - The knowledge graph still loads and displays nodes/edges properly.
+> 6. Check that no unrelated pages are broken by my changes.
+> 7. Report a summary of what passed, what failed, and what needs fixing.
+> ```
+
+This saves time and catches rendering or formatting issues that the scripts alone won't detect.
 
 ### 6. Submit a Pull Request
 

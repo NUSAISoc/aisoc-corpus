@@ -1,0 +1,53 @@
+---
+import {
+  DEFAULT_DESCRIPTION,
+  SITE_NAME,
+  organizationSchema,
+  serializeJsonLd,
+  socialImageUrl,
+  canonicalUrl,
+} from "../lib/seo";
+
+interface Props {
+  title: string;
+  description?: string;
+  canonicalPath?: string;
+  image?: string;
+  type?: "website" | "article";
+  jsonLd?: unknown | unknown[];
+}
+
+const {
+  title,
+  description = DEFAULT_DESCRIPTION,
+  canonicalPath = Astro.url.pathname,
+  image,
+  type = "website",
+  jsonLd = [],
+} = Astro.props;
+const canonical = canonicalUrl(canonicalPath);
+const socialImage = socialImageUrl(image);
+const jsonLdItems = [
+  organizationSchema(),
+  ...(Array.isArray(jsonLd) ? jsonLd : [jsonLd]),
+].filter(Boolean);
+const jsonLdScript = serializeJsonLd(jsonLdItems);
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<meta property="og:site_name" content={SITE_NAME} />
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={socialImage} />
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={socialImage} />
+
+<script is:inline type="application/ld+json" set:html={jsonLdScript} />

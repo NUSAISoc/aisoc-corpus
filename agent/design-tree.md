@@ -20,6 +20,7 @@ An interconnected learning ecosystem that leverages Astro's performance for cont
 | Hosting Platform | Cloudflare Pages | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
 | Styling Source | Direct extraction from cloned `NUSAISoc/aisoc-website` | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
 | PR Verification CI | GitHub Actions running custom markdown lint, LaTeX compile validation, and link-check | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
+| Local Topic PR Auto-Review | Maintainer-run GitHub CLI workflow invokes a selected local coding agent and posts an advisory sticky PR comment | 2026-06-24 | — |
 | Sharp Corners      | All `border-radius` must be `0`. No rounded edges anywhere on the site.               | 2026-06-04 | —                                                                                       |
 
 ## Pressure Points

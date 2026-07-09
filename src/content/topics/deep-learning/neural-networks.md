@@ -2,6 +2,7 @@
 title: Neural Networks
 description: Multi-layer parametric function approximators trained via backpropagation.
 author: Praneeth-Suresh
+updatedDate: "2026-06-24"
 difficulty: intermediate
 category: deep-learning
 domains: ["deep-learning", "representation-learning"]
@@ -17,9 +18,10 @@ citations:
   - title: "Deep Learning – Goodfellow, Bengio, Courville"
     url: "https://www.deeplearningbook.org/"
 ---
+
 ## Overview
 
-The core architecture of modern deep learning is the neural nerwork. Also called Mulit-Layer Perceptrons, they consist of a set of layers. Each layer is matematically represented as a vector. Looking at it this way, one layer is transformed to the next by multiplying by a matrix and adding a _bias_ vector.
+The core architecture of modern deep learning is the neural network. Also called Multi-Layer Perceptrons, they consist of a set of layers. Each layer is mathematically represented as a vector. Looking at it this way, one layer is transformed to the next by multiplying by a matrix and adding a _bias_ vector.
 
 In Linear Algebra lingo, this is called an Affine Transformation.
 
@@ -31,7 +33,7 @@ $$
 
 ## Universal Approximation
 
-This is a key reault about Neural Networks that explains why they are so useful. It goes something like this:
+This is a key result about Neural Networks that explains why they are so useful. It goes something like this:
 
 > A single hidden-layer network with sufficient width can approximate any continuous function on a compact set to arbitrary precision (Cybenko, 1989).
 
