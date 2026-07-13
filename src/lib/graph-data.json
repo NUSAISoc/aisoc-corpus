@@ -1,6 +1,32 @@
 {
   "nodes": [
     {
+      "id": "vae",
+      "title": "Autoencoders",
+      "category": "deep-learning",
+      "difficulty": "intermediate",
+      "domains": [
+        "unsupervised-learning",
+        "generative-models",
+        "representation-learning"
+      ],
+      "tags": [
+        "autoencoders",
+        "variational-inference",
+        "vae",
+        "vq-vae",
+        "reparameterisation",
+        "gumbel-softmax",
+        "reinforce",
+        "elbo",
+        "kl-divergence"
+      ],
+      "prerequisites": [
+        "gradient-descent"
+      ],
+      "depth": 2
+    },
+    {
       "id": "gradient-descent",
       "title": "Gradient Descent",
       "category": "classical-ml",
@@ -138,7 +164,74 @@
       ],
       "prerequisites": [
         "gradient-descent"
-      ]
+      ],
+      "depth": 2
+    },
+    {
+      "id": "jepa",
+      "title": "Joint-Embedding Predictive Architecture",
+      "category": "world-modelling",
+      "difficulty": "intermediate",
+      "domains": [
+        "self-supervised-learning",
+        "representation-learning",
+        "computer-vision",
+        "rl"
+      ],
+      "tags": [
+        "world-models",
+        "reinforcement-learning",
+        "computer-vision"
+      ],
+      "prerequisites": [],
+      "depth": 0
+    },
+    {
+      "id": "rssm",
+      "title": "Recurrent State Space Models (RSSM)",
+      "category": "world-modelling",
+      "difficulty": "advanced",
+      "domains": [
+        "reinforcement-learning",
+        "model-based-rl",
+        "representation-learning",
+        "latent-dynamics"
+      ],
+      "tags": [
+        "rssm",
+        "world-models",
+        "dreamer",
+        "latent-imagination",
+        "variational-inference",
+        "redundancy-reduction"
+      ],
+      "prerequisites": [
+        "world-models",
+        "vae",
+        "neural-networks"
+      ],
+      "depth": 4
+    },
+    {
+      "id": "state-space-models",
+      "title": "State Space Models for Sequence Modelling",
+      "category": "world-modelling",
+      "difficulty": "intermediate",
+      "domains": [
+        "deep-learning",
+        "sequence-modelling",
+        "representation-learning"
+      ],
+      "tags": [
+        "state-space-models",
+        "world-models",
+        "sequence-modelling",
+        "mamba"
+      ],
+      "prerequisites": [
+        "world-models"
+      ],
+      "depth": 4
     },
     {
       "id": "world-models",
@@ -160,10 +253,15 @@
         "neural-networks",
         "q-learning"
       ],
-      "depth": 2
+      "depth": 3
     }
   ],
   "edges": [
+    {
+      "source": "gradient-descent",
+      "target": "vae",
+      "type": "prerequisite"
+    },
     {
       "source": "linear-regression",
       "target": "gradient-descent",
@@ -195,6 +293,26 @@
       "type": "prerequisite"
     },
     {
+      "source": "world-models",
+      "target": "rssm",
+      "type": "prerequisite"
+    },
+    {
+      "source": "vae",
+      "target": "rssm",
+      "type": "prerequisite"
+    },
+    {
+      "source": "neural-networks",
+      "target": "rssm",
+      "type": "prerequisite"
+    },
+    {
+      "source": "world-models",
+      "target": "state-space-models",
+      "type": "prerequisite"
+    },
+    {
       "source": "neural-networks",
       "target": "world-models",
       "type": "prerequisite"
@@ -209,6 +327,30 @@
       "target": "support-vector-machines",
       "type": "similarity",
       "weight": 0.33
+    },
+    {
+      "source": "neural-networks",
+      "target": "state-space-models",
+      "type": "similarity",
+      "weight": 0.2
+    },
+    {
+      "source": "jepa",
+      "target": "rssm",
+      "type": "similarity",
+      "weight": 0.23
+    },
+    {
+      "source": "jepa",
+      "target": "state-space-models",
+      "type": "similarity",
+      "weight": 0.2
+    },
+    {
+      "source": "rssm",
+      "target": "world-models",
+      "type": "similarity",
+      "weight": 0.31
     }
   ]
 }

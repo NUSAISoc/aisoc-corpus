@@ -51,9 +51,9 @@ states while discarding useless information. Since the hidden state is
 not directly observable, it is a latent state and SSMs are latent
 models.
 
-SSMs method of handling memory can be treated as opposite of that of a
-transformer: While the transformer can look at every single token before
-the current token to make the next token prediction, SSMs only
+An SSM's method of handling memory can be treated as the opposite of a
+transformer: while the transformer can look at every single token before
+the current token to make the next token prediction, an SSM only
 references the state and current input to produce an output.
 
 ## The Two Magic Equations
@@ -189,7 +189,7 @@ At every time step:
 
 ### Advantages of the recurrent representation
 
-**Efficient inference**: This is the main selling point of the recurrent representation. At inference time, the model only needs the current hidden state rather than the entire past sequence. This makes it memory efficient when generating or processing inputs one step at a time. 
+**Efficient inference**: This is the main selling point of the recurrent representation. At inference time, the model only needs the current hidden state rather than the entire past sequence. This makes it memory efficient when generating or processing inputs one step at a time.
 
 **Unbounded context in principle**: Because the state keeps evolving, the model can in principle carry information forward indefinitely. The sequence length is not explicitly capped by a fixed context window in the way a pure finite convolution kernel is.
 
@@ -310,7 +310,7 @@ So the design of $A$ determines whether the model:
 
 A poor choice of $A$ can make the model bad at long-range dependencies.
 A good choice of $A$ can give the model strong and stable memory. The
-follow-up question would be is there a way to design A such that models
+follow-up question is whether there is a way to design A such that models
 using these matrices have better memory. Sure enough, some folks at
 Stanford came up with a general framework known as High-order Polynomial
 Projection Operator (HiPPO).
@@ -321,7 +321,7 @@ of treating the state as an arbitrary vector, HiPPO gives it a
 principled interpretation: the state stores coefficients of a compressed
 representation of the history.
 
-Intuitively, HiPPO matrices is able to retain useful information from
+Intuitively, HiPPO matrices are able to retain useful information from
 more recent states and compress old information. Based on empirical
 evidence (E.g. S4 paper), HiPPO provides a more meaningful and effective
 choice of memory dynamics, especially through the $A$ matrix. SSMs
@@ -429,7 +429,7 @@ usually shortened to MIMO. Instead of treating each feature channel as
 having a separate little SSM, S5 lets a whole feature vector enter one
 shared state-space system and reads a whole feature vector out of it.
 This makes the SSM layer feel more like a normal deep learning layer. S5
-also use parallel scan algorithms which I am not knowledgeable about
+also uses parallel scan algorithms, which I am not knowledgeable about
 GPUs enough to actually explain them but just know parallelism in this
 case = faster.
 
@@ -442,7 +442,7 @@ is updated.
 
 The model can learn to decide whether the token should be written
 strongly into the state, mostly ignored, used to preserve old memory or
-used to overwrite previous information. It allows for difference
+used to overwrite previous information. It allows for different
 sequence elements to be treated differently. Think of selective
 compression as the compromise between previous iteration’s aggressive
 compression and transformer expensive lookup of every single past state.
