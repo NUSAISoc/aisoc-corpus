@@ -53,7 +53,7 @@ Expected frontmatter:
 
 - `title`: clear human-readable topic title.
 - `description`: one-sentence summary of the concept.
-- `author`: GitHub username-style value.
+- `authors`: non-empty ordered list of GitHub username-style values.
 - `difficulty`: one of `beginner`, `intermediate`, or `advanced`.
 - `category`: one of `classical-ml`, `deep-learning`, `generative`,
   `reinforcement-learning`, or `world-modelling`.

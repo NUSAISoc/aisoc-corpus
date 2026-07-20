@@ -1,7 +1,7 @@
 ---
 title: State Space Models for Sequence Modelling
 description: An introduction to state space models, their continuous and discrete forms, recurrent and convolutional representations, HiPPO, S4, S5, and Mamba.
-author: Kia-Lok
+authors: ["Kia-Lok"]
 difficulty: intermediate
 category: world-modelling
 domains: [deep-learning, sequence-modelling, representation-learning]

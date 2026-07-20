@@ -1,7 +1,7 @@
 ---
 title: Gradient Descent
 description: Iterative first-order optimisation algorithm for minimising differentiable functions.
-author: Praneeth-Suresh
+authors: ["Praneeth-Suresh", "N00bcak"]
 updatedDate: "2026-06-24"
 difficulty: beginner
 category: classical-ml

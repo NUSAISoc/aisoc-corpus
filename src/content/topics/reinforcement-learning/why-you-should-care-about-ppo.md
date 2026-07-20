@@ -1,7 +1,7 @@
 ---
 title: Why you should care about PPO
 description: why did ppo become the goat
-author: checkpoint214159
+authors: ["checkpoint214159"]
 difficulty: intermediate
 category: reinforcement-learning
 domains: ["reinforcement-learning", "policy-gradients"]

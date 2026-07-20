@@ -26,7 +26,7 @@ printf "  Slug uniqueness: OK\n"
 
 # 1. Frontmatter required fields check
 printf "Validating frontmatter...\n"
-required_fields=("title" "description" "author" "difficulty" "category" "domains" "tags" "furtherReading")
+required_fields=("title" "description" "authors" "difficulty" "category" "domains" "tags" "furtherReading")
 
 for f in "${md_files[@]}"; do
   basename_f="$(basename "$f")"

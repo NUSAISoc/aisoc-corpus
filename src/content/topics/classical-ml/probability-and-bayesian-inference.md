@@ -1,7 +1,7 @@
 ---
 title: Probability And Bayesian Inference
 description: the bayesian perspective of things
-author: checkpoint214159
+authors: ["checkpoint214159"]
 difficulty: beginner
 category: classical-ml
 domains: ["statistics", "probability"]

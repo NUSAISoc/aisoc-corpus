@@ -1,7 +1,7 @@
 ---
 title: Autoencoders
 description: "From deterministic autoencoders to variational and vector-quantised models, and the gradient-estimation tricks (reparameterisation, Gumbel-Softmax, REINFORCE) that make them trainable."
-author: Zak-T
+authors: ["Zak-T"]
 updatedDate: "2026-06-25"
 difficulty: intermediate
 category: deep-learning
