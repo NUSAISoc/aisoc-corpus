@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audit Topic Sources"
+  short_description: "Verify claims, provenance, access, and legality"
+  default_prompt: "Use $auditing-topic-sources to audit the claims and citations in this Corpus Topic."
