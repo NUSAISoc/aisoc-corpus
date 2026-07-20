@@ -36,11 +36,13 @@ Task workflows:
 
 - `planning`: plans, designs, approaches, and feature planning gates.
 - `adding-features`: feature implementation after a user-ratified plan.
+- `write-corpus-topics`: drafting and substantial revision of connected, technically rigorous Corpus Topics.
 - `debugging`: bugs, failures, regressions, exceptions, and failing checks.
 - `explaining-codebase`: codebase walkthroughs and explanations without edits.
 
 Supporting skills:
 
+- `auditing-topic-sources`: claim-to-source verification covering provenance, reproducibility, publication status, and lawful access.
 - `grill-me`: non-trivial feature, architecture change, cross-context change, ambiguous bug fix.
 - `interview-me`: one-question-at-a-time user interview when `grill-me` leaves unresolved user-judgment decisions.
 - `testing-vertical-slices`: feature/bug behavior implementation.
