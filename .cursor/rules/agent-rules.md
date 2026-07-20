@@ -49,6 +49,7 @@ Task workflows:
 
 Supporting skills:
 
+- `auditing-topic-sources`: claim-to-source verification covering provenance, reproducibility, publication status, and lawful access.
 - `grill-me`: non-trivial feature, architecture change, cross-context change, ambiguous bug fix.
 - `interview-me`: one-question-at-a-time user interview when `grill-me` leaves unresolved user-judgment decisions.
 - `testing-vertical-slices`: feature/bug behavior implementation.

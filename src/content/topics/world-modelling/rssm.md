@@ -1,7 +1,7 @@
 ---
 title: Recurrent State Space Models (RSSM)
 description: An introduction to recurrent state-space models, their training objective, and their evolution through PlaNet, Dreamer, MuDreamer, and R2-Dreamer.
-author: Kia-Lok
+authors: ["Kia-Lok"]
 difficulty: advanced
 category: world-modelling
 domains: [reinforcement-learning, model-based-rl, representation-learning, latent-dynamics]

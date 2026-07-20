@@ -1,7 +1,7 @@
 ---
 title: Linear Regression
 description: Fitting a linear model to data using least squares optimisation.
-author: Praneeth-Suresh
+authors: ["Praneeth-Suresh"]
 updatedDate: "2026-06-24"
 difficulty: beginner
 category: classical-ml

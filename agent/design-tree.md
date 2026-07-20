@@ -2,7 +2,7 @@
 
 ## Current Design Concept
 
-An interconnected learning ecosystem that leverages Astro's performance for content reading and React's interactivity for an Obsidian-style **KnowledgeGraph**. Content is authored in standard Markdown/MDX with frontmatter defining metadata (difficulty, domains, prerequisites, tags, author). At build time, Astro compiles these topics into a static single-page-routing structure, resolves relationships (hierarchical and semantic similarity), generates a precomputed graph JSON, renders a force-directed interactive node visualization with a category colour legend backed by shared category presentation metadata, exposes matching colour-coded category navigation on discovery pages, and serializes a topic search index for fast metadata filtering on the topics page.
+An interconnected learning ecosystem that leverages Astro's performance for content reading and React's interactivity for an Obsidian-style **KnowledgeGraph**. Content is authored in standard Markdown/MDX with frontmatter defining metadata (difficulty, domains, prerequisites, tags, authors). At build time, Astro compiles these topics into a static single-page-routing structure, resolves relationships (hierarchical and semantic similarity), generates a precomputed graph JSON, renders a force-directed interactive node visualization with a category colour legend backed by shared category presentation metadata, exposes matching colour-coded category navigation on discovery pages, and serializes a topic search index for fast metadata filtering on the topics page.
 
 ## Open Decisions
 
@@ -15,14 +15,15 @@ An interconnected learning ecosystem that leverages Astro's performance for cont
 
 ## Settled Decisions
 
-| Decision                   | Choice                                                                                                           | Date       | ADR                                                                                     |
-| -------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------- |
-| Core Framework             | Astro + React                                                                                                    | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
-| Hosting Platform           | Cloudflare Pages                                                                                                 | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
-| Styling Source             | Direct extraction from cloned `NUSAISoc/aisoc-website`                                                           | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
-| PR Verification CI         | GitHub Actions running custom markdown lint, LaTeX compile validation, and link-check                            | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
-| Local Topic PR Auto-Review | Maintainer-run GitHub CLI workflow invokes a selected local coding agent and posts an advisory sticky PR comment | 2026-06-24 | —                                                                                       |
-| Sharp Corners              | All `border-radius` must be `0`. No rounded edges anywhere on the site.                                          | 2026-06-04 | —                                                                                       |
+| Decision | Choice | Date | ADR |
+| --- | --- | --- | --- |
+| Core Framework | Astro + React | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
+| Hosting Platform | Cloudflare Pages | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
+| Styling Source | Direct extraction from cloned `NUSAISoc/aisoc-website` | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
+| PR Verification CI | GitHub Actions running custom markdown lint, LaTeX compile validation, and link-check | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
+| Local Topic PR Auto-Review | Maintainer-run GitHub CLI workflow invokes a selected local coding agent and posts an advisory sticky PR comment | 2026-06-24 | — |
+| Topic Attribution | Required ordered `authors` list of equal GitHub co-authors | 2026-07-20 | [ADR 0003](adr/0003-multiple-topic-authors.md) |
+| Sharp Corners      | All `border-radius` must be `0`. No rounded edges anywhere on the site.               | 2026-06-04 | —                                                                                       |
 
 ## Pressure Points
 
