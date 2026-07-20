@@ -1,6 +1,32 @@
 {
   "nodes": [
     {
+      "id": "vae",
+      "title": "Autoencoders",
+      "category": "deep-learning",
+      "difficulty": "intermediate",
+      "domains": [
+        "unsupervised-learning",
+        "generative-models",
+        "representation-learning"
+      ],
+      "tags": [
+        "autoencoders",
+        "variational-inference",
+        "vae",
+        "vq-vae",
+        "reparameterisation",
+        "gumbel-softmax",
+        "reinforce",
+        "elbo",
+        "kl-divergence"
+      ],
+      "prerequisites": [
+        "gradient-descent"
+      ],
+      "depth": 2
+    },
+    {
       "id": "gradient-descent",
       "title": "Gradient Descent",
       "category": "classical-ml",
@@ -55,6 +81,25 @@
         "optimisation",
         "statistics",
         "least-squares"
+      ],
+      "prerequisites": [],
+      "depth": 0
+    },
+    {
+      "id": "probability-and-bayesian-inference",
+      "title": "Probability And Bayesian Inference",
+      "category": "classical-ml",
+      "difficulty": "beginner",
+      "domains": [
+        "statistics",
+        "probability"
+      ],
+      "tags": [
+        "bayes-theorem",
+        "conditional-probability",
+        "bayesian-inference",
+        "frequentist-statistics",
+        "prior-posterior"
       ],
       "prerequisites": [],
       "depth": 0
@@ -138,7 +183,50 @@
       ],
       "prerequisites": [
         "gradient-descent"
-      ]
+      ],
+      "depth": 2
+    },
+    {
+      "id": "why-you-should-care-about-ppo",
+      "title": "Why you should care about PPO",
+      "category": "reinforcement-learning",
+      "difficulty": "intermediate",
+      "domains": [
+        "reinforcement-learning",
+        "policy-gradients"
+      ],
+      "tags": [
+        "trust-region",
+        "policy-optimization",
+        "exploration-exploitation",
+        "actor-critic",
+        "clipped-surrogate"
+      ],
+      "prerequisites": [
+        "policy-gradients",
+        "gradient-descent",
+        "q-learning"
+      ],
+      "depth": 3
+    },
+    {
+      "id": "jepa",
+      "title": "Joint-Embedding Predictive Architecture",
+      "category": "world-modelling",
+      "difficulty": "intermediate",
+      "domains": [
+        "self-supervised-learning",
+        "representation-learning",
+        "computer-vision",
+        "rl"
+      ],
+      "tags": [
+        "world-models",
+        "reinforcement-learning",
+        "computer-vision"
+      ],
+      "prerequisites": [],
+      "depth": 0
     },
     {
       "id": "world-models",
@@ -160,10 +248,15 @@
         "neural-networks",
         "q-learning"
       ],
-      "depth": 2
+      "depth": 3
     }
   ],
   "edges": [
+    {
+      "source": "gradient-descent",
+      "target": "vae",
+      "type": "prerequisite"
+    },
     {
       "source": "linear-regression",
       "target": "gradient-descent",
@@ -192,6 +285,16 @@
     {
       "source": "gradient-descent",
       "target": "q-learning",
+      "type": "prerequisite"
+    },
+    {
+      "source": "gradient-descent",
+      "target": "why-you-should-care-about-ppo",
+      "type": "prerequisite"
+    },
+    {
+      "source": "q-learning",
+      "target": "why-you-should-care-about-ppo",
       "type": "prerequisite"
     },
     {
