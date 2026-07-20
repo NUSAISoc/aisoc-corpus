@@ -6,11 +6,7 @@ dist/
 coverage/
 test-results/
 playwright-report/
-<<<<<<< HEAD
-.playwright-mcp/ 
-=======
 .playwright-mcp/
->>>>>>> origin/main
 agent/session-state.md
 CLAUDE.md
 .obsidian
