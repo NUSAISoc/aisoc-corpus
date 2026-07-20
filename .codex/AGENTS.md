@@ -44,7 +44,6 @@ Task workflows:
 
 - `planning`: plans, designs, approaches, and feature planning gates.
 - `adding-features`: feature implementation after a user-ratified plan.
-- `write-corpus-topics`: drafting and substantial revision of connected, technically rigorous Corpus Topics.
 - `debugging`: bugs, failures, regressions, exceptions, and failing checks.
 - `explaining-codebase`: codebase walkthroughs and explanations without edits.
 

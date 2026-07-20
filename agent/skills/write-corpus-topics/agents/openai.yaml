@@ -1,4 +1,0 @@
-interface:
-  display_name: "Write Corpus Topics"
-  short_description: "Write connected, rigorous AI primers"
-  default_prompt: "Use $write-corpus-topics to draft or revise a Corpus Topic that explains where the concept fits and how it works."

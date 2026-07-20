@@ -15,7 +15,6 @@ Purpose: choose the smallest task workflow to load. Do not load every workflow b
 | --- | --- | --- |
 | Planning | plan, design, approach, architecture proposal, break this down | `agent/skills/planning/SKILL.md` |
 | Feature addition | add, implement, build, create feature, new workflow, support behavior | `agent/skills/adding-features/SKILL.md` |
-| Corpus Topic authoring | write, draft, revise, rewrite Corpus Topic | `agent/skills/write-corpus-topics/SKILL.md` |
 | Debugging | debug, bug, error, failing, broken, regression, exception, test failure | `agent/skills/debugging/SKILL.md` |
 | Codebase explanation | explain, walk me through, understand, map the codebase, where is this handled | `agent/skills/explaining-codebase/SKILL.md` |
 
