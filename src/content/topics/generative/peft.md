@@ -1,7 +1,7 @@
 ---
 title: "PEFT"
 description: Parameter-efficient fine-tuning — adapt large models on a single GPU by freezing the base weights and training a small delta.
-author: Marcus-Wee
+authors: ["Marcus-Wee"]
 updatedDate: "2026-07-09"
 difficulty: intermediate
 category: generative
@@ -88,4 +88,3 @@ All share the PEFT invariant: **freeze the base, learn a small $\Delta\theta$.**
 ## Related Topics
 
 PEFT adapts the affine projections inside [[transformers|Transformers]] and the [[neural-networks|Neural Networks]] beneath them, training the small delta with [[gradient-descent|Gradient Descent]]. The low-rank factorisation behind LoRA echoes the surrogate-modelling intuition of [[linear-regression|Linear Regression]] and the implicit feature maps of [[support-vector-machines|Support Vector Machines]].
-

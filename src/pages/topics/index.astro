@@ -19,7 +19,7 @@ const searchIndex = topics.map((topic: Topic) => {
   const searchableParts = [
     topic.data.title,
     topic.data.description,
-    topic.data.author,
+    ...topic.data.authors,
     topic.data.difficulty,
     topic.data.category,
     categoryLabel,
@@ -39,7 +39,7 @@ const searchIndexJson = JSON.stringify(searchIndex).replace(/</g, "\\u003c");
 
 <BaseLayout
   title="Topics"
-  description="Browse AI Soc Corpus machine learning topics by title, tag, category, difficulty, and author."
+  description="Browse AI Soc Corpus machine learning topics by title, tag, category, difficulty, and authors."
   canonicalPath="/topics/"
   jsonLd={breadcrumbSchema([
     { name: "Home", path: "/" },
@@ -58,7 +58,7 @@ const searchIndexJson = JSON.stringify(searchIndex).replace(/</g, "\\u003c");
       <input
         id="topic-search-input"
         type="search"
-        placeholder="Search title, tag, category, author..."
+        placeholder="Search title, tag, category, authors..."
         autocomplete="off"
       />
       <span id="topic-search-count" aria-live="polite"
@@ -86,7 +86,9 @@ const searchIndexJson = JSON.stringify(searchIndex).replace(/</g, "\\u003c");
           </div>
           <h3>{topic.data.title}</h3>
           <p>{topic.data.description}</p>
-          <span class="topic-author">@{topic.data.author}</span>
+          <span class="topic-author">
+            {topic.data.authors.map((author) => `@${author}`).join(", ")}
+          </span>
         </a>
       ))
     }

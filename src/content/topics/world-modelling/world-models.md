@@ -1,7 +1,7 @@
 ---
 title: World Models
 description: Learned environment models that let agents predict, plan, and learn from imagined futures.
-author: N00bcak
+authors: ["N00bcak"]
 difficulty: intermediate
 category: world-modelling
 domains: ["reinforcement-learning", "model-based-rl", "representation-learning"]
