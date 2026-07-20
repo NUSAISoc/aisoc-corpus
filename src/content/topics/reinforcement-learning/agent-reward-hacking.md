@@ -1,7 +1,7 @@
 ---
 title: "Agent Reward Hacking"
 description: How autonomous AI agents exploit poorly secured evaluation infrastructure, and what zero-trust testing pipelines look like.
-author: Marcus-Wee
+authors: ["Marcus-Wee"]
 updatedDate: "2026-07-09"
 difficulty: intermediate
 category: reinforcement-learning

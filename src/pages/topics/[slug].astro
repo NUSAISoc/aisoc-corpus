@@ -60,7 +60,7 @@ const pageJsonLd = [
     title: topic.data.title,
     description: topic.data.description,
     path: canonicalPath,
-    author: topic.data.author,
+    authors: topic.data.authors,
     difficulty: topic.data.difficulty,
     category: categoryLabel,
     domains: topic.data.domains,
@@ -96,9 +96,15 @@ const pageJsonLd = [
       }
     </div>
     <p class="topic-author">
-      Author <a href={`https://github.com/${topic.data.author}`}
-        >@{topic.data.author}</a
-      >
+      {topic.data.authors.length === 1 ? "Author " : "Authors "}
+      {
+        topic.data.authors.map((author: string, index: number) => (
+          <>
+            {index > 0 && ", "}
+            <a href={`https://github.com/${author}`}>@{author}</a>
+          </>
+        ))
+      }
       {
         topic.data.updatedDate && (
           <span class="topic-updated">Updated {topic.data.updatedDate}</span>

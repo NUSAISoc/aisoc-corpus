@@ -73,6 +73,12 @@ test("topics page searches indexed topic metadata", async ({ page }) => {
     page.locator(".topic-card:visible", { hasText: "Gradient Descent" }),
   ).toBeVisible();
 
+  await search.fill("N00bcak calculus");
+  await expect(page.locator(".topic-card:visible")).toHaveCount(1);
+  await expect(
+    page.locator(".topic-card:visible", { hasText: "Gradient Descent" }),
+  ).toContainText("@Praneeth-Suresh, @N00bcak");
+
   await search.fill("no-such-topic");
   await expect(page.locator(".topic-card:visible")).toHaveCount(0);
   await expect(page.locator(".topic-empty")).toBeVisible();
@@ -177,15 +183,25 @@ test("LIME topic page renders", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Overview" })).toBeVisible();
 });
 
-test("topic page renders tags and author", async ({ page }) => {
+test("topic page renders tags and authors", async ({ page }) => {
   await page.goto("/topics/gradient-descent");
   await expect(page.locator(".topic-tags")).toContainText("learning-rate");
   await expect(page.locator(".topic-author")).toContainText(
-    "Author @Praneeth-Suresh",
+    /Authors\s+@Praneeth-Suresh\s*,\s*@N00bcak/,
   );
-  await expect(page.locator(".topic-author a")).toHaveAttribute(
+  await expect(page.locator(".topic-author a")).toHaveCount(2);
+  await expect(page.locator(".topic-author a").nth(0)).toHaveAttribute(
     "href",
     "https://github.com/Praneeth-Suresh",
+  );
+  await expect(page.locator(".topic-author a").nth(1)).toHaveAttribute(
+    "href",
+    "https://github.com/N00bcak",
+  );
+
+  await page.goto("/topics/linear-regression");
+  await expect(page.locator(".topic-author")).toContainText(
+    /Author\s+@Praneeth-Suresh/,
   );
 });
 
