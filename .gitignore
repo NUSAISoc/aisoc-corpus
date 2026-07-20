@@ -7,3 +7,7 @@ coverage/
 test-results/
 playwright-report/
 agent/session-state.md
+CLAUDE.md
+.obsidian
+src/lib/backlinks.json
+src/lib/graph-data.json

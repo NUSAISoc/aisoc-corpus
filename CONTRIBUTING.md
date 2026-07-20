@@ -34,6 +34,9 @@ src/content/topics/
 
 #### Understanding Key Frontmatter Fields:
 
+- **Authors**:
+  An ordered, non-empty list of the topic's co-authors, written as GitHub usernames. Every listed person receives equal attribution.
+  - _Example_: `authors: ["first-username", "second-username"]`.
 - **What is a Slug?**
   A **slug** is the URL-friendly identifier for a topic. It is used as the filename (e.g. `<slug>.md`) and must be **strictly lowercase**, with spaces replaced by hyphens (`-`), and containing only alphanumeric characters and hyphens.
   - _Example_: For "Gradient Descent", the file must be named `gradient-descent.md` and the slug is `gradient-descent`. For "Q-Learning", it is `q-learning.md`.
@@ -46,6 +49,7 @@ src/content/topics/
 ---
 title: Your Topic Title
 description: A one-sentence summary of the concept.
+authors: ["your-github-username"]
 difficulty: beginner # beginner | intermediate | advanced
 category: classical-ml # classical-ml | deep-learning | generative | reinforcement-learning | world-modelling
 domains: ["supervised-learning", "regression"]
