@@ -8,7 +8,7 @@ category: deep-learning
 domains: ["unsupervised-learning", "generative-models", "representation-learning"]
 tags: ["autoencoders", "variational-inference", "vae", "vq-vae", "reparameterisation", "gumbel-softmax", "reinforce", "elbo", "kl-divergence"]
 prerequisites: ["gradient-descent"]
-citations:
+furtherReading:
   - title: "Auto-Encoding Variational Bayes (Kingma & Welling, 2013)"
     url: "https://arxiv.org/abs/1312.6114"
   - title: "Neural Discrete Representation Learning (van den Oord et al., 2017)"

@@ -14,7 +14,7 @@ tags:
     "universal-approximation",
   ]
 prerequisites: ["gradient-descent"]
-citations:
+furtherReading:
   - title: "Deep Learning – Goodfellow, Bengio, Courville"
     url: "https://www.deeplearningbook.org/"
 ---

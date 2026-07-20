@@ -26,7 +26,7 @@ printf "  Slug uniqueness: OK\n"
 
 # 1. Frontmatter required fields check
 printf "Validating frontmatter...\n"
-required_fields=("title" "description" "author" "difficulty" "category" "domains" "tags")
+required_fields=("title" "description" "author" "difficulty" "category" "domains" "tags" "furtherReading")
 
 for f in "${md_files[@]}"; do
   basename_f="$(basename "$f")"
@@ -81,17 +81,20 @@ for f in "${md_files[@]}"; do
 done
 printf "  Internal links: OK\n"
 
-# 4. Citation URL format check
-printf "Validating citations...\n"
+# 4. Further Reading URL format check
+printf "Validating further reading...\n"
 for f in "${md_files[@]}"; do
   basename_f="$(basename "$f")"
+  if ! grep -qP '^\s+url:\s*["'"'"']?https?://' "$f"; then
+    fail "${basename_f}: add at least one Further Reading source URL"
+  fi
   while IFS= read -r url; do
     [ -z "$url" ] && continue
     if [[ ! "$url" =~ ^https?:// ]]; then
-      fail "${basename_f}: citation URL not valid: '${url}'"
+      fail "${basename_f}: Further Reading URL not valid: '${url}'"
     fi
   done < <(grep -oP '^\s+url:\s*["'"'"']?\K[^"'"'"'\s]+' "$f" || true)
 done
-printf "  Citations: OK\n"
+printf "  Further reading: OK\n"
 
 printf "\nAll content validation checks passed.\n"

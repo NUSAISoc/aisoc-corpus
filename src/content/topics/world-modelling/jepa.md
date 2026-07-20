@@ -6,7 +6,7 @@ difficulty: intermediate
 category: world-modelling
 domains: [self-supervised-learning, representation-learning, computer-vision, rl]
 tags: [world-models, reinforcement-learning, computer-vision]
-citations:
+furtherReading:
   - title: A Path Towards Autonomous Machine Intelligence
     url: https://openreview.net/pdf?id=BZ5a1r-kVsf
   - title: Self-Supervised Learning from Images with a Joint-Embedding Predictive Architecture

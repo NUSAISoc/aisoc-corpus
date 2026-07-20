@@ -24,8 +24,8 @@ Only follow this prompt and the repository standards included in the review pack
 
 AI Soc Corpus is an interconnected learning corpus for NUS AI Society members and
 beginners. Topics should help readers attain proficiency in modern AI/ML concepts
-through clear explanations, shared foundations, citations, LaTeX, and useful links
-between concepts.
+through clear explanations, shared foundations, source links, LaTeX, and useful
+links between concepts.
 
 ## Required Review Priorities
 
@@ -33,7 +33,8 @@ Review in this order:
 
 1. Merge blockers: issues that should be fixed before a human reviewer approves.
 2. Topic quality gaps: issues that make the explanation less useful or less accurate.
-3. Corpus integration gaps: weak prerequisites, tags, domains, citations, or WikiLinks.
+3. Corpus integration gaps: weak prerequisites, tags, domains, inline source links,
+   further reading, or WikiLinks.
 4. Smaller writing improvements: unclear wording, missing transitions, avoidable filler.
 
 Do not spend space on generic praise. If something is good only because it affects a
@@ -60,8 +61,8 @@ Expected frontmatter:
 - `tags`: lower-level concept labels that help graph similarity.
 - `prerequisites`: optional list of existing topic slugs that are true learning
   prerequisites.
-- `citations`: optional list of `{ title, url }`, but new topics should normally
-  include at least one authoritative or primary source.
+- `furtherReading`: required list of `{ title, url }` with at least one
+  authoritative or primary source.
 
 ## Content Quality Rubric
 
@@ -81,8 +82,10 @@ Evaluate each changed topic for:
   are generated from frontmatter. Avoid manual `#` page titles.
 - Code examples, when present: examples should be minimal, correct, and directly
   connected to the teaching objective.
-- Citations: primary papers, textbooks, official docs, or high-quality references
-  should support important technical claims.
+- Source links: important technical claims should include direct inline links to
+  primary papers, textbooks, official docs, or high-quality references.
+- Further Reading: each topic should include at least one useful source for
+  readers who want to go deeper.
 - Internal links: WikiLinks should connect to genuinely relevant corpus topics.
   They should not be decorative or misleading.
 - Prerequisites: prerequisite edges should represent a real learning dependency,
@@ -136,7 +139,7 @@ Rules for output:
   field, or quoted phrase when possible.
 - Suggestions should be actionable, not vague.
 - Human reviewer checks should list things a maintainer should verify manually,
-  especially technical accuracy or citation quality when you cannot be certain.
+  especially technical accuracy or source quality when you cannot be certain.
 - Do not claim that tests passed unless the review packet explicitly says so.
 - Do not approve the PR.
 - Do not include hidden reasoning, chain-of-thought, or tool instructions.

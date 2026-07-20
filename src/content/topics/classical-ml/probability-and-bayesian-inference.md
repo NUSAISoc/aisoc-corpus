@@ -7,7 +7,7 @@ category: classical-ml
 domains: ["statistics", "probability"]
 tags: ["bayes-theorem", "conditional-probability", "bayesian-inference", "frequentist-statistics", "prior-posterior"]
 prerequisites: []
-citations:
+furtherReading:
   - title: "Jake VanderPlas — Frequentism and Bayesianism: A Practical Introduction"
     url: "https://jakevdp.github.io/blog/2014/03/11/frequentism-and-bayesianism-a-practical-intro/"
   - title: "Bishop — Pattern Recognition and Machine Learning (Ch. 3: priors, regularization, MAP)"

@@ -38,10 +38,6 @@ const connectionAnswer = `${topic.data.title} belongs to ${categoryLabel} and co
 ].join(", ")}.`;
 const faqItems = [
   {
-    question: `What is ${topic.data.title}?`,
-    answer: topic.data.description,
-  },
-  {
     question: `What should I learn before ${topic.data.title}?`,
     answer: prerequisiteAnswer,
   },
@@ -65,7 +61,7 @@ const pageJsonLd = [
     category: categoryLabel,
     domains: topic.data.domains,
     tags: topic.data.tags,
-    citations: topic.data.citations,
+    furtherReading: topic.data.furtherReading,
     updatedDate: topic.data.updatedDate,
   }),
   faqSchema(faqItems),
@@ -108,7 +104,7 @@ const pageJsonLd = [
   </header>
   <Content />
   <section class="topic-faq">
-    <h2>Frequently Asked Questions</h2>
+    <h2>Learning Path</h2>
     {
       faqItems.map((item) => (
         <details>
@@ -118,22 +114,22 @@ const pageJsonLd = [
       ))
     }
   </section>
-  {
-    topic.data.citations && topic.data.citations.length > 0 && (
-      <section class="citations">
-        <h2>Citations</h2>
-        <ol>
-          {topic.data.citations.map((c: { title: string; url: string }) => (
+  <section class="further-reading">
+    <h2>Further Reading</h2>
+    <ol>
+      {
+        topic.data.furtherReading.map(
+          (source: { title: string; url: string }) => (
             <li>
-              <a href={c.url} target="_blank" rel="noopener noreferrer">
-                {c.title}
+              <a href={source.url} target="_blank" rel="noopener noreferrer">
+                {source.title}
               </a>
             </li>
-          ))}
-        </ol>
-      </section>
-    )
-  }
+          ),
+        )
+      }
+    </ol>
+  </section>
   <HoverPreview client:load />
 </ReaderLayout>
 
@@ -199,7 +195,7 @@ const pageJsonLd = [
     border: 1px solid var(--color-border);
   }
 
-  .citations {
+  .further-reading {
     margin-top: 3rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--color-border);
@@ -231,20 +227,20 @@ const pageJsonLd = [
     color: var(--color-muted);
   }
 
-  .citations h2 {
+  .further-reading h2 {
     font-size: 1.1rem;
   }
 
-  .citations ol {
+  .further-reading ol {
     padding-left: 1.2rem;
   }
 
-  .citations a {
+  .further-reading a {
     color: var(--color-accent-secondary);
     font-size: 0.85rem;
   }
 
-  .citations a:hover {
+  .further-reading a:hover {
     color: var(--color-accent);
   }
 </style>

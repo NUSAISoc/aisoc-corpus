@@ -16,7 +16,7 @@ tags:
     "optimisation",
   ]
 prerequisites: ["neural-networks", "transformers", "gradient-descent"]
-citations:
+furtherReading:
   - title: "LoRA: Low-Rank Adaptation of Large Language Models — Hu et al. (2021)"
     url: "https://arxiv.org/abs/2106.09685"
   - title: "QLoRA: Efficient Finetuning of Quantized LLMs — Dettmers et al. (2023)"

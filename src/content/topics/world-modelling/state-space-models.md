@@ -7,7 +7,7 @@ category: world-modelling
 domains: [deep-learning, sequence-modelling, representation-learning]
 tags: [state-space-models, world-models, sequence-modelling, mamba]
 prerequisites: [world-models]
-citations:
+furtherReading:
   - title: Combining Recurrent, Convolutional, and Continuous-Time Models with Linear State-Space Layers
     url: https://arxiv.org/abs/2110.13985
   - title: HiPPO - Recurrent Memory with Optimal Polynomial Projections

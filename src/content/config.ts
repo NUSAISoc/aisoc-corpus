@@ -21,10 +21,9 @@ const topics = defineCollection({
     domains: z.array(z.string()),
     tags: z.array(z.string()),
     prerequisites: z.array(z.string()).optional().default([]),
-    citations: z
+    furtherReading: z
       .array(z.object({ title: z.string(), url: z.string().url() }))
-      .optional()
-      .default([]),
+      .min(1, "Add at least one Further Reading source"),
   }),
 });
 

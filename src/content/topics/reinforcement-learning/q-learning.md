@@ -8,7 +8,7 @@ category: reinforcement-learning
 domains: ["reinforcement-learning", "control"]
 tags: ["bellman-equation", "temporal-difference", "exploration", "optimisation"]
 prerequisites: ["gradient-descent"]
-citations:
+furtherReading:
   - title: "Reinforcement Learning: An Introduction – Sutton & Barto"
     url: "http://incompleteideas.net/book/the-book-2nd.html"
 ---

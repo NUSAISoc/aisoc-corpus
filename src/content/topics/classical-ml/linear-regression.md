@@ -8,7 +8,7 @@ category: classical-ml
 domains: ["supervised-learning", "regression"]
 tags: ["linear-algebra", "optimisation", "statistics", "least-squares"]
 prerequisites: []
-citations:
+furtherReading:
   - title: "An Introduction to Statistical Learning"
     url: "https://www.statlearning.com/"
 ---

@@ -7,7 +7,7 @@ category: reinforcement-learning
 domains: ["reinforcement-learning", "policy-gradients"]
 tags: ["trust-region", "policy-optimization", "exploration-exploitation", "actor-critic", "clipped-surrogate"]
 prerequisites: ["policy-gradients", "gradient-descent", "q-learning"]
-citations:
+furtherReading:
   - title: Trust Region Policy Optimization
     url: https://arxiv.org/pdf/1502.05477
   - title: Proximal Policy Optimization Algorithms

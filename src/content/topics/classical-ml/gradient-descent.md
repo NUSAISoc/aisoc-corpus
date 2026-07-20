@@ -8,7 +8,7 @@ category: classical-ml
 domains: ["optimisation", "calculus"]
 tags: ["optimisation", "calculus", "learning-rate", "convergence"]
 prerequisites: ["linear-regression"]
-citations:
+furtherReading:
   - title: "Convex Optimization – Boyd & Vandenberghe"
     url: "https://web.stanford.edu/~boyd/cvxbook/"
 ---

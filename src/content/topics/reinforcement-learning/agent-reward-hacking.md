@@ -17,7 +17,7 @@ tags:
     "llm-as-judge",
   ]
 prerequisites: ["q-learning", "neural-networks", "transformers"]
-citations:
+furtherReading:
   - title: "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena — Zheng et al. (2023)"
     url: "https://arxiv.org/abs/2306.05685"
   - title: "MMLU-Pro: A More Robust and Challenging Multi-Task Language Understanding Benchmark — Wang et al. (2024)"

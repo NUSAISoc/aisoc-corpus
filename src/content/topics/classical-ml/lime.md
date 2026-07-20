@@ -14,7 +14,7 @@ tags:
     "feature-importance",
   ]
 prerequisites: ["linear-regression"]
-citations:
+furtherReading:
   - title: "Why Should I Trust You? Explaining the Predictions of Any Classifier — Ribeiro, Singh, Guestrin (2016)"
     url: "https://arxiv.org/abs/1602.04938"
 ---

@@ -33,7 +33,7 @@ describe("seo helpers", () => {
       category: "Classical ML",
       domains: ["supervised-learning"],
       tags: ["least-squares"],
-      citations: [{ title: "ISLR", url: "https://www.statlearning.com/" }],
+      furtherReading: [{ title: "ISLR", url: "https://www.statlearning.com/" }],
       updatedDate: "2026-06-24",
     });
 
