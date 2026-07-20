@@ -14,7 +14,7 @@ tags:
     "sequence-modelling",
   ]
 prerequisites: ["neural-networks"]
-citations:
+furtherReading:
   - title: "Attention Is All You Need – Vaswani et al."
     url: "https://arxiv.org/abs/1706.03762"
 ---

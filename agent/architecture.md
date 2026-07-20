@@ -2,12 +2,12 @@
 
 ## Bounded Contexts
 
-| Context | Owns | Does Not Own | Public Entry Point |
-| --- | --- | --- | --- |
-| **Content Collection** | Markdown/MDX topic files, frontmatter schemas (Zod validation), Remark/Rehype plugins, KaTeX equations, link resolution. | Graph rendering, UI templates, style sheets. | `src/content/config.ts` |
-| **Graph Visualization Engine** | Relationship calculation (prerequisites, Jaccard kNN similarity), precomputed graph JSON, React interactive D3 force-directed SVG graph. | Markdown formatting, KaTeX equations, page layouts. | `src/components/KnowledgeGraph.tsx` |
-| **Navigation & Reader Shell** | Global layout, brand theme, navigation menus, sidebar, single-page routing, backlinks index, HoverPreviews. | Content validation, similarity algorithms. | `src/layouts/ReaderLayout.astro` |
-| **Verification & CI** | Pull Request checks, LaTeX compile syntax checkers, link and citation validators, reviewer checklists, local automated topic PR review. | Runtime pages, styles. | `scripts/validate-content.sh`, `scripts/review-topic-pr.sh` |
+| Context                        | Owns                                                                                                                                           | Does Not Own                                        | Public Entry Point                                          |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------------- |
+| **Content Collection**         | Markdown/MDX topic files, frontmatter schemas (Zod validation), Remark/Rehype plugins, KaTeX equations, link resolution.                       | Graph rendering, UI templates, style sheets.        | `src/content/config.ts`                                     |
+| **Graph Visualization Engine** | Relationship calculation (prerequisites, Jaccard kNN similarity), precomputed graph JSON, React interactive D3 force-directed SVG graph.       | Markdown formatting, KaTeX equations, page layouts. | `src/components/KnowledgeGraph.tsx`                         |
+| **Navigation & Reader Shell**  | Global layout, brand theme, navigation menus, sidebar, single-page routing, backlinks index, HoverPreviews.                                    | Content validation, similarity algorithms.          | `src/layouts/ReaderLayout.astro`                            |
+| **Verification & CI**          | Pull Request checks, LaTeX compile syntax checkers, link and Further Reading validators, reviewer checklists, local automated topic PR review. | Runtime pages, styles.                              | `scripts/validate-content.sh`, `scripts/review-topic-pr.sh` |
 
 ## Boundary Rules
 

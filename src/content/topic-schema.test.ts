@@ -9,6 +9,12 @@ const validTopic = {
   category: "classical-ml",
   domains: ["optimisation"],
   tags: ["learning-rate"],
+  furtherReading: [
+    {
+      title: "Convex Optimization",
+      url: "https://web.stanford.edu/~boyd/cvxbook/",
+    },
+  ],
 };
 
 describe("topic frontmatter schema", () => {
@@ -33,5 +39,14 @@ describe("topic frontmatter schema", () => {
     },
   ])("rejects invalid or legacy author metadata", (topic) => {
     expect(topicFrontmatterSchema.safeParse(topic).success).toBe(false);
+  });
+
+  it("requires at least one Further Reading source URL", () => {
+    expect(
+      topicFrontmatterSchema.safeParse({
+        ...validTopic,
+        furtherReading: [],
+      }).success,
+    ).toBe(false);
   });
 });

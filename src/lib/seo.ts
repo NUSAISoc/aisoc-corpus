@@ -21,7 +21,7 @@ export interface TopicSeoInput {
   readonly category: string;
   readonly domains: readonly string[];
   readonly tags: readonly string[];
-  readonly citations: readonly { title: string; url: string }[];
+  readonly furtherReading: readonly { title: string; url: string }[];
   readonly updatedDate?: string;
 }
 
@@ -106,7 +106,7 @@ export const topicSchema = (topic: TopicSeoInput) => ({
   },
   educationalLevel: topic.difficulty,
   about: [...topic.domains, ...topic.tags, topic.category],
-  citation: topic.citations.map((citation) => citation.url),
+  citation: topic.furtherReading.map((source) => source.url),
   dateModified: topic.updatedDate,
   inLanguage: "en",
 });
