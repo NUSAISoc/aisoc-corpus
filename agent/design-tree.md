@@ -6,11 +6,12 @@ An interconnected learning ecosystem that leverages Astro's performance for cont
 
 ## Open Decisions
 
-| Decision | Options | Current Lean | Why |
-| --- | --- | --- | --- |
-| Dynamic Relation Engine | A) Pre-defined Hierarchy<br>B) Build-time Jaccard Tag Similarity<br>C) Vector embeddings (kNN) | B) Jaccard Similarity (shared tags & domains) + Directed Prerequisite Edges | Highly scalable, fully automated, operates entirely at build time, and perfectly captures ML relationships without heavy runtime overhead. |
-| Graph Visualization Tool | A) Custom SVG + D3-force React<br>B) `react-force-graph` canvas<br>C) Vis.js / Sigma.js | A) Custom SVG + D3-force React | Lightweight, highly styleable using standard Tailwind/CSS matching main site, responsive, and easy to keep performant. |
-| Wiki-Link Syntax Parser | A) `remark-wiki-link` package<br>B) Custom RegExp Remark/Rehype plugin | B) Custom RegExp Remark/Rehype plugin | Allows direct mapping to Astro content collection paths and automatic generation of HoverPreview metadata and Backlinks list. |
+| Decision                 | Options                                                                                        | Current Lean                                                                | Why                                                                                                                                        |
+| ------------------------ | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Dynamic Relation Engine  | A) Pre-defined Hierarchy<br>B) Build-time Jaccard Tag Similarity<br>C) Vector embeddings (kNN) | B) Jaccard Similarity (shared tags & domains) + Directed Prerequisite Edges | Highly scalable, fully automated, operates entirely at build time, and perfectly captures ML relationships without heavy runtime overhead. |
+| Graph Visualization Tool | A) Custom SVG + D3-force React<br>B) `react-force-graph` canvas<br>C) Vis.js / Sigma.js        | A) Custom SVG + D3-force React                                              | Lightweight, highly styleable using standard Tailwind/CSS matching main site, responsive, and easy to keep performant.                     |
+| Wiki-Link Syntax Parser  | A) `remark-wiki-link` package<br>B) Custom RegExp Remark/Rehype plugin                         | B) Custom RegExp Remark/Rehype plugin                                       | Allows direct mapping to Astro content collection paths and automatic generation of HoverPreview metadata and Backlinks list.              |
+| Topic Footnotes          | A) Stock GFM footnotes<br>B) Local remark transform plus page-level rendering                  | B) Local remark transform plus page-level rendering                         | Keeps contributor syntax familiar while placing the Footnotes section below Further Reading without changing the reader architecture.      |
 
 ## Settled Decisions
 

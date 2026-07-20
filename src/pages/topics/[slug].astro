@@ -6,6 +6,7 @@ import backlinksData from "../../lib/backlinks.json";
 import { CATEGORY_LABELS } from "../../lib/categories";
 import { breadcrumbSchema, faqSchema, topicSchema } from "../../lib/seo";
 import { topicSlugFromId } from "../../lib/topic-slugs";
+import { parseFootnoteDefinitions } from "../../lib/remark-footnotes.mjs";
 
 interface Props {
   topic: CollectionEntry<"topics">;
@@ -21,6 +22,7 @@ export async function getStaticPaths() {
 
 const { topic } = Astro.props as Props;
 const { Content, headings } = await render(topic);
+const footnotes = parseFootnoteDefinitions(topic.body);
 const slug = topicSlugFromId(topic.id);
 const canonicalPath = `/topics/${slug}/`;
 const categoryLabel = CATEGORY_LABELS[topic.data.category];
@@ -136,6 +138,33 @@ const pageJsonLd = [
       }
     </ol>
   </section>
+  {
+    footnotes.length > 0 && (
+      <section class="topic-footnotes">
+        <h2>Footnotes</h2>
+        <ol>
+          {footnotes.map(
+            (footnote: {
+              content: string;
+              id: string;
+              referenceId: string;
+            }) => (
+              <li id={footnote.id}>
+                <span>{footnote.content}</span>{" "}
+                <a
+                  class="footnote-backlink"
+                  href={`#${footnote.referenceId}`}
+                  aria-label="Back to footnote reference"
+                >
+                  Back
+                </a>
+              </li>
+            ),
+          )}
+        </ol>
+      </section>
+    )
+  }
   <HoverPreview client:load />
 </ReaderLayout>
 
@@ -207,6 +236,12 @@ const pageJsonLd = [
     border-top: 1px solid var(--color-border);
   }
 
+  .topic-footnotes {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
   .topic-faq {
     margin-top: 3rem;
     padding-top: 1.5rem;
@@ -237,8 +272,22 @@ const pageJsonLd = [
     font-size: 1.1rem;
   }
 
+  .topic-footnotes h2 {
+    font-size: 1.1rem;
+  }
+
   .further-reading ol {
     padding-left: 1.2rem;
+  }
+
+  .topic-footnotes ol {
+    padding-left: 1.2rem;
+  }
+
+  .topic-footnotes li {
+    color: var(--color-muted-strong);
+    font-size: 0.82rem;
+    margin-bottom: 0.65rem;
   }
 
   .further-reading a {
@@ -246,7 +295,28 @@ const pageJsonLd = [
     font-size: 0.85rem;
   }
 
-  .further-reading a:hover {
+  .reader-content :global(.footnote-reference) {
+    font-size: 0.72em;
+    line-height: 0;
+    margin-left: 0.08rem;
+    vertical-align: super;
+  }
+
+  .reader-content :global(.footnote-reference a),
+  .topic-footnotes a {
+    color: var(--color-accent-secondary);
+  }
+
+  .further-reading a:hover,
+  .reader-content :global(.footnote-reference a:hover),
+  .topic-footnotes a:hover {
     color: var(--color-accent);
+  }
+
+  .footnote-backlink {
+    font-size: 0.72rem;
+    margin-left: 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
   }
 </style>
