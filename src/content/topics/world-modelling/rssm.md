@@ -7,7 +7,7 @@ category: world-modelling
 domains: [reinforcement-learning, model-based-rl, representation-learning, latent-dynamics]
 tags: [rssm, world-models, dreamer, latent-imagination, variational-inference, redundancy-reduction]
 prerequisites: [world-models, vae, neural-networks]
-citations:
+furtherReading:
   - title: Learning Latent Dynamics for Planning from Pixels
     url: https://proceedings.mlr.press/v97/hafner19a.html
   - title: "Dream to Control: Learning Behaviors by Latent Imagination"

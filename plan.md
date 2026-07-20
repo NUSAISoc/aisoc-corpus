@@ -28,7 +28,7 @@ Please follow this detailed, step-by-step implementation guide to build the appl
   - **No Front-End Contribution Feature**: To ensure high academic quality, there are no "Create a Card" or edit forms on the front-end. All contributions are backend-only, driven by markdown files in Git pull requests.
   - **Contribution Guide**: There should be a contribution guide page that has a witty quote on why collective knowledge is important. Then it should lead people to the contribution guide on GitHub to get further details.
   - **Footer**: The exact base footer layout from `https://nusaisociety.org/` is used, fully implemented in `/src/components/Footer.astro` and styled in `/src/styles/global.css`.
-  - **Reader View**: Double-pane view with Sidebar Outline (left) supporting ScrollSpy outline tracking read progress, Center Panel displaying beautifully parsed markdown content, KaTeX equations, and citations, and Right Panel showing backlinks and a mini-graph float index.
+- **Reader View**: Double-pane view with Sidebar Outline (left) supporting ScrollSpy outline tracking read progress, Center Panel displaying beautifully parsed markdown content, KaTeX equations, and references, and Right Panel showing backlinks and a mini-graph float index.
   - **Development**: Create all the pages but populate them with sample content of what might be there. This is placeholder text so that I can verify that the content render correctly. However, it should be easy to delete unecessary pages and change the contents of the pages in line with the contribution system.
 
 ---
@@ -59,13 +59,13 @@ Instead of a standard flat hierarchy, construct a relation network:
   domains: z.array(z.string()),
   tags: z.array(z.string()),
   prerequisites: z.array(z.string()).optional(),
-  citations: z.array(z.object({ title: z.string(), url: z.string().url() })).optional(),
+  furtherReading: z.array(z.object({ title: z.string(), url: z.string().url() })).min(1, "Add at least one Further Reading source"),
   ```
 - Write a PR validation script (`scripts/validate-content.sh`) to perform build-time static checks:
   1. Frontmatter Zod schema validation.
   2. KaTeX equation parsing check.
   3. Internal `[[WikiLink]]` broken link validation.
-  4. Mandatory image citations validator.
+  4. Mandatory Further Reading validator.
 - Create a GitHub Actions workflow to run this script on every Pull Request.
 
 ---
@@ -94,7 +94,7 @@ Instead of a standard flat hierarchy, construct a relation network:
 2. Build the `HoverPreview.tsx` component that retrieves precomputed topic cards asynchronously, rendering a preview popover when mouse-hovering a WikiLink.
 
 ### Slice 5: Linter Scripts & Automated PR Verification (Completed ✅)
-1. Create `scripts/validate-content.sh` implementing frontmatter schema checks, LaTeX math safety scans, broken internal links checker, and image citation validation.
+1. Create `scripts/validate-content.sh` implementing frontmatter schema checks, LaTeX math safety scans, broken internal links checker, and Further Reading validation.
 2. Draft a complete `CONTRIBUTING.md` guide that includes step-by-step instructions on writing markdown, formatting LaTeX formulas, local editor setups (Obsidian/VS Code + Foam), and a Reviewer Checklist for PR maintainers.
 3. Setup the GitHub Actions workflow at `.github/workflows/verify-pr.yml` executing the validation script. 
 4. Create a `README.md` file that goes in detail to the contribution process and where reviewers can obtain their checklist/where they can use their checklist.

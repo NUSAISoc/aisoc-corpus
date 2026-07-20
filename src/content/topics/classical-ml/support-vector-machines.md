@@ -9,7 +9,7 @@ domains: ["supervised-learning", "classification"]
 tags:
   ["kernel-methods", "optimisation", "margin", "classification", "statistics"]
 prerequisites: ["linear-regression"]
-citations:
+furtherReading:
   - title: "A Tutorial on Support Vector Machines – Burges"
     url: "https://www.microsoft.com/en-us/research/publication/a-tutorial-on-support-vector-machines-for-pattern-recognition/"
 ---
