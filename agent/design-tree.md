@@ -6,22 +6,23 @@ An interconnected learning ecosystem that leverages Astro's performance for cont
 
 ## Open Decisions
 
-| Decision | Options | Current Lean | Why |
-| --- | --- | --- | --- |
-| Dynamic Relation Engine | A) Pre-defined Hierarchy<br>B) Build-time Jaccard Tag Similarity<br>C) Vector embeddings (kNN) | B) Jaccard Similarity (shared tags & domains) + Directed Prerequisite Edges | Highly scalable, fully automated, operates entirely at build time, and perfectly captures ML relationships without heavy runtime overhead. |
-| Graph Visualization Tool | A) Custom SVG + D3-force React<br>B) `react-force-graph` canvas<br>C) Vis.js / Sigma.js | A) Custom SVG + D3-force React | Lightweight, highly styleable using standard Tailwind/CSS matching main site, responsive, and easy to keep performant. |
-| Wiki-Link Syntax Parser | A) `remark-wiki-link` package<br>B) Custom RegExp Remark/Rehype plugin | B) Custom RegExp Remark/Rehype plugin | Allows direct mapping to Astro content collection paths and automatic generation of HoverPreview metadata and Backlinks list. |
+| Decision                 | Options                                                                                        | Current Lean                                                                | Why                                                                                                                                        |
+| ------------------------ | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Dynamic Relation Engine  | A) Pre-defined Hierarchy<br>B) Build-time Jaccard Tag Similarity<br>C) Vector embeddings (kNN) | B) Jaccard Similarity (shared tags & domains) + Directed Prerequisite Edges | Highly scalable, fully automated, operates entirely at build time, and perfectly captures ML relationships without heavy runtime overhead. |
+| Graph Visualization Tool | A) Custom SVG + D3-force React<br>B) `react-force-graph` canvas<br>C) Vis.js / Sigma.js        | A) Custom SVG + D3-force React                                              | Lightweight, highly styleable using standard Tailwind/CSS matching main site, responsive, and easy to keep performant.                     |
+| Wiki-Link Syntax Parser  | A) `remark-wiki-link` package<br>B) Custom RegExp Remark/Rehype plugin                         | B) Custom RegExp Remark/Rehype plugin                                       | Allows direct mapping to Astro content collection paths and automatic generation of HoverPreview metadata and Backlinks list.              |
+| Topic Footnotes          | A) Stock GFM footnotes<br>B) Local remark transform plus page-level rendering                  | B) Local remark transform plus page-level rendering                         | Keeps contributor syntax familiar while placing the Footnotes section below Further Reading without changing the reader architecture.      |
 
 ## Settled Decisions
 
-| Decision | Choice | Date | ADR |
-| --- | --- | --- | --- |
-| Core Framework | Astro + React | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
-| Hosting Platform | Cloudflare Pages | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
-| Styling Source | Direct extraction from cloned `NUSAISoc/aisoc-website` | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
-| PR Verification CI | GitHub Actions running custom markdown lint, LaTeX compile validation, and link-check | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
-| Local Topic PR Auto-Review | Maintainer-run GitHub CLI workflow invokes a selected local coding agent and posts an advisory sticky PR comment | 2026-06-24 | — |
-| Sharp Corners      | All `border-radius` must be `0`. No rounded edges anywhere on the site.               | 2026-06-04 | —                                                                                       |
+| Decision                   | Choice                                                                                                           | Date       | ADR                                                                                     |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------- |
+| Core Framework             | Astro + React                                                                                                    | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
+| Hosting Platform           | Cloudflare Pages                                                                                                 | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
+| Styling Source             | Direct extraction from cloned `NUSAISoc/aisoc-website`                                                           | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
+| PR Verification CI         | GitHub Actions running custom markdown lint, LaTeX compile validation, and link-check                            | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
+| Local Topic PR Auto-Review | Maintainer-run GitHub CLI workflow invokes a selected local coding agent and posts an advisory sticky PR comment | 2026-06-24 | —                                                                                       |
+| Sharp Corners              | All `border-radius` must be `0`. No rounded edges anywhere on the site.                                          | 2026-06-04 | —                                                                                       |
 
 ## Pressure Points
 

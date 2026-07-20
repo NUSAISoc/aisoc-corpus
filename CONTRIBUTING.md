@@ -81,6 +81,19 @@ The clipped surrogate objective was introduced in [Proximal Policy Optimization]
 Do not use footnotes for ordinary source references. Use footnotes only if a
 future page genuinely needs a side note that would interrupt the main text.
 
+For those side notes, write footnotes with standard Markdown-style labels:
+
+```markdown
+Gradient clipping is often used to avoid unstable updates.[^clipping-note]
+
+[^clipping-note]: This is extra context for readers who want the nuance without interrupting the main explanation.
+```
+
+The inline reference renders as a clickable superscript number in square
+brackets, such as `[1]`. Footnotes are collected into a **Footnotes** section
+below **Further Reading**. The section appears only when the topic contains at
+least one footnote definition.
+
 The `furtherReading` frontmatter field is not a substitute for claim-level
 source links. It is the curated end-of-page list for readers who want to go
 deeper after finishing the topic.
