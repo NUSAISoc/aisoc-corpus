@@ -1,13 +1,13 @@
 ---
 title: World Models
 description: Learned environment models that let agents predict, plan, and learn from imagined futures.
-author: N00bcak
+authors: ["N00bcak"]
 difficulty: intermediate
 category: world-modelling
 domains: ["reinforcement-learning", "model-based-rl", "representation-learning"]
 tags: ["latent-dynamics", "planning", "imagination", "model-bias"]
 prerequisites: ["neural-networks", "q-learning"]
-citations:
+furtherReading:
   - title: "World Models"
     url: "https://arxiv.org/abs/1803.10122"
   - title: "Learning Latent Dynamics for Planning from Pixels"

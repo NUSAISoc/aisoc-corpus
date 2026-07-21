@@ -6,4 +6,9 @@ dist/
 coverage/
 test-results/
 playwright-report/
+.playwright-mcp/
 agent/session-state.md
+CLAUDE.md
+.obsidian
+src/lib/backlinks.json
+src/lib/graph-data.json

@@ -16,12 +16,12 @@ export interface TopicSeoInput {
   readonly title: string;
   readonly description: string;
   readonly path: string;
-  readonly author: string;
+  readonly authors: readonly string[];
   readonly difficulty: string;
   readonly category: string;
   readonly domains: readonly string[];
   readonly tags: readonly string[];
-  readonly citations: readonly { title: string; url: string }[];
+  readonly furtherReading: readonly { title: string; url: string }[];
   readonly updatedDate?: string;
 }
 
@@ -94,11 +94,11 @@ export const topicSchema = (topic: TopicSeoInput) => ({
   headline: topic.title,
   description: topic.description,
   url: canonicalUrl(topic.path),
-  author: {
+  author: topic.authors.map((author) => ({
     "@type": "Person",
-    name: topic.author,
-    url: `https://github.com/${topic.author}`,
-  },
+    name: author,
+    url: `https://github.com/${author}`,
+  })),
   publisher: {
     "@type": "EducationalOrganization",
     name: ORGANIZATION_NAME,
@@ -106,7 +106,7 @@ export const topicSchema = (topic: TopicSeoInput) => ({
   },
   educationalLevel: topic.difficulty,
   about: [...topic.domains, ...topic.tags, topic.category],
-  citation: topic.citations.map((citation) => citation.url),
+  citation: topic.furtherReading.map((source) => source.url),
   dateModified: topic.updatedDate,
   inLanguage: "en",
 });

@@ -2,16 +2,16 @@
 
 ## Command Matrix
 
-| Check | Command | Status | Notes |
-| --- | --- | --- | --- |
-| Markdown sanity | `./scripts/check-md.sh` | available | Unclosed fences and tabs |
-| Test manifest immutability check | `./scripts/check-tests-unchanged.sh` | available | Detects changes in configured test scope from `agent/test-manifest.conf` |
-| Aggregate deterministic gate | `./scripts/check.sh` | available | Runs all deterministic checks |
-| Frontmatter & LaTeX validation | `./scripts/validate-content.sh` | planned | Validates Markdown schemas (Zod), LaTeX syntax, and image citations |
-| Code Format & Lint | `npm run lint` / `npm run format` | planned | Prettier and ESLint for Astro/React source files |
-| Typecheck | `npm run typecheck` | planned | TypeScript verification of Astro and React interfaces |
-| Unit tests (Vitest) | `npm run test` | planned | Test runner (Vitest) for similarity calculators and backlink resolvers |
-| E2E / Browser validation | `npx playwright test` | planned | Playwright E2E checks for interactive graph navigation, hover previews, and KaTeX rendering |
+| Check                            | Command                              | Status    | Notes                                                                                       |
+| -------------------------------- | ------------------------------------ | --------- | ------------------------------------------------------------------------------------------- |
+| Markdown sanity                  | `./scripts/check-md.sh`              | available | Unclosed fences and tabs                                                                    |
+| Test manifest immutability check | `./scripts/check-tests-unchanged.sh` | available | Detects changes in configured test scope from `agent/test-manifest.conf`                    |
+| Aggregate deterministic gate     | `./scripts/check.sh`                 | available | Runs all deterministic checks                                                               |
+| Frontmatter & LaTeX validation   | `./scripts/validate-content.sh`      | planned   | Validates Markdown schemas (Zod), LaTeX syntax, and Further Reading source URLs             |
+| Code Format & Lint               | `npm run lint` / `npm run format`    | planned   | Prettier and ESLint for Astro/React source files                                            |
+| Typecheck                        | `npm run typecheck`                  | planned   | TypeScript verification of Astro and React interfaces                                       |
+| Unit tests (Vitest)              | `npm run test`                       | planned   | Test runner (Vitest) for similarity calculators and backlink resolvers                      |
+| E2E / Browser validation         | `npx playwright test`                | planned   | Playwright E2E checks for interactive graph navigation, hover previews, and KaTeX rendering |
 
 ## Default Loop
 

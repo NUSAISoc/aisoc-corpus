@@ -65,6 +65,7 @@ If the user explicity requests the use of sub-agents, spin up the following sub-
 
 ## Supporting Skill Escalation
 
+- Use `auditing-topic-sources` when finding sources or checking claim support, provenance, reproducibility, publication status, lawful access, corrections, or retractions for a Corpus Topic.
 - Use `grill-me` for structured critique before risky, ambiguous, cross-context, or security-sensitive work.
 - Use `interview-me` only when `grill-me` leaves an unresolved decision that depends on user judgment and cannot be answered from repository exploration.
 - Use `frontend-design` for distinctive, intentional visual design when building new UI or reshaping an existing one.

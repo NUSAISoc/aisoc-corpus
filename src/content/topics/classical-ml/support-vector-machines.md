@@ -1,7 +1,7 @@
 ---
 title: Support Vector Machines
 description: Maximum-margin classifiers using kernel methods for non-linear decision boundaries.
-author: Praneeth-Suresh
+authors: ["Praneeth-Suresh"]
 updatedDate: "2026-06-24"
 difficulty: intermediate
 category: classical-ml
@@ -9,7 +9,7 @@ domains: ["supervised-learning", "classification"]
 tags:
   ["kernel-methods", "optimisation", "margin", "classification", "statistics"]
 prerequisites: ["linear-regression"]
-citations:
+furtherReading:
   - title: "A Tutorial on Support Vector Machines – Burges"
     url: "https://www.microsoft.com/en-us/research/publication/a-tutorial-on-support-vector-machines-for-pattern-recognition/"
 ---

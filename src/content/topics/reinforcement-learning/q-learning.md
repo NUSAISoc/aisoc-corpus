@@ -1,14 +1,14 @@
 ---
 title: Q-Learning
 description: Model-free reinforcement learning algorithm that learns optimal action-value functions.
-author: Praneeth-Suresh
+authors: ["Praneeth-Suresh"]
 updatedDate: "2026-06-24"
 difficulty: intermediate
 category: reinforcement-learning
 domains: ["reinforcement-learning", "control"]
 tags: ["bellman-equation", "temporal-difference", "exploration", "optimisation"]
 prerequisites: ["gradient-descent"]
-citations:
+furtherReading:
   - title: "Reinforcement Learning: An Introduction – Sutton & Barto"
     url: "http://incompleteideas.net/book/the-book-2nd.html"
 ---

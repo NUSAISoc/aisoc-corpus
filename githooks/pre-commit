@@ -8,4 +8,4 @@ if [[ -z "${ROOT_DIR}" ]]; then
 fi
 
 "${ROOT_DIR}/scripts/check.sh"
-
+"${ROOT_DIR}/scripts/validate-content.sh"

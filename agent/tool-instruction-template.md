@@ -1,5 +1,13 @@
 # Agent Operating Instructions
 
+## Commit Policy
+
+Do not create commits. Do not add co-author attribution to any output.
+
+## Style Rules
+
+Do not use em dashes in any written output.
+
 This tool-specific instruction file is a generated shim. Do not edit this copy manually. Update `agent/tool-instruction-template.md` and rerun `agent/scripts/sync-agent-env.sh`.
 
 You are working in this repository as an implementation agent. Treat repository files as the source of truth. Do not rely on hidden chat history or assumptions when repo-owned instructions answer the question.
@@ -41,6 +49,7 @@ Task workflows:
 
 Supporting skills:
 
+- `auditing-topic-sources`: claim-to-source verification covering provenance, reproducibility, publication status, and lawful access.
 - `grill-me`: non-trivial feature, architecture change, cross-context change, ambiguous bug fix.
 - `interview-me`: one-question-at-a-time user interview when `grill-me` leaves unresolved user-judgment decisions.
 - `testing-vertical-slices`: feature/bug behavior implementation.

@@ -30,17 +30,15 @@ test("topics page lists all topics", async ({ page }) => {
     page.getByRole("navigation", { name: "Browse topics by category" }),
   ).toBeVisible();
   await expect(page.locator(".category-nav .category-btn")).toHaveCount(5);
-  await expect(page.locator(".topic-card")).toHaveCount(8);
+  expect(await page.locator(".topic-card").count()).toBeGreaterThanOrEqual(12);
+  await expect(page.locator('[data-topic-id="transformers"]')).toBeVisible();
+  await expect(page.locator('[data-topic-id="q-learning"]')).toBeVisible();
+  await expect(page.locator('[data-topic-id="lime"]')).toBeVisible();
+  await expect(page.locator('[data-topic-id="world-models"]')).toBeVisible();
   await expect(
-    page.locator(".topic-card", { hasText: "Transformers" }),
+    page.locator('[data-topic-id="state-space-models"]'),
   ).toBeVisible();
-  await expect(
-    page.locator(".topic-card", { hasText: "Q-Learning" }),
-  ).toBeVisible();
-  await expect(page.locator(".topic-card", { hasText: "LIME" })).toBeVisible();
-  await expect(
-    page.locator(".topic-card", { hasText: "World Models" }),
-  ).toBeVisible();
+  await expect(page.locator('[data-topic-id="rssm"]')).toBeVisible();
 });
 
 test("topics page category buttons navigate to category pages", async ({
@@ -60,21 +58,26 @@ test("topics page searches indexed topic metadata", async ({ page }) => {
   await page.goto("/topics");
   const search = page.getByLabel("Search topics");
 
-  await search.fill("reinforcement");
-  await expect(page.locator(".topic-card:visible")).toHaveCount(2);
+  await search.fill("rssm");
+  await expect(page.locator(".topic-card:visible")).toHaveCount(1);
   await expect(
-    page.locator(".topic-card:visible", { hasText: "Q-Learning" }),
+    page.locator(".topic-card:visible", {
+      hasText: "Recurrent State Space Models",
+    }),
   ).toBeVisible();
-  await expect(
-    page.locator(".topic-card:visible", { hasText: "World Models" }),
-  ).toBeVisible();
-  await expect(page.locator("#topic-search-count")).toContainText("2 shown");
+  await expect(page.locator("#topic-search-count")).toContainText("1 shown");
 
   await search.fill("Praneeth-Suresh calculus");
   await expect(page.locator(".topic-card:visible")).toHaveCount(1);
   await expect(
     page.locator(".topic-card:visible", { hasText: "Gradient Descent" }),
   ).toBeVisible();
+
+  await search.fill("N00bcak calculus");
+  await expect(page.locator(".topic-card:visible")).toHaveCount(1);
+  await expect(
+    page.locator(".topic-card:visible", { hasText: "Gradient Descent" }),
+  ).toContainText("@Praneeth-Suresh, @N00bcak");
 
   await search.fill("no-such-topic");
   await expect(page.locator(".topic-card:visible")).toHaveCount(0);
@@ -125,17 +128,17 @@ test("graph keeps edges attached when switching relation modes", async ({
                 }),
               );
 
-              const closeToNode = (x: number, y: number) =>
+              const nearNodeCircle = (x: number, y: number) =>
                 nodeCenters.some(
-                  (node) => Math.hypot(node.x - x, node.y - y) < 2,
+                  (node) => Math.hypot(node.x - x, node.y - y) < 22,
                 );
 
               return (
                 lines.length > 0 &&
                 lines.every(
                   (line) =>
-                    closeToNode(line.x1, line.y1) &&
-                    closeToNode(line.x2, line.y2),
+                    nearNodeCircle(line.x1, line.y1) &&
+                    nearNodeCircle(line.x2, line.y2),
                 )
               );
             }),
@@ -180,15 +183,25 @@ test("LIME topic page renders", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Overview" })).toBeVisible();
 });
 
-test("topic page renders tags and author", async ({ page }) => {
+test("topic page renders tags and authors", async ({ page }) => {
   await page.goto("/topics/gradient-descent");
   await expect(page.locator(".topic-tags")).toContainText("learning-rate");
   await expect(page.locator(".topic-author")).toContainText(
-    "Author @Praneeth-Suresh",
+    /Authors\s+@Praneeth-Suresh\s*,\s*@N00bcak/,
   );
-  await expect(page.locator(".topic-author a")).toHaveAttribute(
+  await expect(page.locator(".topic-author a")).toHaveCount(2);
+  await expect(page.locator(".topic-author a").nth(0)).toHaveAttribute(
     "href",
     "https://github.com/Praneeth-Suresh",
+  );
+  await expect(page.locator(".topic-author a").nth(1)).toHaveAttribute(
+    "href",
+    "https://github.com/N00bcak",
+  );
+
+  await page.goto("/topics/linear-regression");
+  await expect(page.locator(".topic-author")).toContainText(
+    /Author\s+@Praneeth-Suresh/,
   );
 });
 

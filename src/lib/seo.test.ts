@@ -28,12 +28,12 @@ describe("seo helpers", () => {
       title: "Linear Regression",
       description: "Fitting a linear model to data using least squares.",
       path: "/topics/linear-regression/",
-      author: "Praneeth-Suresh",
+      authors: ["Praneeth-Suresh", "N00bcak"],
       difficulty: "beginner",
       category: "Classical ML",
       domains: ["supervised-learning"],
       tags: ["least-squares"],
-      citations: [{ title: "ISLR", url: "https://www.statlearning.com/" }],
+      furtherReading: [{ title: "ISLR", url: "https://www.statlearning.com/" }],
       updatedDate: "2026-06-24",
     });
 
@@ -41,6 +41,18 @@ describe("seo helpers", () => {
       headline: "Linear Regression",
       url: "https://aisoc-corpus.aisocietysoc.workers.dev/topics/linear-regression/",
       educationalLevel: "beginner",
+      author: [
+        {
+          "@type": "Person",
+          name: "Praneeth-Suresh",
+          url: "https://github.com/Praneeth-Suresh",
+        },
+        {
+          "@type": "Person",
+          name: "N00bcak",
+          url: "https://github.com/N00bcak",
+        },
+      ],
       citation: ["https://www.statlearning.com/"],
       dateModified: "2026-06-24",
     });

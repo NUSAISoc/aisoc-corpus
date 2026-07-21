@@ -4,8 +4,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
-    "build": "node scripts/generate-graph.mjs && astro build",
+    "generate:data": "node scripts/generate-graph.mjs && node src/lib/generate-backlinks.mjs",
+    "dev": "npm run generate:data && astro dev",
+    "build": "npm run generate:data && astro build",
     "preview": "astro preview",
     "typecheck": "astro check && tsc --noEmit",
     "lint": "prettier --check . --plugin=prettier-plugin-astro",

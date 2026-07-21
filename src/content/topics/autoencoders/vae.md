@@ -1,14 +1,14 @@
 ---
 title: Autoencoders
 description: "From deterministic autoencoders to variational and vector-quantised models, and the gradient-estimation tricks (reparameterisation, Gumbel-Softmax, REINFORCE) that make them trainable."
-author: Zak-T
+authors: ["Zak-T"]
 updatedDate: "2026-06-25"
 difficulty: intermediate
 category: deep-learning
 domains: ["unsupervised-learning", "generative-models", "representation-learning"]
 tags: ["autoencoders", "variational-inference", "vae", "vq-vae", "reparameterisation", "gumbel-softmax", "reinforce", "elbo", "kl-divergence"]
 prerequisites: ["gradient-descent"]
-citations:
+furtherReading:
   - title: "Auto-Encoding Variational Bayes (Kingma & Welling, 2013)"
     url: "https://arxiv.org/abs/1312.6114"
   - title: "Neural Discrete Representation Learning (van den Oord et al., 2017)"

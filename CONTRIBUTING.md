@@ -34,6 +34,9 @@ src/content/topics/
 
 #### Understanding Key Frontmatter Fields:
 
+- **Authors**:
+  An ordered, non-empty list of the topic's co-authors, written as GitHub usernames. Every listed person receives equal attribution.
+  - _Example_: `authors: ["first-username", "second-username"]`.
 - **What is a Slug?**
   A **slug** is the URL-friendly identifier for a topic. It is used as the filename (e.g. `<slug>.md`) and must be **strictly lowercase**, with spaces replaced by hyphens (`-`), and containing only alphanumeric characters and hyphens.
   - _Example_: For "Gradient Descent", the file must be named `gradient-descent.md` and the slug is `gradient-descent`. For "Q-Learning", it is `q-learning.md`.
@@ -46,12 +49,13 @@ src/content/topics/
 ---
 title: Your Topic Title
 description: A one-sentence summary of the concept.
+authors: ["your-github-username"]
 difficulty: beginner # beginner | intermediate | advanced
 category: classical-ml # classical-ml | deep-learning | generative | reinforcement-learning | world-modelling
 domains: ["supervised-learning", "regression"]
 tags: ["relevant", "tags", "here"]
 prerequisites: ["slug-of-prerequisite"] # optional, must match target topic file's slug
-citations:
+furtherReading:
   - title: "Paper or Book Title"
     url: "https://example.com"
 ---
@@ -62,8 +66,41 @@ Your content here...
 
 - Use standard Markdown with LaTeX via `$inline$` and `$$display$$` syntax.
 - Link to other topics using WikiLink syntax: `[[Topic Name]]` or `[[slug|Custom Label]]`.
+- Cite specific claims with a direct Markdown link embedded in the text, pointing
+  to the source that supports that claim.
 - Keep explanations concise and technically accurate.
-- Include at least one citation to a primary source!
+- Include at least one `furtherReading` entry in frontmatter. This appears as
+  the page's **Further Reading** section and should point to a primary paper,
+  textbook, official documentation page, or other high-quality source.
+
+#### Source Links & Further Reading Style
+
+The correct citation format for corpus prose is an inline direct link to the
+source, embedded where the claim appears:
+
+```markdown
+The clipped surrogate objective was introduced in [Proximal Policy Optimization](https://arxiv.org/abs/1707.06347).
+```
+
+Do not use footnotes for ordinary source references. Use footnotes only if a
+future page genuinely needs a side note that would interrupt the main text.
+
+For those side notes, write footnotes with standard Markdown-style labels:
+
+```markdown
+Gradient clipping is often used to avoid unstable updates.[^clipping-note]
+
+[^clipping-note]: This is extra context for readers who want the nuance without interrupting the main explanation.
+```
+
+The inline reference renders as a clickable superscript number in square
+brackets, such as `[1]`. Footnotes are collected into a **Footnotes** section
+below **Further Reading**. The section appears only when the topic contains at
+least one footnote definition.
+
+The `furtherReading` frontmatter field is not a substitute for claim-level
+source links. It is the curated end-of-page list for readers who want to go
+deeper after finishing the topic.
 
 #### Article Length & Subpages
 
@@ -177,7 +214,9 @@ Reviewers should verify:
 - [ ] Content is technically accurate and well-explained.
 - [ ] LaTeX renders correctly (check the preview deploy).
 - [ ] WikiLinks point to existing topics or are flagged as planned.
-- [ ] Citations include at least one primary academic source.
+- [ ] Specific technical claims use inline direct links to their sources.
+- [ ] Further Reading includes at least one primary academic source or
+      authoritative reference.
 - [ ] Writing is clear, concise, and free of AI-generated slop.
 - [ ] Difficulty level is appropriate for the content depth.
 
