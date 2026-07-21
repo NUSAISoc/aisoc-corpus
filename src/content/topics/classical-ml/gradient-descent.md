@@ -23,201 +23,147 @@ furtherReading:
 
 ## Overview
 
-Training a model usually means choosing parameters that make a **loss function** small. In [[linear-regression|Linear Regression]], for example, we choose weights and a bias to minimise the mean-squared error between predictions and labels.
+In the most general sense, training a model usually means choosing **parameters** that make a **loss function** small. In [[linear-regression|Linear Regression]], for example, we choose weights and a bias to minimise the mean-squared error between predictions and labels.
 
 There are, of course, many ways to minimise said loss, as exemplified by [[linear-regression|Linear Regression]]:
 - We could solve the normal equation with a **least-squares** method, which yields a closed-form solution, assuming the data has full column rank (i.e. there are enough data points to determine the parameters, and the features are independent).
 - We could also use **gradient descent**, which is the topic of this article.
 
-## The Idea Behind Gradient Descent
+## How do we do Gradient Descent?
 
-The most common (accurate) analogy of gradient descent is that of [hikers descending a mountain](https://en.wikipedia.org/wiki/Gradient_descent#An_analogy_for_understanding_gradient_descent), which is so heavily fogged as to obscure visibility beyond a few steps. So the story goes:
-> As the hikers cannot see the bottom of the mountain, they can only rely on their surroundings to feel their way down the mountain. They can feel the slope of the ground (or even measure it with instruments) and hike in the direction of steepest descent. They can do so as often as they like but it would slow their pace down, so they discuss which direction to go in and how far before measuring again. As the fog is too thick, they won't know if they've really reached the bottom of the mountain, or if they've just gone into a valley.
+For Gradient Descent, the name of the game is to start with random parameters and iteratively improve them by **moving opposite to the gradient** of our loss function (thus, roughly speaking, the loss function is assumed **differentiable with respect to the parameters**).
 
+### An Analogy for Gradient Descent  
+
+We can intuitively understand this process by likening it to [hikers descending a mountain](https://en.wikipedia.org/wiki/Gradient_descent#An_analogy_for_understanding_gradient_descent) heavily fogged as to obscure visibility beyond a few steps.
+
+So the story goes:
+> The hikers cannot see the bottom of the mountain, so they can only rely on their immediate surroundings to feel their way down. They can feel the slope of the ground, or measure it with instruments, and determine the locally steepest downhill direction. They then discuss how far to move before stopping to measure the slope again. As the fog is too thick, they cannot know whether they have reached the lowest point of the mountain. They might instead stop in a local valley, make very slow progress across a nearly flat region, or repeatedly overshoot a narrow valley by taking steps that are too large.
+
+This analogy captures a few key recurring themes of Gradient Descent that are worth highlighting:
 | Gradient Descent | Hiker Analogy |
 | --- | --- | 
 | Global optimum is unknown | Hikers cannot see the bottom of the mountain |
-| Local geometry is known | Hikers can see their surroundings, but not far away |
+| Slope at current point is known | Hikers can feel or measure how the ground slopes where they are standing |
 | Loss function is differentiable | Hikers can feel/measure the slope of the ground |
-| Best-effort updates based on local information | Hikers take steps in the direction of steepest descent |
-| Step size is chosen by the learning rate | Hikers discuss how far to hike before measuring again |
-| Convergence to global optima not guaranteed | Hikers may end up in a valley and never reach the bottom of the mountain |
+| Best-effort updates based on local information | Hikers move in their perceived direction of steepest descent |
+| Step size is chosen by the learning rate | Hikers discuss how far to move before measuring again |
+| Convergence to global optima not guaranteed | Hikers may never reach the bottom of the mountain |
 
+and it should also reveal that Gradient Descent is actually **a pretty crass algorithm** (after all, real-life hikers would be quite cooked if they actually encountered such a scenario).
 
-Let $\mathbf{w}_t$ be the parameter vector at iteration $t$, and let $\mathcal{L}(\mathbf{w})$ be a differentiable loss. The gradient
+Yet, gradient descent is one of the most widely used optimisation algorithms in machine learning. We will explore how it works, and why this is the case in the next few sections.
 
-$$
-\mathbf{g}_t = \nabla_{\mathbf{w}}\mathcal{L}(\mathbf{w}_t)
-$$
+### Algorithm
 
-collects the partial derivative of the loss with respect to every parameter. Under ordinary Euclidean distance, it points in the direction of steepest local increase, so its negative points towards steepest local decrease. Gradient descent takes the update
+To go into further details, let's assume we are dealing with a regression task, and write some (extremely sloppy) math down:
 
-$$
-\mathbf{w}_{t+1} = \mathbf{w}_t - \eta_t \mathbf{g}_t,
-$$
+- Suppose we had a model $f(\mathbf{x};\theta)$, accepting $\mathbf{x}$ as its **input** and being parameterised by $\theta$. 
+- We wish to train the model on an indeterminate dataset $\mathcal{D} = \{(\mathbf{x}_i, \mathbf{y}_i)\}_{i=1}^n$, where we are trying to discover $\theta$ such that $f(\mathbf{x}_i; \theta) \approx \mathbf{y}_i$ for all $i$ (i.e. we are "fitting" $f$ to $\mathcal{D}$).
 
-where $\eta_t \gt 0$ is the **learning rate** or step size. The gradient chooses the direction; the learning rate chooses how far to travel.
+In Gradient Descent (for regression tasks):
+- We start by defining a **loss function** $\mathcal{L}(f(\mathbf{x}; \theta), \mathbf{y})$, which measures how far off our model's predictions are from the true labels.
+  - Aside from being **differentiable w.r.t. $\theta$**, it is mandatory for $\mathcal{L}$ to be **minimized** whenever $f(\mathbf{x}; \theta) = \mathbf{y}$.
+- We then randomly select $\theta_0$ as our initial parameters, and a learning rate $\eta$
+- For every timestep $t \geq 0$ (repeating until we are satisfied):
+  - We compute $$\mathbf{g}_t = \nabla_{\theta_t} \mathcal{L}$$, the **gradient of the loss function w.r.t. the parameters** 
+    - Indeed, $\mathbf{g}_t$ is a vector of partial derivatives of $\mathcal{L}$ w.r.t. each parameter in $\theta_t$.
+  - We then collectively update our parameters using the update rule $$\theta_{t+1} \leftarrow \theta_t - \eta \mathbf{g}_t$$.
+    - In calculus, this is a [**first-order approximation**](https://en.wikipedia.org/wiki/Linear_approximation) of our loss function, as $$ \mathcal{L}(\theta_{t} - \eta \mathbf{g}_t) \approx \mathcal{L}(\theta_t) - \eta \mathbf{g}_t^\top \mathbf{g}_t$$.
+    - Notice how it always reduces our **approximated loss** whenever $\mathbf{g}_t \neq \mathbf{0}$ (i.e. whenever we are not at a stationary point), but **is not guaranteed to reduce the true loss**.
 
-> **Notation.** A subscript $t$ marks an iteration, not a training example. Bold symbols are vectors. When the learning rate is constant, we write $\eta_t=\eta$.
+## Worked Example
 
-This update is local. A first-order approximation near $\mathbf{w}_t$ gives
+Consider a toy loss $\mathcal{L}(f(\mathbf{x}; \theta), \mathbf{y}) = \frac{1}{2}(\theta - \mathbf{y})^2$ where $\theta, \mathbf{x}, \mathbf{y} \in \mathbb{R}$ and $f(\mathbf{x}; \theta) = \theta$. 
+- This loss function satisfies $\nabla_\theta^2 \mathcal{L} = 1 > 0$, so it is **special** and has a unique global minimum at $\theta = \mathbf{y}$. More on that later.
 
-$$
-\mathcal{L}(\mathbf{w}_t + \boldsymbol{\Delta}) \approx \mathcal{L}(\mathbf{w}_t) + \mathbf{g}_t^\top \boldsymbol{\Delta}.
-$$
-
-Choosing $\boldsymbol{\Delta}=-\eta_t\mathbf{g}_t$ lowers this approximation whenever the gradient is nonzero. It does not promise that every step will lower the true loss: the approximation is reliable only close to the current point, so an oversized step can overshoot. [Boyd and Vandenberghe](https://web.stanford.edu/~boyd/cvxbook/) develop this descent-method view in Sections 9.2 through 9.4.
-
-## Following One Descent
-
-Consider a one-parameter loss whose minimum is at $w^*=3$:
-
-$$
-\mathcal{L}(w)=\frac{1}{2}(w-3)^2, \qquad \mathcal{L}'(w)=w-3.
-$$
-
-Starting from $w_0=0$ with learning rate $\eta=0.5$, each update is
+With $\theta = 0$, $\mathbf{y} = 3$, and $\eta = 0.5$, the update rule becomes
 
 $$
-w_{t+1}=w_t-0.5(w_t-3).
+\theta_{t+1}=\theta_t-0.5(\theta_t-3) \quad \forall t\ge 0
 $$
 
-| Iteration $t$ | Current $w_t$ | Gradient $\mathcal{L}'(w_t)$ | Loss $\mathcal{L}(w_t)$ | Next $w_{t+1}$ |
+You can trace out the first few updates and check against the table below.
+
+| Iteration $t$ | Current $\theta_t$ | Gradient $\nabla\mathcal{L}(\theta_t)$ | Update $-\eta\nabla\mathcal{L}(\theta_t)$ | Next $\theta_{t+1}$ |
 | ---: | ---: | ---: | ---: | ---: |
 | 0 | 0 | -3 | 4.5 | 1.5 |
 | 1 | 1.5 | -1.5 | 1.125 | 2.25 |
 | 2 | 2.25 | -0.75 | 0.28125 | 2.625 |
 
-The negative gradient is positive here, so every update moves $w_t$ towards 3. In fact,
+### Baby's First Training Dynamics Analysis
+
+Mechanically tracing how updates evolve can familiarize us with the **procedure** of gradient descent, but it is arguably more useful to study **how** the updates change as training goes on ("training dynamics").
+
+Continuing with our toy example, we can observe from the above that every update moves $\theta_t$ (ever more slowly) towards 3. In fact, rearranging gives
 
 $$
-w_{t+1}-3=(1-\eta)(w_t-3),
+\theta_{t+1}-3=(1-\eta)(\theta_t-3),
 $$
 
-so $\eta=0.5$ halves the remaining distance on every step. This simple recurrence also exposes why the learning rate matters.
-
-## Choosing the Learning Rate
-
-For this quadratic example, the multiplier $1-\eta$ completely determines the behaviour.
+so (at least when we have a nice loss like this), the multiplier $1-\eta$ completely determines **HOW** the weights evolve, as summarized below:
 
 | Learning rate | Behaviour on this example |
 | --- | --- |
 | $0 \lt \eta \lt 1$ | Approaches 3 from the same side; very small values make slow progress. |
 | $\eta=1$ | Reaches 3 in one step. |
-| $1 \lt \eta \lt 2$ | Crosses back and forth over 3, but the oscillations shrink. |
-| $\eta=2$ | Oscillates without getting closer. |
-| $\eta \gt 2$ | Oscillations grow and the iterates diverge. |
+| $1 \lt \eta \lt 2$ | Oscillates back and forth around 3, but eventually settles down. |
+| $\eta=2$ | Oscillates around 3 without getting closer. |
+| $\eta \gt 2$ | Overcorrects and diverges to $\pm\infty$. |
 
-These thresholds belong to this particular loss, not to gradient descent in general. Real objectives have different curvature in different regions and directions. A useful learning rate must be small enough for the local gradient to remain informative, yet large enough to make worthwhile progress. Training systems often reduce the learning rate over time or choose it using a schedule; deterministic optimisation can also use a line search to select a step from the current point.
+This shows something treated as quite obvious by ML practitioners: that learning rate is a hyperparameter that must be carefully tuned.
 
-## Full, Stochastic, and Mini-Batch Gradients
+## Convergence, Convexity, and Polyak-Lojasiewicz
 
-For a dataset with $n$ examples, an empirical loss is commonly an average of per-example losses:
+Typically, we do not run gradient descent indefinitely. We stop when we are **satisfied** with the solution, and we then call the model "converged" (onto a set of parameters $\theta^\dag$).
 
-$$
-\mathcal{L}(\mathbf{w})=\frac{1}{n}\sum_{i=1}^{n}\ell_i(\mathbf{w}).
-$$
+What "satisfied" means varies quite wildly depending on who you ask:
+- [(From Boyd and Vanderberghe)](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf) It could be $\lim_{t\to\infty}\theta_t=\theta^*$, where $\theta^*$ is a true global minimizer of the loss function.
+- [(From Polyak)](https://www.researchgate.net/profile/Boris-Polyak-2/publication/243648552_Gradient_methods_for_the_minimisation_of_functionals/links/5a608e09aca272328103d55e/Gradient-methods-for-the-minimisation-of-functionals.pdf) It could also be $\lim_{t\to\infty}\mathcal{L}(\theta_t)=\mathcal{L}(\theta^*)$, where $\mathcal{L}(\theta^*)$ is a true global minimum of the loss function.
+- [(From Nocedal and Wright)](https://www.math.kent.edu/~reichel/courses/optimization/Numerical_Optimization.pdf) It could be $\lim_{t\to\infty}\lVert\nabla\mathcal{L}(\theta_t)\rVert=0$; that is, we reach a stationary point of the loss function, **NOT** even a local minimum.
+- "satisfied" can also mean that the model performs "well enough" on some (optionally) held-out validation data.
 
-The variants differ in how much of this sum they use to estimate the next direction.
+However, if we are willing to put up some strong assumptions on the loss function and assume it is **convex**, we can guarantee every **local minimum** must be a **global minimum**.
 
-| Variant | Gradient used at one step | Main tradeoff |
-| --- | --- | --- |
-| **Batch gradient descent** | All $n$ examples | Exact gradient of the empirical loss, but each update can be expensive. |
-| **Stochastic gradient descent** | One sampled example | Cheap, frequent updates, but the direction is noisy. |
-| **Mini-batch gradient descent** | A sampled subset $B$ | Reduces noise while keeping computation efficient on parallel hardware. |
-
-For a uniformly sampled example $i_t$, the stochastic direction is an unbiased estimate of the batch gradient:
-
-$$
-\mathbb{E}_{i_t}\!\left[\nabla \ell_{i_t}(\mathbf{w}_t)\right]=\nabla \mathcal{L}(\mathbf{w}_t).
-$$
-
-Unbiased does not mean accurate on every step. An individual stochastic or mini-batch update can increase the full loss even when the average direction is useful. The batch-versus-stochastic computational tradeoff and the resulting convergence conditions are treated in Sections 3 and 4 of [Bottou, Curtis, and Nocedal](https://bottou.org/papers/bottou-curtis-nocedal-2018). Modern stochastic-gradient analysis builds on the stochastic approximation framework introduced by [Robbins and Monro](https://projecteuclid.org/journals/annals-of-mathematical-statistics/volume-22/issue-3/A-Stochastic-Approximation-Method/10.1214/aoms/1177729586.full).
-
-## What Convergence Means
-
-There is more than one way for an optimisation run to converge. The loss values may stop changing, the parameters may stop moving, or the gradient norm $\lVert\nabla\mathcal{L}(\mathbf{w}_t)\rVert$ may approach zero. These statements are related under suitable assumptions, but they are not interchangeable for every objective.
-
-For a differentiable **convex** loss, every local minimum is global. With a smooth gradient and a suitable learning rate, gradient descent can therefore approach a global minimiser. Stronger curvature assumptions lead to faster guarantees. Neural-network losses are generally non-convex, so a small gradient only identifies an approximate **stationary point**. It does not by itself distinguish a global minimum from a local minimum, saddle point, or flat region.
-
-In practice, training may stop when one or more of these conditions hold:
-
-- the gradient norm or parameter change is sufficiently small;
-- the training loss improves by less than a chosen tolerance;
-- performance on held-out validation data stops improving;
-- a time or iteration budget is exhausted.
-
-The stopping rule should match the goal. Minimising training loss is an optimisation objective; performance on unseen data is a generalisation objective, and further optimisation need not improve it. Section 2.3 of [Bottou, Curtis, and Nocedal](https://bottou.org/papers/bottou-curtis-nocedal-2018) separates empirical-risk optimisation on training data from model selection using validation performance.
+Unfortunately, many loss functions are **non-convex**, so most practitioners default to the last option, and use convergence as a vague conceptual tool to guide their training process instead.
 
 <details class="advanced-note">
-<summary>Advanced: What the convergence guarantee assumes</summary>
+<summary>Advanced: Links to Proofs of Convergence</summary>
 
-Suppose $\mathcal{L}$ is differentiable and convex, has a minimiser $\mathbf{w}^*$, and has an $L_s$-Lipschitz gradient:
+Convex Functions
+- [(Boyd and Vanderberghe)](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf) provide one (of many) proof(s) in section 9.3.1 that gradient descent converges **linearly** (i.e. exponentially fast) to the global minimum of a convex loss function, provided the learning rate is chosen appropriately.
 
-$$
-\lVert\nabla\mathcal{L}(\mathbf{x})-\nabla\mathcal{L}(\mathbf{y})\rVert \le L_s\lVert\mathbf{x}-\mathbf{y}\rVert.
-$$
-
-For fixed-step gradient descent with $0 \lt \eta \le 1/L_s$, the iterates satisfy the sublinear bound
-
-$$
-\mathcal{L}(\mathbf{w}_T)-\mathcal{L}(\mathbf{w}^*)
-\le
-\frac{\lVert\mathbf{w}_0-\mathbf{w}^*\rVert^2}{2\eta T}.
-$$
-
-The $1/T$ term says that obtaining another factor of ten in this worst-case error bound requires ten times as many iterations. Convexity is what turns low objective value into a global guarantee.
-
-Without convexity, smoothness can still guarantee progress towards stationarity. If $\mathcal{L}$ is bounded below by $\mathcal{L}_{\inf}$ and $\eta=1/L_s$, then
-
-$$
-\min_{0\le t\lt T}\lVert\nabla\mathcal{L}(\mathbf{w}_t)\rVert^2
-\le
-\frac{2L_s\left(\mathcal{L}(\mathbf{w}_0)-\mathcal{L}_{\inf}\right)}{T}.
-$$
-
-This weaker statement guarantees that at least one iterate has a small gradient. It does not say that the iterate is globally optimal. The assumptions, descent inequality, non-convex stationarity result, and convex last-iterate bound appear as Theorems L12.3, L12.4, and L12.6 in MIT's [Gradient Descent and Descent Lemmas](https://ocw.mit.edu/courses/6-7220j-nonlinear-optimization-spring-2025/mit6_7220_s25_lec12.pdf).
+Polyak-Lojasiewicz Functions (Weaker Assumption)
+- If the function is instead [Polyak-Lojasiewicz](https://en.wikipedia.org/wiki/Polyak%E2%80%93Lojasiewicz_inequality) (PL, weaker than convexity) and smooth, [Polyak](https://www.researchgate.net/profile/Boris-Polyak-2/publication/243648552_Gradient_methods_for_the_minimisation_of_functionals/links/5a608e09aca272328103d55e/Gradient-methods-for-the-minimisation-of-functionals.pdf) proved that gradient descent still converges **linearly** to a global minimum.
 
 </details>
 
-## Failure Modes and Diagnostics
+## Batch, Stochastic, and Mini-Batch Gradients
 
-Gradient descent is simple, but its behaviour depends on the loss geometry and the quality of the gradient estimate.
+Up to this point, we've discussed gradient descent (GD) as if we had access to the true gradient of the loss function at every step.
 
-| Symptom | Likely cause | Typical response |
-| --- | --- | --- |
-| Loss explodes or alternates sharply | Learning rate is too large | Reduce the step size or use a decaying schedule. |
-| Loss decreases extremely slowly | Learning rate is too small or the loss is poorly conditioned | Rescale features, use momentum, or use a preconditioned method. |
-| Mini-batch loss is highly erratic | Gradient estimate has high variance | Increase the batch size, lower the learning rate, or average updates. |
-| Gradient is tiny but loss remains high | Flat region, saddle point, or saturated model | Inspect the model and initialisation; a small gradient alone is not proof of a good solution. |
-| Training improves while validation worsens | The model is fitting the training data without improving generalisation | Use validation-based stopping or appropriate regularisation. |
-
-Feature scaling matters even for a convex objective. If one direction curves much more sharply than another, a step size safe for the sharp direction can make progress along the shallow direction painfully slow. This is the core difficulty behind **ill-conditioning**.
-
-<details class="advanced-note">
-<summary>Advanced: Conditioning, momentum, and adaptive steps</summary>
-
-For a positive-definite quadratic
+In this regime, we typically break up the loss function into an aggregate of per-example losses (such as "average"), then compute the gradient of this aggregate loss at every step. This is called **batch GD**:
 
 $$
-\mathcal{L}(\mathbf{w})=\frac{1}{2}\mathbf{w}^\top H\mathbf{w},
+\mathcal{L}(f(\mathbf{x}; \theta), \mathbf{y}) = \frac{1}{n}\sum_{i=1}^{|\mathcal{D}|} \ell(f(\mathbf{x}_i; \theta), \mathbf{y}_i) 
+\quad \quad
+\nabla_\theta \mathcal{L} = \frac{1}{n}\sum_{i=1}^{|\mathcal{D}|} \nabla_\theta \ell(f(\mathbf{x}_i; \theta), \mathbf{y}_i)
 $$
 
-the eigenvalues of $H$ measure curvature along its principal directions. If they range from $\mu$ to $L_s$, the condition number is $\kappa=L_s/\mu$. A fixed learning rate must remain stable in the direction with curvature $L_s$, while progress is slow in the direction with curvature $\mu$. In the original coordinates, this often appears as a zig-zag path across a long, narrow valley.
-
-**Momentum** carries part of the previous direction into the next update. One common form is
+This is rarely the case in practice, and with finite (or even small) datasets, we are forced to work with **noisy estimates** of our loss (and therefore, its gradient) at every step. We often express the gradient as
 
 $$
-\mathbf{v}_{t+1}=\beta\mathbf{v}_t+\mathbf{g}_t,
-\qquad
-\mathbf{w}_{t+1}=\mathbf{w}_t-\eta\mathbf{v}_{t+1},
+\nabla_\theta \mathcal{L} = \frac{1}{n}\sum_{i=1}^n \nabla_\theta \ell(f(\mathbf{x}_i; \theta), \mathbf{y}_i) + \epsilon_i(\mu; \sigma^2)
 $$
 
-where $0\le\beta\lt 1$ controls how much direction is retained. This can damp alternating motion across a valley while accumulating motion along a consistent direction. The heavy-ball method is developed in [Polyak's original paper](https://www.mathnet.ru/eng/zvmmf7713).
+where $\epsilon_i$ is a random variable with mean $\mu$ and variance $\sigma^2$ (and, if the batch size is big enough, $\epsilon = \frac{1}{n}\sum_{i=1}^n \epsilon_i$ is approximately Gaussian by the Central Limit Theorem).
 
-**Preconditioned** methods instead multiply the gradient by a positive-definite scaling matrix, changing the effective geometry of a step. Adaptive gradient methods use a changing, often diagonal, scale derived from gradient history. Section 6.5 of [Bottou, Curtis, and Nocedal](https://bottou.org/papers/bottou-curtis-nocedal-2018) describes diagonal rescaling methods and their computational tradeoffs. These changes can make difficult directions easier to traverse, but they introduce additional state and tuning choices; they do not remove the need to inspect optimisation behaviour.
+Using a single, **truly-randomly selected** sample (i.e. n = 1) gives us **stochastic GD** (SGD, not to be confused with [the optimizer](https://pytorch.org/docs/stable/generated/torch.optim.SGD.html) of the same name), while using a small, truly-randomly selected subset of samples (i.e. $n < |\mathcal{D}|$) gives us **mini-batch GD**.
 
-</details>
+In the vaguest of senses, here are some considerations when using these three variants of GD (which essentially vary $n$):
+- Increasing $n$ reduces the mean noise variance $\epsilon = \frac{1}{n}\sum_{i=1}^n \epsilon_i$ (with variance $\sigma^2/n$) but makes each update susceptible to overfitting
+- Decreasing $n$ and increasing the noise of the gradient update **can** help in common non-convex loss landscapes (in escaping local minima, and saddle points, and high-loss basins), but can also hurt convergence.
+- However, on modern hardware (especially GPUs) where parallelism is cheap, increasing $n$ can reduce wall-clock time per step, and speed up convergence in practice.
 
 ## Related Topics
 
