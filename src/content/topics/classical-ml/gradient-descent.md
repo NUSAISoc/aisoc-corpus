@@ -31,11 +31,11 @@ There are, of course, many ways to minimise said loss, as exemplified by [[linea
 
 ## How do we do Gradient Descent?
 
-For Gradient Descent, the name of the game is to start with random parameters and iteratively improve them by **moving opposite to the gradient** of our loss function (thus, roughly speaking, the loss function is assumed **differentiable with respect to the parameters**).
+For Gradient Descent, the name of the game is to start with arbitrary parameters and iteratively improve them by **moving opposite to the gradient** of our loss function (thus, roughly speaking, the loss function is assumed **differentiable with respect to the parameters**).
 
 ### An Analogy for Gradient Descent  
 
-We can intuitively understand this process by likening it to [hikers descending a mountain](https://en.wikipedia.org/wiki/Gradient_descent#An_analogy_for_understanding_gradient_descent) heavily fogged as to obscure visibility beyond a few steps.
+We can intuitively understand this process by likening it to [hikers descending a mountain](https://en.wikipedia.org/wiki/Gradient_descent#An_analogy_for_understanding_gradient_descent) in fog so thick they can only see a few steps ahead.
 
 So the story goes:
 > The hikers cannot see the bottom of the mountain, so they can only rely on their immediate surroundings to feel their way down. They can feel the slope of the ground, or measure it with instruments, and determine the locally steepest downhill direction. They then discuss how far to move before stopping to measure the slope again. As the fog is too thick, they cannot know whether they have reached the lowest point of the mountain. They might instead stop in a local valley, make very slow progress across a nearly flat region, or repeatedly overshoot a narrow valley by taking steps that are too large.
@@ -64,7 +64,7 @@ To go into further details, let's assume we are dealing with a regression task, 
 In Gradient Descent (for regression tasks):
 - We start by defining a **loss function** $\mathcal{L}(f(\mathbf{x}; \theta), \mathbf{y})$, which measures how far off our model's predictions are from the true labels.
   - Aside from being **differentiable w.r.t. $\theta$**, it is mandatory for $\mathcal{L}$ to be **minimized** whenever $f(\mathbf{x}; \theta) = \mathbf{y}$.
-- We then randomly select $\theta_0$ as our initial parameters, and a learning rate $\eta$
+- We then arbitrarily select $\theta_0$ as our initial parameters, and a learning rate $\eta$
 - For every timestep $t \geq 0$ (repeating until we are satisfied):
   - We compute $$\mathbf{g}_t = \nabla_{\theta_t} \mathcal{L}$$, the **gradient of the loss function w.r.t. the parameters** 
     - Indeed, $\mathbf{g}_t$ is a vector of partial derivatives of $\mathcal{L}$ w.r.t. each parameter in $\theta_t$.
@@ -87,9 +87,9 @@ You can trace out the first few updates and check against the table below.
 
 | Iteration $t$ | Current $\theta_t$ | Gradient $\nabla\mathcal{L}(\theta_t)$ | Update $-\eta\nabla\mathcal{L}(\theta_t)$ | Next $\theta_{t+1}$ |
 | ---: | ---: | ---: | ---: | ---: |
-| 0 | 0 | -3 | 4.5 | 1.5 |
-| 1 | 1.5 | -1.5 | 1.125 | 2.25 |
-| 2 | 2.25 | -0.75 | 0.28125 | 2.625 |
+| 0 | 0 | -3 | 1.5 | 1.5 |
+| 1 | 1.5 | -1.5 | 0.75 | 2.25 |
+| 2 | 2.25 | -0.75 | 0.375 | 2.625 |
 
 ### Baby's First Training Dynamics Analysis
 
@@ -118,7 +118,7 @@ This shows something treated as quite obvious by ML practitioners: that learning
 Typically, we do not run gradient descent indefinitely. We stop when we are **satisfied** with the solution, and we then call the model "converged" (onto a set of parameters $\theta^\dag$).
 
 What "satisfied" means varies quite wildly depending on who you ask:
-- [(From Boyd and Vanderberghe)](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf) It could be $\lim_{t\to\infty}\theta_t=\theta^*$, where $\theta^*$ is a true global minimizer of the loss function.
+- [(From Boyd and Vandenberghe)](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf) It could be $\lim_{t\to\infty}\theta_t=\theta^*$, where $\theta^*$ is a true global minimizer of the loss function.
 - [(From Polyak)](https://www.researchgate.net/profile/Boris-Polyak-2/publication/243648552_Gradient_methods_for_the_minimisation_of_functionals/links/5a608e09aca272328103d55e/Gradient-methods-for-the-minimisation-of-functionals.pdf) It could also be $\lim_{t\to\infty}\mathcal{L}(\theta_t)=\mathcal{L}(\theta^*)$, where $\mathcal{L}(\theta^*)$ is a true global minimum of the loss function.
 - [(From Nocedal and Wright)](https://www.math.kent.edu/~reichel/courses/optimization/Numerical_Optimization.pdf) It could be $\lim_{t\to\infty}\lVert\nabla\mathcal{L}(\theta_t)\rVert=0$; that is, we reach a stationary point of the loss function, **NOT** even a local minimum.
 - "satisfied" can also mean that the model performs "well enough" on some (optionally) held-out validation data.
@@ -130,11 +130,23 @@ Unfortunately, many loss functions are **non-convex**, so most practitioners def
 <details class="advanced-note">
 <summary>Advanced: Links to Proofs of Convergence</summary>
 
-Convex Functions
-- [(Boyd and Vanderberghe)](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf) provide one (of many) proof(s) in section 9.3.1 that gradient descent converges **linearly** (i.e. exponentially fast) to the global minimum of a convex loss function, provided the learning rate is chosen appropriately.
+Note: All three results below assume the objective is **$L$-smooth** on the region being analysed, meaning its gradient is $L$-Lipschitz continuous:
 
-Polyak-Lojasiewicz Functions (Weaker Assumption)
-- If the function is instead [Polyak-Lojasiewicz](https://en.wikipedia.org/wiki/Polyak%E2%80%93Lojasiewicz_inequality) (PL, weaker than convexity) and smooth, [Polyak](https://www.researchgate.net/profile/Boris-Polyak-2/publication/243648552_Gradient_methods_for_the_minimisation_of_functionals/links/5a608e09aca272328103d55e/Gradient-methods-for-the-minimisation-of-functionals.pdf) proved that gradient descent still converges **linearly** to a global minimum.
+$$
+\lVert\nabla\mathcal{L}(\theta_1)-\nabla\mathcal{L}(\theta_2)\rVert \leq L\lVert\theta_1-\theta_2\rVert
+\quad \text{for all } \theta_1,\theta_2 \text{ in that region.}
+$$
+
+For their strongly convex result, Boyd and Vandenberghe assume $mI \preceq \nabla^2\mathcal{L}(\theta) \preceq MI$ on the initial sublevel set, so $M$ plays the role of the smoothness constant. Karimi, Nutini, and Schmidt state the PL result using an $L$-Lipschitz continuous gradient.
+
+Convex Functions
+- Without assuming strong convexity or PL, [Theorem L12.6 in MIT's gradient descent notes](https://ocw.mit.edu/courses/6-7220j-nonlinear-optimization-spring-2025/mit6_7220_s25_lec12.pdf#page=6) proves that gradient descent on a convex, $L$-smooth objective with a minimizer has a **sublinear** objective-gap rate of $O(1/t)$ when $0 \lt \eta \leq 1/L$.
+
+Strongly Convex Functions
+- [Boyd and Vandenberghe prove in section 9.3.1](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf#page=480) that the objective gap under gradient descent converges **linearly** when the objective is strongly convex and its Hessian is bounded above, provided the learning rate is chosen appropriately. Strong convexity is stronger than ordinary convexity and guarantees a unique global minimizer.
+
+Polyak-Lojasiewicz Functions
+- A differentiable objective satisfies the **Polyak-Lojasiewicz (PL) condition** if there is some $\mu \gt 0$ such that $\frac{1}{2}\lVert\nabla\mathcal{L}(\theta)\rVert^2 \geq \mu(\mathcal{L}(\theta)-\mathcal{L}^*)$. Strong convexity implies the PL condition, but the PL condition does not require convexity. For an objective that is both PL and smooth and has a minimizer, [Karimi, Nutini, and Schmidt](https://arxiv.org/abs/1608.04636) show that gradient descent with an appropriate learning rate makes the objective gap converge **linearly** to zero.
 
 </details>
 
@@ -150,7 +162,7 @@ $$
 \nabla_\theta \mathcal{L} = \frac{1}{n}\sum_{i=1}^{|\mathcal{D}|} \nabla_\theta \ell(f(\mathbf{x}_i; \theta), \mathbf{y}_i)
 $$
 
-This is rarely the case in practice, and with finite (or even small) datasets, we are forced to work with **noisy estimates** of our loss (and therefore, its gradient) at every step. We often express the gradient as
+This is rarely the case in practice, and with finite (or even small) datasets (relative to a presumed infinite population), we are forced to work with **noisy estimates** of our loss (and therefore, its gradient) at every step. We often express the gradient as
 
 $$
 \nabla_\theta \mathcal{L} = \frac{1}{n}\sum_{i=1}^n \nabla_\theta \ell(f(\mathbf{x}_i; \theta), \mathbf{y}_i) + \epsilon_i(\mu; \sigma^2)
