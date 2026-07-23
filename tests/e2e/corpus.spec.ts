@@ -18,7 +18,7 @@ test("homepage loads with graph and category buttons", async ({ page }) => {
   ).toBeVisible();
   await expect(
     page.locator("svg[aria-label='Knowledge graph visualization'] text", {
-      hasText: "lime",
+      hasText: "ClassicalInterpretabilityTechniques",
     }),
   ).toBeVisible();
 });
@@ -33,7 +33,9 @@ test("topics page lists all topics", async ({ page }) => {
   expect(await page.locator(".topic-card").count()).toBeGreaterThanOrEqual(12);
   await expect(page.locator('[data-topic-id="transformers"]')).toBeVisible();
   await expect(page.locator('[data-topic-id="q-learning"]')).toBeVisible();
-  await expect(page.locator('[data-topic-id="lime"]')).toBeVisible();
+  await expect(
+    page.locator('[data-topic-id="classical-interpretability-techniques"]'),
+  ).toBeVisible();
   await expect(page.locator('[data-topic-id="world-models"]')).toBeVisible();
   await expect(
     page.locator('[data-topic-id="state-space-models"]'),
@@ -87,7 +89,7 @@ test("topics page searches indexed topic metadata", async ({ page }) => {
 test("category page lists topics", async ({ page }) => {
   await page.goto("/categories/classical-ml");
   await expect(page.locator("h1")).toContainText("Classical ML");
-  await expect(page.locator(".topic-card")).toHaveCount(4);
+  await expect(page.locator(".topic-card")).toHaveCount(5);
 });
 
 test("graph keeps edges attached when switching relation modes", async ({
@@ -177,10 +179,50 @@ test("topic page renders KaTeX equations", async ({ page }) => {
   await expect(page.locator(".katex").first()).toBeVisible();
 });
 
-test("LIME topic page renders", async ({ page }) => {
-  await page.goto("/topics/lime");
-  await expect(page.locator("h1")).toContainText("LIME");
-  await expect(page.getByRole("heading", { name: "Overview" })).toBeVisible();
+test("classical interpretability topic page renders", async ({ page }) => {
+  await page.goto("/topics/classical-interpretability-techniques");
+  await expect(page.locator("h1")).toContainText(
+    "Classical Interpretability Techniques",
+  );
+  await expect(
+    page.getByRole("heading", { name: "What does it mean to interpret?" }),
+  ).toBeVisible();
+});
+
+test("topic images preserve intrinsic aspect ratio", async ({ page }) => {
+  await page.goto("/topics/classical-interpretability-techniques");
+  await page.waitForLoadState("networkidle");
+
+  const images = page.locator("article img");
+  await expect(images).toHaveCount(5);
+
+  for (const image of await images.all()) {
+    await image.scrollIntoViewIfNeeded();
+  }
+
+  await expect
+    .poll(
+      async () =>
+        images.evaluateAll((nodes) =>
+          nodes.every((node) => {
+            const image = node as HTMLImageElement;
+            const rect = image.getBoundingClientRect();
+            const naturalRatio = image.naturalWidth / image.naturalHeight;
+            const renderedRatio = rect.width / rect.height;
+
+            return (
+              image.complete &&
+              image.naturalWidth > 0 &&
+              image.naturalHeight > 0 &&
+              rect.width > 0 &&
+              rect.height > 0 &&
+              Math.abs(naturalRatio - renderedRatio) < 0.01
+            );
+          }),
+        ),
+      { timeout: 5000 },
+    )
+    .toBe(true);
 });
 
 test("topic page renders tags and authors", async ({ page }) => {

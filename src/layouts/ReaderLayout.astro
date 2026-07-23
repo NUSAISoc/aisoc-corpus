@@ -191,6 +191,17 @@ const tocHeadings = headings.filter((heading) => heading.depth <= 3);
     font-size: 0.85em;
   }
 
+  .reader-content :global(img) {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .reader-content :global(p > img:only-child) {
+    margin: 1.5rem auto;
+  }
+
   .reader-content :global(.wikilink) {
     color: var(--color-accent);
     border-bottom: 1px dashed rgba(204, 255, 0, 0.4);
