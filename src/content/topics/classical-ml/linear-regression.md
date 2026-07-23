@@ -66,4 +66,4 @@ This is why vanilla linear regression (the basic version we have seen) is rarely
 
 ## Connection to Other Topics
 
-Linear regression forms the basis for [[Gradient Descent]] optimisation techniques. Linear regression is a highly interpretable technique, and helps us reason about Explainable AI techniques such as [[lime|LIME (Local Interpretable Model-agnostic Explanations)]].
+Linear regression forms the basis for [[Gradient Descent]] optimisation techniques. Linear regression is a highly interpretable technique, and helps us reason about Explainable AI techniques such as [[classical-interpretability-techniques|Classical Interpretability Techniques]].
