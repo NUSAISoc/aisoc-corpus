@@ -8,12 +8,6 @@
     "binding": "ASSETS",
     "run_worker_first": ["/api/*", "/admin*"],
   },
-  "analytics_engine_datasets": [
-    {
-      "binding": "ANALYTICS",
-      "dataset": "aisoc_corpus_pageviews",
-    },
-  ],
   "browser": {
     "binding": "BROWSER",
     "remote": true,
@@ -33,6 +27,10 @@
     "GITHUB_REPO": "aisoc-corpus",
     "GITHUB_BASE_BRANCH": "main",
     "ANALYTICS_DATASET": "aisoc_corpus_pageviews",
-    "REPORT_FROM_EMAIL": "reports@aisocietysoc.workers.dev",
+    "CLOUDFLARE_ACCOUNT_ID": "cee1e2ca0c4e238733bdb5e955b1596a",
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
   },
 }

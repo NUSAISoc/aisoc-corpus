@@ -220,8 +220,7 @@ async function submitTopic(request: Request, env: Env): Promise<Response> {
 async function posterPng(env: Env, useBrowserRun: boolean): Promise<Response> {
   const report = await buildMonthlyReport(env);
   const html = renderContributorPosterHtml(report);
-
-  if (!useBrowserRun || typeof env.BROWSER?.quickAction !== "function") {
+  const fallbackPoster = async (status: number) => {
     const fallback = await env.ASSETS.fetch(
       new Request(
         `https://assets.local/reports/${report.period.key}-contributor-poster.png`,
@@ -229,16 +228,26 @@ async function posterPng(env: Env, useBrowserRun: boolean): Promise<Response> {
     );
     if (fallback.ok) return fallback;
     return new Response(html, {
-      status: 501,
+      status,
       headers: { "Content-Type": "text/html; charset=utf-8" },
     });
+  };
+
+  if (!useBrowserRun || typeof env.BROWSER?.quickAction !== "function") {
+    return fallbackPoster(501);
   }
 
-  return env.BROWSER.quickAction("screenshot", {
-    html,
-    viewport: { width: 1080, height: 1350, deviceScaleFactor: 1 },
-    screenshotOptions: { type: "png" },
-  });
+  try {
+    const screenshot = await env.BROWSER.quickAction("screenshot", {
+      html,
+      viewport: { width: 1080, height: 1350, deviceScaleFactor: 1 },
+      screenshotOptions: { type: "png" },
+    });
+    if (screenshot.ok) return screenshot;
+    return fallbackPoster(502);
+  } catch {
+    return fallbackPoster(502);
+  }
 }
 
 function arrayBufferToBase64(buffer: ArrayBuffer): string {
@@ -259,10 +268,12 @@ async function sendMonthlyReport(env: Env): Promise<unknown> {
   if (!env.EMAIL?.send) throw new Error("EMAIL binding is not configured");
   if (!env.REPORT_RECIPIENT_EMAIL)
     throw new Error("REPORT_RECIPIENT_EMAIL is not configured");
+  if (!env.REPORT_FROM_EMAIL)
+    throw new Error("REPORT_FROM_EMAIL is not configured");
 
   return env.EMAIL.send({
     to: env.REPORT_RECIPIENT_EMAIL,
-    from: env.REPORT_FROM_EMAIL,
+    from: { email: env.REPORT_FROM_EMAIL, name: "AI Soc Corpus" },
     subject: `AI Soc Corpus contributor poster for ${report.period.label}`,
     html: `<p>The ${report.period.label} contributor poster is attached and ready to circulate.</p>`,
     text: `The ${report.period.label} contributor poster is attached and ready to circulate.`,
