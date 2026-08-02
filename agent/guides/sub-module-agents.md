@@ -39,18 +39,18 @@ repo-root/
 
 ## What Lives Where
 
-| Concern | Root `agent/` | Module `agent/` |
-| --- | --- | --- |
-| Engineering rules | ✓ (authoritative) | inherits |
-| Security policy | ✓ (authoritative) | inherits |
-| Skills | ✓ (shared) | inherits |
-| Scripts | ✓ (shared) | inherits |
-| Project brief | whole-system goal | module goal |
-| Design tree | cross-module decisions | module-internal decisions |
-| Architecture | module map + cross-module boundaries | internal module structure |
-| Ubiquitous language | shared terms | module-local terms |
-| Testing policy | root gate commands | module-specific commands |
-| ADRs | cross-module decisions | module-internal decisions |
+| Concern             | Root `agent/`                        | Module `agent/`           |
+| ------------------- | ------------------------------------ | ------------------------- |
+| Engineering rules   | ✓ (authoritative)                    | inherits                  |
+| Security policy     | ✓ (authoritative)                    | inherits                  |
+| Skills              | ✓ (shared)                           | inherits                  |
+| Scripts             | ✓ (shared)                           | inherits                  |
+| Project brief       | whole-system goal                    | module goal               |
+| Design tree         | cross-module decisions               | module-internal decisions |
+| Architecture        | module map + cross-module boundaries | internal module structure |
+| Ubiquitous language | shared terms                         | module-local terms        |
+| Testing policy      | root gate commands                   | module-specific commands  |
+| ADRs                | cross-module decisions               | module-internal decisions |
 
 ## Create A Sub-Module Agent
 
@@ -71,10 +71,10 @@ After creating a module agent, update root `agent/architecture.md`:
 ```md
 ## Bounded Contexts
 
-| Context | Owns | Does Not Own | Public Entry Point |
-| --- | --- | --- | --- |
-| billing | Plans, invoices, subscription state | Auth, notifications | modules/billing/src/index.ts |
-| identity | Login, sessions, members, roles | Billing rules | modules/identity/src/index.ts |
+| Context  | Owns                                | Does Not Own        | Public Entry Point            |
+| -------- | ----------------------------------- | ------------------- | ----------------------------- |
+| billing  | Plans, invoices, subscription state | Auth, notifications | modules/billing/src/index.ts  |
+| identity | Login, sessions, members, roles     | Billing rules       | modules/identity/src/index.ts |
 ```
 
 ## Validate All Modules

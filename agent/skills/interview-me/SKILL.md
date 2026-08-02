@@ -44,4 +44,3 @@ next_action: "<continue-plan|rerun-grill-me|block>"
 - Do not ask the user to answer repository facts.
 - Do not update implementation code.
 - Do not use sub-agents unless the user explicitly asks for them.
-

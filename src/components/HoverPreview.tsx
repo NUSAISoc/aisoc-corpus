@@ -65,10 +65,25 @@ export default function HoverPreview() {
       }}
       role="tooltip"
     >
-      <p style={{ margin: 0, fontSize: "0.82rem", fontWeight: 600, color: "#f4f5f7" }}>
+      <p
+        style={{
+          margin: 0,
+          fontSize: "0.82rem",
+          fontWeight: 600,
+          color: "#f4f5f7",
+        }}
+      >
         {preview.title}
       </p>
-      <p style={{ margin: "0.3rem 0 0", fontSize: "0.7rem", color: "#a1a1aa", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+      <p
+        style={{
+          margin: "0.3rem 0 0",
+          fontSize: "0.7rem",
+          color: "#a1a1aa",
+          textTransform: "uppercase",
+          letterSpacing: "0.1em",
+        }}
+      >
         {preview.category.replace(/-/g, " ")} &middot; {preview.difficulty}
       </p>
     </div>

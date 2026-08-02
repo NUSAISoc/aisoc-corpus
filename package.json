@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "generate:data": "node scripts/generate-graph.mjs && node src/lib/generate-backlinks.mjs",
+    "generate:data": "node scripts/generate-graph.mjs && node src/lib/generate-backlinks.mjs && node scripts/generate-topic-manifest.mjs",
     "dev": "npm run generate:data && astro dev",
     "build": "npm run generate:data && astro build",
     "preview": "astro preview",
@@ -43,6 +43,7 @@
     "prettier": "3.4.2",
     "prettier-plugin-astro": "0.14.1",
     "typescript": "5.7.3",
-    "vitest": "2.1.8"
+    "vitest": "2.1.8",
+    "wrangler": "^4.118.0"
   }
 }

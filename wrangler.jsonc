@@ -1,8 +1,38 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "aisoc-corpus",
-  "compatibility_date": "2026-06-03",
+  "compatibility_date": "2026-08-02",
+  "main": "src/worker/index.ts",
   "assets": {
-    "directory": "dist"
-  }
+    "directory": "dist",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*", "/admin*"],
+  },
+  "analytics_engine_datasets": [
+    {
+      "binding": "ANALYTICS",
+      "dataset": "aisoc_corpus_pageviews",
+    },
+  ],
+  "browser": {
+    "binding": "BROWSER",
+    "remote": true,
+  },
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "remote": true,
+    },
+  ],
+  "triggers": {
+    "crons": ["15 0 1 * *"],
+  },
+  "vars": {
+    "SITE_URL": "https://aisoc-corpus.aisocietysoc.workers.dev",
+    "GITHUB_OWNER": "NUSAISoc",
+    "GITHUB_REPO": "aisoc-corpus",
+    "GITHUB_BASE_BRANCH": "main",
+    "ANALYTICS_DATASET": "aisoc_corpus_pageviews",
+    "REPORT_FROM_EMAIL": "reports@aisocietysoc.workers.dev",
+  },
 }

@@ -11,11 +11,11 @@ Purpose: choose the smallest task workflow to load. Do not load every workflow b
 
 ## Intent Map
 
-| User Intent | Signals | Load |
-| --- | --- | --- |
-| Planning | plan, design, approach, architecture proposal, break this down | `agent/skills/planning/SKILL.md` |
-| Feature addition | add, implement, build, create feature, new workflow, support behavior | `agent/skills/adding-features/SKILL.md` |
-| Debugging | debug, bug, error, failing, broken, regression, exception, test failure | `agent/skills/debugging/SKILL.md` |
+| User Intent          | Signals                                                                       | Load                                        |
+| -------------------- | ----------------------------------------------------------------------------- | ------------------------------------------- |
+| Planning             | plan, design, approach, architecture proposal, break this down                | `agent/skills/planning/SKILL.md`            |
+| Feature addition     | add, implement, build, create feature, new workflow, support behavior         | `agent/skills/adding-features/SKILL.md`     |
+| Debugging            | debug, bug, error, failing, broken, regression, exception, test failure       | `agent/skills/debugging/SKILL.md`           |
 | Codebase explanation | explain, walk me through, understand, map the codebase, where is this handled | `agent/skills/explaining-codebase/SKILL.md` |
 
 ## Feature Implementation Gate

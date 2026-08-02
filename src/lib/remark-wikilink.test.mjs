@@ -15,17 +15,23 @@ async function processMarkdown(md) {
 
 describe("remarkWikiLink", () => {
   it("transforms [[slug]] to a link", async () => {
-    const output = await processMarkdown("See [[Gradient Descent]] for details.");
+    const output = await processMarkdown(
+      "See [[Gradient Descent]] for details.",
+    );
     expect(output).toContain("[Gradient Descent](/topics/gradient-descent)");
   });
 
   it("transforms [[slug|label]] to a link with custom label", async () => {
-    const output = await processMarkdown("Read [[neural-networks|Neural Nets]] first.");
+    const output = await processMarkdown(
+      "Read [[neural-networks|Neural Nets]] first.",
+    );
     expect(output).toContain("[Neural Nets](/topics/neural-networks)");
   });
 
   it("handles multiple wikilinks in a single paragraph", async () => {
-    const output = await processMarkdown("Use [[gradient-descent]] and [[linear-regression]].");
+    const output = await processMarkdown(
+      "Use [[gradient-descent]] and [[linear-regression]].",
+    );
     expect(output).toContain("/topics/gradient-descent");
     expect(output).toContain("/topics/linear-regression");
   });

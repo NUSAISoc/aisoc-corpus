@@ -1,0 +1,336 @@
+{
+  "generatedAt": "2026-08-02T08:42:35.747Z",
+  "topics": [
+    {
+      "slug": "vae",
+      "path": "/topics/vae/",
+      "sourcePath": "src/content/topics/autoencoders/vae.md",
+      "title": "Autoencoders",
+      "description": "From deterministic autoencoders to variational and vector-quantised models, and the gradient-estimation tricks (reparameterisation, Gumbel-Softmax, REINFORCE) that make them trainable.",
+      "authors": [
+        "Zak-T"
+      ],
+      "updatedDate": "2026-06-25",
+      "difficulty": "intermediate",
+      "category": "deep-learning",
+      "domains": [],
+      "tags": [],
+      "wordCount": 5103
+    },
+    {
+      "slug": "classical-interpretability-techniques",
+      "path": "/topics/classical-interpretability-techniques/",
+      "sourcePath": "src/content/topics/classical-ml/classical-interpretability-techniques.md",
+      "title": "Classical Interpretability Techniques",
+      "description": "A survey of classical and model-agnostic techniques for understanding how machine learning models make predictions.",
+      "authors": [
+        "Praneeth-Suresh"
+      ],
+      "updatedDate": "2026-07-22",
+      "difficulty": "beginner",
+      "category": "classical-ml",
+      "domains": [
+        "interpretability",
+        "explainability",
+        "classical-ml"
+      ],
+      "tags": [],
+      "wordCount": 2190
+    },
+    {
+      "slug": "gradient-descent",
+      "path": "/topics/gradient-descent/",
+      "sourcePath": "src/content/topics/classical-ml/gradient-descent.md",
+      "title": "Gradient Descent",
+      "description": "Iterative first-order optimisation algorithm for differentiable loss functions.",
+      "authors": [
+        "Praneeth-Suresh",
+        "N00bcak"
+      ],
+      "updatedDate": "2026-07-20",
+      "difficulty": "beginner",
+      "category": "classical-ml",
+      "domains": [
+        "optimisation",
+        "calculus"
+      ],
+      "tags": [
+        "optimisation",
+        "calculus",
+        "learning-rate",
+        "convergence"
+      ],
+      "wordCount": 2142
+    },
+    {
+      "slug": "linear-regression",
+      "path": "/topics/linear-regression/",
+      "sourcePath": "src/content/topics/classical-ml/linear-regression.md",
+      "title": "Linear Regression",
+      "description": "Fitting a linear model to data using least squares optimisation.",
+      "authors": [
+        "Praneeth-Suresh"
+      ],
+      "updatedDate": "2026-06-24",
+      "difficulty": "beginner",
+      "category": "classical-ml",
+      "domains": [
+        "supervised-learning",
+        "regression"
+      ],
+      "tags": [
+        "linear-algebra",
+        "optimisation",
+        "statistics",
+        "least-squares"
+      ],
+      "wordCount": 508
+    },
+    {
+      "slug": "probability-and-bayesian-inference",
+      "path": "/topics/probability-and-bayesian-inference/",
+      "sourcePath": "src/content/topics/classical-ml/probability-and-bayesian-inference.md",
+      "title": "Probability And Bayesian Inference",
+      "description": "the bayesian perspective of things",
+      "authors": [
+        "checkpoint214159"
+      ],
+      "updatedDate": null,
+      "difficulty": "beginner",
+      "category": "classical-ml",
+      "domains": [
+        "statistics",
+        "probability"
+      ],
+      "tags": [],
+      "wordCount": 3971
+    },
+    {
+      "slug": "support-vector-machines",
+      "path": "/topics/support-vector-machines/",
+      "sourcePath": "src/content/topics/classical-ml/support-vector-machines.md",
+      "title": "Support Vector Machines",
+      "description": "Maximum-margin classifiers using kernel methods for non-linear decision boundaries.",
+      "authors": [
+        "Praneeth-Suresh"
+      ],
+      "updatedDate": "2026-06-24",
+      "difficulty": "intermediate",
+      "category": "classical-ml",
+      "domains": [
+        "supervised-learning",
+        "classification"
+      ],
+      "tags": [],
+      "wordCount": 83
+    },
+    {
+      "slug": "neural-networks",
+      "path": "/topics/neural-networks/",
+      "sourcePath": "src/content/topics/deep-learning/neural-networks.md",
+      "title": "Neural Networks",
+      "description": "Multi-layer parametric function approximators trained via backpropagation.",
+      "authors": [
+        "Praneeth-Suresh"
+      ],
+      "updatedDate": "2026-06-24",
+      "difficulty": "intermediate",
+      "category": "deep-learning",
+      "domains": [
+        "deep-learning",
+        "representation-learning"
+      ],
+      "tags": [],
+      "wordCount": 235
+    },
+    {
+      "slug": "peft",
+      "path": "/topics/peft/",
+      "sourcePath": "src/content/topics/generative/peft.md",
+      "title": "PEFT",
+      "description": "Parameter-efficient fine-tuning — adapt large models on a single GPU by freezing the base weights and training a small delta.",
+      "authors": [
+        "Marcus-Wee"
+      ],
+      "updatedDate": "2026-07-09",
+      "difficulty": "intermediate",
+      "category": "generative",
+      "domains": [
+        "llm",
+        "fine-tuning",
+        "quantization"
+      ],
+      "tags": [],
+      "wordCount": 693
+    },
+    {
+      "slug": "transformers",
+      "path": "/topics/transformers/",
+      "sourcePath": "src/content/topics/generative/transformers.md",
+      "title": "Transformers",
+      "description": "Self-attention-based sequence models that power modern LLMs and vision models.",
+      "authors": [
+        "Praneeth-Suresh"
+      ],
+      "updatedDate": "2026-06-24",
+      "difficulty": "advanced",
+      "category": "generative",
+      "domains": [
+        "deep-learning",
+        "nlp",
+        "attention"
+      ],
+      "tags": [],
+      "wordCount": 94
+    },
+    {
+      "slug": "agent-reward-hacking",
+      "path": "/topics/agent-reward-hacking/",
+      "sourcePath": "src/content/topics/reinforcement-learning/agent-reward-hacking.md",
+      "title": "Agent Reward Hacking",
+      "description": "How autonomous AI agents exploit poorly secured evaluation infrastructure, and what zero-trust testing pipelines look like.",
+      "authors": [
+        "Marcus-Wee"
+      ],
+      "updatedDate": "2026-07-09",
+      "difficulty": "intermediate",
+      "category": "reinforcement-learning",
+      "domains": [
+        "agents",
+        "evaluation",
+        "safety"
+      ],
+      "tags": [],
+      "wordCount": 1407
+    },
+    {
+      "slug": "q-learning",
+      "path": "/topics/q-learning/",
+      "sourcePath": "src/content/topics/reinforcement-learning/q-learning.md",
+      "title": "Q-Learning",
+      "description": "Model-free reinforcement learning algorithm that learns optimal action-value functions.",
+      "authors": [
+        "Praneeth-Suresh"
+      ],
+      "updatedDate": "2026-06-24",
+      "difficulty": "intermediate",
+      "category": "reinforcement-learning",
+      "domains": [
+        "reinforcement-learning",
+        "control"
+      ],
+      "tags": [
+        "bellman-equation",
+        "temporal-difference",
+        "exploration",
+        "optimisation"
+      ],
+      "wordCount": 71
+    },
+    {
+      "slug": "why-you-should-care-about-ppo",
+      "path": "/topics/why-you-should-care-about-ppo/",
+      "sourcePath": "src/content/topics/reinforcement-learning/why-you-should-care-about-ppo.md",
+      "title": "Why you should care about PPO",
+      "description": "why did ppo become the goat",
+      "authors": [
+        "checkpoint214159"
+      ],
+      "updatedDate": null,
+      "difficulty": "intermediate",
+      "category": "reinforcement-learning",
+      "domains": [
+        "reinforcement-learning",
+        "policy-gradients"
+      ],
+      "tags": [],
+      "wordCount": 5436
+    },
+    {
+      "slug": "jepa",
+      "path": "/topics/jepa/",
+      "sourcePath": "src/content/topics/world-modelling/jepa.md",
+      "title": "Joint-Embedding Predictive Architecture",
+      "description": "An introduction to how JEPA learns by predicting latent representations, with examples from I-JEPA and action-conditioned world models.",
+      "authors": [
+        "Kia-Lok"
+      ],
+      "updatedDate": null,
+      "difficulty": "intermediate",
+      "category": "world-modelling",
+      "domains": [],
+      "tags": [
+        "world-models",
+        "reinforcement-learning",
+        "computer-vision"
+      ],
+      "wordCount": 1765
+    },
+    {
+      "slug": "rssm",
+      "path": "/topics/rssm/",
+      "sourcePath": "src/content/topics/world-modelling/rssm.md",
+      "title": "Recurrent State Space Models (RSSM)",
+      "description": "An introduction to recurrent state-space models, their training objective, and their evolution through PlaNet, Dreamer, MuDreamer, and R2-Dreamer.",
+      "authors": [
+        "Kia-Lok"
+      ],
+      "updatedDate": null,
+      "difficulty": "advanced",
+      "category": "world-modelling",
+      "domains": [],
+      "tags": [],
+      "wordCount": 2430
+    },
+    {
+      "slug": "state-space-models",
+      "path": "/topics/state-space-models/",
+      "sourcePath": "src/content/topics/world-modelling/state-space-models.md",
+      "title": "State Space Models for Sequence Modelling",
+      "description": "An introduction to state space models, their continuous and discrete forms, recurrent and convolutional representations, HiPPO, S4, S5, and Mamba.",
+      "authors": [
+        "Kia-Lok"
+      ],
+      "updatedDate": null,
+      "difficulty": "intermediate",
+      "category": "world-modelling",
+      "domains": [
+        "deep-learning",
+        "sequence-modelling",
+        "representation-learning"
+      ],
+      "tags": [
+        "state-space-models",
+        "world-models",
+        "sequence-modelling",
+        "mamba"
+      ],
+      "wordCount": 2457
+    },
+    {
+      "slug": "world-models",
+      "path": "/topics/world-models/",
+      "sourcePath": "src/content/topics/world-modelling/world-models.md",
+      "title": "World Models",
+      "description": "Learned environment models that let agents predict, plan, and learn from imagined futures.",
+      "authors": [
+        "N00bcak"
+      ],
+      "updatedDate": null,
+      "difficulty": "intermediate",
+      "category": "world-modelling",
+      "domains": [
+        "reinforcement-learning",
+        "model-based-rl",
+        "representation-learning"
+      ],
+      "tags": [
+        "latent-dynamics",
+        "planning",
+        "imagination",
+        "model-bias"
+      ],
+      "wordCount": 1065
+    }
+  ]
+}

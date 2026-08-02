@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, initial-scale=1" />
+    <title>AI Soc Corpus Contributor Report July 2026</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Tomorrow:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap");
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #050507;
+        color: #f4f5f7;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .poster {
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+        background: radial-gradient(
+            circle at 18% 12%,
+            rgba(204, 255, 0, 0.22),
+            transparent 28%
+          ),
+          radial-gradient(
+            circle at 78% 4%,
+            rgba(99, 102, 241, 0.25),
+            transparent 24%
+          ),
+          linear-gradient(180deg, #09090d 0%, #050507 100%);
+        position: relative;
+      }
+      .poster:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(
+            rgba(255, 255, 255, 0.045) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.045) 1px,
+            transparent 1px
+          );
+        background-size: 54px 54px;
+        mask-image: linear-gradient(180deg, #000, rgba(0, 0, 0, 0.25));
+      }
+      .poster:after {
+        content: "";
+        position: absolute;
+        left: -120px;
+        right: -120px;
+        top: 365px;
+        height: 1px;
+        background: #ccff00;
+        box-shadow: 0 0 38px rgba(204, 255, 0, 0.75);
+        transform: rotate(-9deg);
+      }
+      .poster-grid {
+        position: relative;
+        z-index: 1;
+        height: 100%;
+        padding: 54px;
+        display: grid;
+        grid-template-columns: 1fr 316px;
+        grid-template-rows: 278px 770px 90px 24px;
+        gap: 18px;
+      }
+      .poster-header {
+        grid-column: 1/2;
+      }
+      .eyebrow,
+      .panel-label,
+      .poster-footer {
+        font-size: 17px;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        color: #ccff00;
+      }
+      .poster h1 {
+        font-family: "Tomorrow", monospace;
+        font-size: 70px;
+        line-height: 0.92;
+        letter-spacing: -0.06em;
+        margin: 14px 0 18px;
+        text-transform: uppercase;
+        max-width: 640px;
+      }
+      .subtitle {
+        font-size: 21px;
+        line-height: 1.35;
+        color: #cbd5f5;
+        max-width: 620px;
+      }
+      .signal-panel {
+        border: 1px solid rgba(204, 255, 0, 0.55);
+        background: rgba(12, 12, 16, 0.84);
+        box-shadow: 0 0 32px rgba(204, 255, 0, 0.12) inset;
+        padding: 24px;
+        align-self: stretch;
+      }
+      .signal-panel strong {
+        display: block;
+        font-family: "Tomorrow", monospace;
+        font-size: 32px;
+        line-height: 1.04;
+        margin: 30px 0 14px;
+        word-break: break-word;
+      }
+      .signal-panel p {
+        color: #a1a1aa;
+        font-size: 16px;
+        line-height: 1.45;
+      }
+      .ledger {
+        grid-column: 1/3;
+        display: grid;
+        grid-template-rows: repeat(6, 1fr);
+        gap: 10px;
+        align-content: stretch;
+        min-height: 0;
+      }
+      .credit-card {
+        position: relative;
+        display: grid;
+        grid-template-columns: 92px 1fr 248px;
+        gap: 18px;
+        align-items: stretch;
+        min-height: 0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: linear-gradient(
+          90deg,
+          rgba(204, 255, 0, calc(var(--signal) * 0.0035)),
+          rgba(18, 18, 24, 0.92) 46%,
+          rgba(18, 18, 24, 0.62)
+        );
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.035);
+        overflow: hidden;
+      }
+      .credit-card:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 7px;
+        background: #ccff00;
+        box-shadow: 0 0 calc(var(--signal) * 0.4px) rgba(204, 255, 0, 0.8);
+      }
+      .rank {
+        font-family: "Tomorrow", monospace;
+        font-size: 48px;
+        font-weight: 900;
+        color: rgba(244, 245, 247, 0.2);
+        display: grid;
+        place-items: center;
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .card-body {
+        padding: 14px 0;
+        min-width: 0;
+      }
+      .card-body h2 {
+        font-family: "Tomorrow", monospace;
+        font-size: 28px;
+        line-height: 1;
+        margin: 0 0 7px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .score {
+        margin: 0 0 8px;
+        color: #ccff00;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 12px;
+      }
+      .card-body ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        max-height: 44px;
+        overflow: hidden;
+      }
+      .card-body li {
+        font-size: 11px;
+        color: #cbd5f5;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 3px 6px;
+        background: rgba(255, 255, 255, 0.035);
+      }
+      .metrics {
+        display: grid;
+        align-content: center;
+        gap: 8px;
+        padding: 14px;
+        border-left: 1px solid rgba(255, 255, 255, 0.08);
+        color: #a1a1aa;
+        font-size: 12px;
+      }
+      .metrics strong {
+        font-size: 21px;
+        color: #f4f5f7;
+      }
+      .stats {
+        grid-column: 1/3;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(5, 5, 7, 0.58);
+      }
+      .stats div {
+        padding: 13px 16px;
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .stats div:last-child {
+        border-right: 0;
+      }
+      .stats span {
+        font-family: "Tomorrow", monospace;
+        color: #ccff00;
+        font-size: 30px;
+        font-weight: 800;
+      }
+      .stats p {
+        margin: 2px 0 0;
+        color: #a1a1aa;
+        text-transform: uppercase;
+        font-size: 11px;
+        letter-spacing: 0.14em;
+      }
+      .poster-footer {
+        grid-column: 1/3;
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        color: #a1a1aa;
+        font-size: 16px;
+      }
+      .empty {
+        font-size: 28px;
+        color: #a1a1aa;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      class="poster"
+      aria-label="AI Soc Corpus contributor report for July 2026"
+    >
+      <section class="poster-grid">
+        <header class="poster-header">
+          <p class="eyebrow">AI Soc Corpus monthly report</p>
+          <h1>July 2026 contributor signal</h1>
+          <p class="subtitle">
+            Recognition weighted by authored Corpus Topics and reader demand.
+          </p>
+        </header>
+        <aside class="signal-panel">
+          <span class="panel-label">Lead signal</span>
+          <strong>@Praneeth-Suresh</strong>
+          <p>0 credited reads across 6.5 topic credits.</p>
+        </aside>
+        <section class="ledger" aria-label="Featured contributors">
+          <article class="credit-card" style="--signal: 55">
+            <div class="rank">01</div>
+            <div class="card-body">
+              <h2>@Praneeth-Suresh</h2>
+              <p class="score">55 signal score</p>
+              <ul>
+                <li>Classical Interpretability Techniques</li>
+                <li>Gradient Descent</li>
+                <li>Linear Regression</li>
+              </ul>
+            </div>
+            <div class="metrics">
+              <span><strong>6.5</strong> topic credits</span>
+              <span><strong>0</strong> credited reads</span>
+            </div>
+          </article>
+          <article class="credit-card" style="--signal: 34">
+            <div class="rank">02</div>
+            <div class="card-body">
+              <h2>@Marcus-Wee</h2>
+              <p class="score">34 signal score</p>
+              <ul>
+                <li>Agent Reward Hacking</li>
+                <li>PEFT</li>
+              </ul>
+            </div>
+            <div class="metrics">
+              <span><strong>2</strong> topic credits</span>
+              <span><strong>0</strong> credited reads</span>
+            </div>
+          </article>
+          <article class="credit-card" style="--signal: 21">
+            <div class="rank">03</div>
+            <div class="card-body">
+              <h2>@Kia-Lok</h2>
+              <p class="score">21 signal score</p>
+              <ul>
+                <li>Joint-Embedding Predictive Architecture</li>
+                <li>Recurrent State Space Models (RSSM)</li>
+                <li>State Space Models for Sequence Modelling</li>
+              </ul>
+            </div>
+            <div class="metrics">
+              <span><strong>3</strong> topic credits</span>
+              <span><strong>0</strong> credited reads</span>
+            </div>
+          </article>
+          <article class="credit-card" style="--signal: 14">
+            <div class="rank">04</div>
+            <div class="card-body">
+              <h2>@checkpoint214159</h2>
+              <p class="score">14 signal score</p>
+              <ul>
+                <li>Probability And Bayesian Inference</li>
+                <li>Why you should care about PPO</li>
+              </ul>
+            </div>
+            <div class="metrics">
+              <span><strong>2</strong> topic credits</span>
+              <span><strong>0</strong> credited reads</span>
+            </div>
+          </article>
+          <article class="credit-card" style="--signal: 10">
+            <div class="rank">05</div>
+            <div class="card-body">
+              <h2>@N00bcak</h2>
+              <p class="score">10 signal score</p>
+              <ul>
+                <li>Gradient Descent</li>
+                <li>World Models</li>
+              </ul>
+            </div>
+            <div class="metrics">
+              <span><strong>1.5</strong> topic credits</span>
+              <span><strong>0</strong> credited reads</span>
+            </div>
+          </article>
+          <article class="credit-card" style="--signal: 8">
+            <div class="rank">06</div>
+            <div class="card-body">
+              <h2>@Zak-T</h2>
+              <p class="score">7 signal score</p>
+              <ul>
+                <li>Autoencoders</li>
+              </ul>
+            </div>
+            <div class="metrics">
+              <span><strong>1</strong> topic credits</span>
+              <span><strong>0</strong> credited reads</span>
+            </div>
+          </article>
+        </section>
+        <section class="stats" aria-label="Report totals">
+          <div>
+            <span>16</span>
+            <p>Corpus topics</p>
+          </div>
+          <div>
+            <span>6</span>
+            <p>Contributors</p>
+          </div>
+          <div>
+            <span>0</span>
+            <p>Monthly reads</p>
+          </div>
+          <div>
+            <span>3</span>
+            <p>Updated topics</p>
+          </div>
+        </section>
+        <footer class="poster-footer">
+          <span>NUS AI Society</span>
+          <span>Generated 2026-08-02</span>
+        </footer>
+      </section>
+    </main>
+  </body>
+</html>

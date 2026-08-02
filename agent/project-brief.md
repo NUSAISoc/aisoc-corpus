@@ -12,17 +12,18 @@ Build the **AI Soc Corpus** website for **NUS AI Society members and beginners**
 
 ## Non-Goals
 
-- Creating a web-based CMS or online editor for direct non-git content updates (all additions are Git-based PRs).
+- Creating direct non-git content updates that bypass review. Admin-assisted submissions may generate GitHub pull requests, but all additions still land through the reviewed PR workflow.
 - Hosting heavy video assets natively (embed external links instead).
 - Writing the actual ML teaching content itself (this brief is to build the framework and structure for the corpus).
 
 ## External Systems
 
-| System              | Why it exists                                                                     | Interface owner                                           | Failure fallback                                            |
-| ------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------- | ----------------------------------------------------------- |
-| Cloudflare Pages    | Free hosting and automated preview builds for Astro/React.                        | Deployment adapter / GitHub integration.                  | Manual build output to public domain.                       |
-| GitHub CI (Actions) | Runs automated verification checks (LaTeX, links, Further Reading checks) on PRs. | GitHub workflows configuration.                           | Local pre-commit / pre-push check scripts run by reviewers. |
-| aisoc-website repo  | Source of truth for brand typography, colors, and layout components.              | Styling adapter / copied global CSS and React components. | Fallback style guide defined manually.                      |
+| System              | Why it exists                                                                                                                       | Interface owner                                           | Failure fallback                                                    |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ------------------------------------------------------------------- |
+| Cloudflare Pages    | Free hosting and automated preview builds for Astro/React.                                                                          | Deployment adapter / GitHub integration.                  | Manual build output to public domain.                               |
+| Cloudflare Workers  | Password-protected admin runtime, analytics ingestion, scheduled reports, poster rendering, email delivery, and GitHub PR creation. | Runtime adapter boundary.                                 | Public static assets remain available; admin endpoints fail closed. |
+| GitHub CI (Actions) | Runs automated verification checks (LaTeX, links, Further Reading checks) on PRs.                                                   | GitHub workflows configuration.                           | Local pre-commit / pre-push check scripts run by reviewers.         |
+| aisoc-website repo  | Source of truth for brand typography, colors, and layout components.                                                                | Styling adapter / copied global CSS and React components. | Fallback style guide defined manually.                              |
 
 ## Definition Of Done
 

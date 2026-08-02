@@ -74,18 +74,18 @@ The key tradeoff is abstraction versus fidelity. A highly compressed latent may 
 
 ## Landmark Methods
 
-| Paper | Year | Idea + Mechanism |
-| --- | ---: | --- |
-| [World Models](https://arxiv.org/abs/1803.10122) | 2018 | Train a controller inside a compressed latent world built from a VAE and recurrent dynamics. |
-| [Learning Latent Dynamics for Planning from Pixels](https://proceedings.mlr.press/v97/hafner19a.html) | 2019 | Plan online in recurrent latent states instead of rolling out full images. |
-| [Dream to Control: Learning Behaviors by Latent Imagination](https://openreview.net/forum?id=S1lOTC4tDS) | 2020 | Train an actor and critic from imagined trajectories in a latent world model. |
-| [Mastering Atari, Go, Chess and Shogi by Planning with a Learned Model](https://www.nature.com/articles/s41586-020-03051-4) | 2020 | Use tree search over a model that predicts reward, policy, and value. |
-| [Mastering Atari with Discrete World Models](https://openreview.net/forum?id=0oabwyZbOu) | 2021 | Use discrete latents to scale Dreamer-style imagination learning to Atari. |
-| [Mastering Atari Games with Limited Data](https://openreview.net/forum?id=OKrNPg3xR3T) | 2021 | Improve MuZero-style tree search for low-data Atari learning. |
-| [Temporal Difference Learning for Model Predictive Control](https://proceedings.mlr.press/v162/hansen22a.html) | 2022 | Combine short-horizon latent MPC with a learned terminal value. |
-| [IRIS: Transforming Auto-regressive Models into World Models](https://arxiv.org/abs/2209.00588) | 2022 | Treat visual dynamics as autoregressive token prediction for synthetic rollouts. |
-| [Mastering Diverse Domains through World Models](https://arxiv.org/abs/2301.04104) | 2023 | Use a robust Dreamer-style recipe across many domains with fixed hyperparameters. |
-| [DIAMOND: Diffusion as a Model of Environment Dreams](https://arxiv.org/abs/2405.12399) | 2024 | Train agents inside diffusion-generated worlds to preserve visual detail. |
+| Paper                                                                                                                       | Year | Idea + Mechanism                                                                             |
+| --------------------------------------------------------------------------------------------------------------------------- | ---: | -------------------------------------------------------------------------------------------- |
+| [World Models](https://arxiv.org/abs/1803.10122)                                                                            | 2018 | Train a controller inside a compressed latent world built from a VAE and recurrent dynamics. |
+| [Learning Latent Dynamics for Planning from Pixels](https://proceedings.mlr.press/v97/hafner19a.html)                       | 2019 | Plan online in recurrent latent states instead of rolling out full images.                   |
+| [Dream to Control: Learning Behaviors by Latent Imagination](https://openreview.net/forum?id=S1lOTC4tDS)                    | 2020 | Train an actor and critic from imagined trajectories in a latent world model.                |
+| [Mastering Atari, Go, Chess and Shogi by Planning with a Learned Model](https://www.nature.com/articles/s41586-020-03051-4) | 2020 | Use tree search over a model that predicts reward, policy, and value.                        |
+| [Mastering Atari with Discrete World Models](https://openreview.net/forum?id=0oabwyZbOu)                                    | 2021 | Use discrete latents to scale Dreamer-style imagination learning to Atari.                   |
+| [Mastering Atari Games with Limited Data](https://openreview.net/forum?id=OKrNPg3xR3T)                                      | 2021 | Improve MuZero-style tree search for low-data Atari learning.                                |
+| [Temporal Difference Learning for Model Predictive Control](https://proceedings.mlr.press/v162/hansen22a.html)              | 2022 | Combine short-horizon latent MPC with a learned terminal value.                              |
+| [IRIS: Transforming Auto-regressive Models into World Models](https://arxiv.org/abs/2209.00588)                             | 2022 | Treat visual dynamics as autoregressive token prediction for synthetic rollouts.             |
+| [Mastering Diverse Domains through World Models](https://arxiv.org/abs/2301.04104)                                          | 2023 | Use a robust Dreamer-style recipe across many domains with fixed hyperparameters.            |
+| [DIAMOND: Diffusion as a Model of Environment Dreams](https://arxiv.org/abs/2405.12399)                                     | 2024 | Train agents inside diffusion-generated worlds to preserve visual detail.                    |
 
 The progression is not just chronological. It shows three recurring choices: whether to model pixels or latents, whether to plan online or train a policy offline, and whether the model should predict the whole observation or only planning-relevant quantities.
 

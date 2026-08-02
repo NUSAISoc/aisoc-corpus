@@ -60,8 +60,8 @@ Return the audit in the final response. Do not create a repository audit file.
 Audit date: YYYY-MM-DD
 
 | Claim or passage | Verdict | Source | Evidence location | Support rationale | Required edit | Unresolved limitation |
-| --- | --- | --- | --- | --- | --- | --- |
-| ... | ... | ... | ... | ... | ... | ... |
+| ---------------- | ------- | ------ | ----------------- | ----------------- | ------------- | --------------------- |
+| ...              | ...     | ...    | ...               | ...               | ...           | ...                   |
 ```
 
 Include every audited material claim. Keep the support rationale concise and evidence-based. Unresolved findings do not block completion, but must remain visible in the table and must not be described as verified.

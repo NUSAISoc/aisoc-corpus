@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../styles/admin.css";
+---
+
+<BaseLayout
+  title="Signal Deck"
+  description="Password-protected AI Soc Corpus analytics dashboard."
+  canonicalPath="/admin/signal-deck/"
+>
+  <section class="admin-shell">
+    <div class="admin-hero">
+      <div>
+        <p class="admin-kicker">Signal Deck</p><h1>
+          Reader attention, not vanity traffic.
+        </h1><p>
+          Signal Deck shows which corpus pages are carrying the learning load
+          and how people move through the site.
+        </p>
+      </div><div class="admin-stat">
+        <strong id="range-label">30</strong><span>Days in view</span>
+      </div>
+    </div>
+    <section class="metric-grid">
+      <div class="metric">
+        <span>Total views</span><strong id="total-views">0</strong>
+      </div><div class="metric">
+        <span>Unique pages</span><strong id="unique-pages">0</strong>
+      </div><div class="metric">
+        <span>Top device</span><strong id="top-device">-</strong>
+      </div>
+    </section>
+    <section class="admin-panel">
+      <h2>Top pages</h2><div class="bar-list" id="top-pages"></div>
+    </section>
+    <section class="admin-grid">
+      <div class="admin-panel">
+        <h2>Referrers</h2><div class="bar-list" id="referrers"></div>
+      </div><div class="admin-panel">
+        <h2>Countries</h2><div class="bar-list" id="countries"></div>
+      </div>
+    </section>
+    <p class="admin-status" id="status" role="status">Loading Signal Deck...</p>
+  </section>
+  <script is:inline src="/ops-assets/signal-deck.js" defer></script>
+</BaseLayout>

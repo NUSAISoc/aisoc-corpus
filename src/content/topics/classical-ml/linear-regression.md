@@ -52,7 +52,7 @@ $$
 
 This is sometimes referred to in the literature as the Normal Equation. Although this gives the precise solution directly, it is important to remember that computing a matrix inverse is a $O(N^3)$ operation so with very large sets of features, this becomes computationall intractible.
 
-Note that to account for the bias, the first column of $\mathbf{X}$ must be filled with 1s. 
+Note that to account for the bias, the first column of $\mathbf{X}$ must be filled with 1s.
 
 ## Limitations
 

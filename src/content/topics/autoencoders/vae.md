@@ -5,8 +5,20 @@ authors: ["Zak-T"]
 updatedDate: "2026-06-25"
 difficulty: intermediate
 category: deep-learning
-domains: ["unsupervised-learning", "generative-models", "representation-learning"]
-tags: ["autoencoders", "variational-inference", "vae", "vq-vae", "reparameterisation", "gumbel-softmax", "reinforce", "elbo", "kl-divergence"]
+domains:
+  ["unsupervised-learning", "generative-models", "representation-learning"]
+tags:
+  [
+    "autoencoders",
+    "variational-inference",
+    "vae",
+    "vq-vae",
+    "reparameterisation",
+    "gumbel-softmax",
+    "reinforce",
+    "elbo",
+    "kl-divergence",
+  ]
 prerequisites: ["gradient-descent"]
 furtherReading:
   - title: "Auto-Encoding Variational Bayes (Kingma & Welling, 2013)"
@@ -21,7 +33,7 @@ furtherReading:
 
 An **autoencoder** is a neural network trained to copy its input back to its output, but through a deliberate bottleneck. We compress an input $x$ with an **encoder** into a compact **latent code** $z$, and then hand that code to a **decoder** that tries to reconstruct the input as $x'$. The whole network is trained so that $x'$ resembles $x$ as closely as possible.
 
-The bottleneck is the point. If the code $z$ is lower-dimensional (or otherwise constrained) than the input, the network cannot simply memorise and pass the input through unchanged. It is forced to discard noise and keep only the structure that matters for reconstruction. A good latent is therefore one that has *learned and stored the important features of the input*. Because we never need labels — the input is its own target — autoencoders are an **unsupervised** (or self-supervised) method.
+The bottleneck is the point. If the code $z$ is lower-dimensional (or otherwise constrained) than the input, the network cannot simply memorise and pass the input through unchanged. It is forced to discard noise and keep only the structure that matters for reconstruction. A good latent is therefore one that has _learned and stored the important features of the input_. Because we never need labels — the input is its own target — autoencoders are an **unsupervised** (or self-supervised) method.
 
 > **Notation.** Throughout the variational sections we follow the convention of the original VAE paper: $\phi$ are the **encoder** parameters (the recognition / inference network $q_\phi$), and $\theta$ are the **decoder** parameters (the generative network $p_\theta$). Some texts swap these letters, so watch for it when reading other sources.
 
@@ -80,7 +92,7 @@ Both problems stem from the same root cause: the encoder maps each input to **a 
 
 A **deterministic** encoder takes an input $x$ and returns one latent vector $z$ — same $x$ in, same $z$ out, every time.
 
-A **variational** encoder does *not* output a code directly. Instead it outputs the **parameters of a probability distribution over $z$**. For a Gaussian latent, the encoder reads $x$ and produces a mean vector $\mu(x)$ and a variance $\sigma^2(x)$. The actual code is then a *sample* from the distribution those parameters define:
+A **variational** encoder does _not_ output a code directly. Instead it outputs the **parameters of a probability distribution over $z$**. For a Gaussian latent, the encoder reads $x$ and produces a mean vector $\mu(x)$ and a variance $\sigma^2(x)$. The actual code is then a _sample_ from the distribution those parameters define:
 
 $$
 z \sim \mathcal{N}\!\big(\mu(x),\, \sigma^2(x)\big)
@@ -94,9 +106,9 @@ Because we built it to be one. The encoder produces a distribution, and $z$ is a
 
 There are two complementary reasons.
 
-**The Bayesian reason.** Given an observed $x$, which latent codes $z$ could have produced it? Rarely a single one. Many codes could plausibly have generated the same image, and some are more likely than others. The spread of plausible explanations *is* a distribution — the **posterior** $p(z \mid x)$. The posterior is inherently a distribution because it encodes our *uncertainty* about the hidden cause. The encoder $q_\phi(z \mid x)$ is our learned approximation to that posterior, so it has to be a distribution too, and a sample $z$ from it has to be random.
+**The Bayesian reason.** Given an observed $x$, which latent codes $z$ could have produced it? Rarely a single one. Many codes could plausibly have generated the same image, and some are more likely than others. The spread of plausible explanations _is_ a distribution — the **posterior** $p(z \mid x)$. The posterior is inherently a distribution because it encodes our _uncertainty_ about the hidden cause. The encoder $q_\phi(z \mid x)$ is our learned approximation to that posterior, so it has to be a distribution too, and a sample $z$ from it has to be random.
 
-**The practical reason.** Because $z$ is sampled with genuine noise around $\mu(x)$, *and* because a regularising term (the KL term, below) continually pulls $q_\phi(z\mid x)$ toward a smooth prior $p(z)$, the latent space gets organised into a continuous, well-behaved region. Nearby points decode to similar outputs, and there are no "dead" regions that decode to nonsense. This is what lets us **sample a fresh $z$ from the prior and decode a brand-new plausible data point**, or **smoothly interpolate** between two encodings. A deterministic autoencoder gives no such guarantee.
+**The practical reason.** Because $z$ is sampled with genuine noise around $\mu(x)$, _and_ because a regularising term (the KL term, below) continually pulls $q_\phi(z\mid x)$ toward a smooth prior $p(z)$, the latent space gets organised into a continuous, well-behaved region. Nearby points decode to similar outputs, and there are no "dead" regions that decode to nonsense. This is what lets us **sample a fresh $z$ from the prior and decode a brand-new plausible data point**, or **smoothly interpolate** between two encodings. A deterministic autoencoder gives no such guarantee.
 
 ---
 
@@ -110,7 +122,7 @@ $$
 
 Each piece has a name and a role:
 
-- $p(z \mid x)$ — the **posterior**: the distribution over latents *after* seeing the data. This is what we want.
+- $p(z \mid x)$ — the **posterior**: the distribution over latents _after_ seeing the data. This is what we want.
 - $p(x \mid z)$ — the **likelihood**: how likely the data is given a latent. This is what the decoder models.
 - $p(z)$ — the **prior**: our belief about latents before seeing any data (we will choose $p(z)=\mathcal{N}(0, I)$).
 - $p(x)$ — the **evidence** (or marginal likelihood): how probable the data is overall.
@@ -196,7 +208,7 @@ Look at the identity carefully:
 - $\log p(x)$ is a **fixed constant** with respect to $\lambda$ — changing our approximation cannot change how probable the data actually is.
 - $D_{\mathrm{KL}} \ge 0$ always.
 
-So $\mathrm{ELBO}(\lambda) \le \log p(x)$ — it is genuinely a *lower bound on the evidence*, hence the name. And because $\log p(x)$ is constant, **maximising the ELBO is exactly the same as minimising the KL divergence** between our approximation and the true posterior. The optimal approximation is:
+So $\mathrm{ELBO}(\lambda) \le \log p(x)$ — it is genuinely a _lower bound on the evidence_, hence the name. And because $\log p(x)$ is constant, **maximising the ELBO is exactly the same as minimising the KL divergence** between our approximation and the true posterior. The optimal approximation is:
 
 $$
 q^*_\lambda(z) = \operatorname*{arg\,min}_{q \in \mathcal{Q}} D_{\mathrm{KL}}\big(q_\lambda(z) \,\|\, p(z \mid x)\big) = \operatorname*{arg\,max}_{q \in \mathcal{Q}} \mathrm{ELBO}(\lambda)
@@ -220,7 +232,7 @@ $$
 \mathcal{L}_i(\theta, \phi) = -\underbrace{\mathbb{E}_{z \sim q_\phi(z \mid x_i)}\!\big[\log p_\theta(x_i \mid z)\big]}_{\text{reconstruction term}} + \underbrace{D_{\mathrm{KL}}\big(q_\phi(z \mid x_i) \,\|\, p(z)\big)}_{\text{regulariser}}
 $$
 
-Both $\theta$ and $\phi$ appear, so a single gradient step on this loss updates *both* networks at once.
+Both $\theta$ and $\phi$ appear, so a single gradient step on this loss updates _both_ networks at once.
 
 - **Reconstruction term.** This encourages the decoder to reconstruct the data accurately. If reconstruction is poor, $\log p_\theta(x_i \mid z)$ is very negative — the model is saying the observed $x_i$ was unlikely under the decoder. The expectation over $z \sim q_\phi$ is **stochastic with respect to $z$**: the quantity inside depends on a random draw. In practice we do not integrate it analytically — we draw a few samples of $z$ from $q_\phi(z\mid x)$ and average $\log p_\theta(x\mid z)$ over them (a Monte-Carlo estimate, i.e. approximating an expectation by an average over samples).
 - **Regulariser.** We want $z$ to follow a standard normal, $p(z) = \mathcal{N}(0, I)$, and the encoder is learning $q_\phi(z\mid x)$ to approximate it. This KL term penalises the encoder whenever it chooses a $q_\phi$ far from the prior. That is what prevents the autoencoder from collapsing the data onto isolated points and instead keeps the latent space continuous.
@@ -252,10 +264,10 @@ $$
 
 where $H(q) = -\mathbb{E}_q[\log q(Z)]$ is the entropy of $q$. The two parts are the ELBO $F(q,\theta)$ and the KL gap between $q$ and the true posterior. EM alternates:
 
-- **E-step.** Set $q$ to maximise $F(q, \theta)$ by choosing $q = p_\theta(Z \mid X)$. This drives the KL gap to $0$, so the lower bound *touches* the true objective $\log p_\theta(X)$.
+- **E-step.** Set $q$ to maximise $F(q, \theta)$ by choosing $q = p_\theta(Z \mid X)$. This drives the KL gap to $0$, so the lower bound _touches_ the true objective $\log p_\theta(X)$.
 - **M-step.** Holding $q$ fixed, improve $\theta$ to increase $F(q, \theta)$.
 
-A VAE is essentially **amortised** variational EM: instead of solving for the optimal $q$ exactly for every data point (a per-point E-step), an encoder network $q_\phi$ *predicts* the variational parameters in one forward pass, and both $\phi$ and $\theta$ are improved together by gradient ascent on the ELBO.
+A VAE is essentially **amortised** variational EM: instead of solving for the optimal $q$ exactly for every data point (a per-point E-step), an encoder network $q_\phi$ _predicts_ the variational parameters in one forward pass, and both $\phi$ and $\theta$ are improved together by gradient ascent on the ELBO.
 
 ---
 
@@ -300,9 +312,9 @@ $$
 \nabla_\phi L = \int \big[\nabla_\phi q_\phi(z \mid x)\big]\, f(z)\, dz
 $$
 
-> 💡 **This is why backprop breaks.** The encoder $\phi$ exerts its influence entirely through the *shape of the distribution* $q_\phi$ that we sample from. The gradient therefore lives inside the $q_\phi$ object — a density that measures how the parameters reshape the latent space — while $f(z)$ only answers "how well do we reconstruct if the latent happens to be $z$?". If we replace "the distribution" with "one concrete sample $z$", we throw away every trace of $\phi$: the sampled $z$ is just a number, and $\phi$ has vanished from the computation graph. The autograd engine, seeing only the graph *after* $z$ was sampled, faithfully reports a zero gradient — because in the graph it can see, there is no path from $\phi$ to the loss.
+> 💡 **This is why backprop breaks.** The encoder $\phi$ exerts its influence entirely through the _shape of the distribution_ $q_\phi$ that we sample from. The gradient therefore lives inside the $q_\phi$ object — a density that measures how the parameters reshape the latent space — while $f(z)$ only answers "how well do we reconstruct if the latent happens to be $z$?". If we replace "the distribution" with "one concrete sample $z$", we throw away every trace of $\phi$: the sampled $z$ is just a number, and $\phi$ has vanished from the computation graph. The autograd engine, seeing only the graph _after_ $z$ was sampled, faithfully reports a zero gradient — because in the graph it can see, there is no path from $\phi$ to the loss.
 
-The differentiation graph can only begin *after* $z$ has been sampled, and from there it differentiates $f$, which doesn't depend on $\phi$. $\phi$'s influence is locked inside the sampling step, where backprop can't reach.
+The differentiation graph can only begin _after_ $z$ has been sampled, and from there it differentiates $f$, which doesn't depend on $\phi$. $\phi$'s influence is locked inside the sampling step, where backprop can't reach.
 
 ---
 
@@ -314,7 +326,7 @@ $$
 z = \mu_\phi(x) + \sigma_\phi(x) \odot \epsilon, \qquad \epsilon \sim \mathcal{N}(0, I)
 $$
 
-Now the randomness lives entirely in $\epsilon$, an external input with **no parameters**. Given $\epsilon$, the latent $z$ is a *deterministic, differentiable* function of $\phi$ (through $\mu_\phi$ and $\sigma_\phi$). The graph now has a clean path $\phi \to z \to f \to \text{loss}$, and $\nabla_\phi$ flows through it normally.
+Now the randomness lives entirely in $\epsilon$, an external input with **no parameters**. Given $\epsilon$, the latent $z$ is a _deterministic, differentiable_ function of $\phi$ (through $\mu_\phi$ and $\sigma_\phi$). The graph now has a clean path $\phi \to z \to f \to \text{loss}$, and $\nabla_\phi$ flows through it normally.
 
 ### Why this is valid: the location–scale property
 
@@ -324,13 +336,13 @@ $$
 z \sim \mathcal{N}(\mu, \sigma^2)
 $$
 
-is *identical* to
+is _identical_ to
 
 $$
 z = \mu + \sigma \cdot \epsilon, \qquad \epsilon \sim \mathcal{N}(0, 1)
 $$
 
-A standard normal can be shifted by $\mu$ (location) and scaled by $\sigma$ (scale) to produce any Gaussian. So the reparameterised samples follow exactly the same distribution as before — we have changed *how* we draw the sample, not *what* we are drawing — but the new form is differentiable in the parameters.
+A standard normal can be shifted by $\mu$ (location) and scaled by $\sigma$ (scale) to produce any Gaussian. So the reparameterised samples follow exactly the same distribution as before — we have changed _how_ we draw the sample, not _what_ we are drawing — but the new form is differentiable in the parameters.
 
 The resulting gradient is itself an expectation we can Monte-Carlo estimate by drawing a few $\epsilon$:
 
@@ -344,7 +356,7 @@ This estimator tends to have **low variance**, which is one reason it works so w
 
 ## Discrete Latents: the VQ-VAE
 
-A vanilla VAE assumes the prior and posterior are continuous Gaussians. But sometimes a *discrete* latent is the better model.
+A vanilla VAE assumes the prior and posterior are continuous Gaussians. But sometimes a _discrete_ latent is the better model.
 
 **Motivation.** Images may belong to categories like "cat" and "car", and it makes little sense to interpolate between such categories — a half-cat-half-car is not a meaningful image. Discrete codes are also easier to model: each category is a single value. The **VQ-VAE** (Vector-Quantised VAE) therefore replaces the continuous normal latent with a discrete one:
 
@@ -365,33 +377,33 @@ This layer takes the encoder's continuous embeddings $z_e(x)$, snaps each to its
 3. **Argmin.** For each vector, find the index of the nearest of the $k$ codebook vectors.
 4. **Index.** Replace each vector with its nearest codebook vector, giving $z_q$.
 5. **Reshape back** to $(n, h, w, d)$.
-6. **Copy gradients.** The $\operatorname*{arg\,min}$ step has zero gradient almost everywhere, so backprop cannot flow through it. We approximate by *copying* the gradients arriving at $z_q$ back onto $z_e$, so some training signal still reaches the encoder.
+6. **Copy gradients.** The $\operatorname*{arg\,min}$ step has zero gradient almost everywhere, so backprop cannot flow through it. We approximate by _copying_ the gradients arriving at $z_q$ back onto $z_e$, so some training signal still reaches the encoder.
 
 ### The straight-through estimator
 
-How do we "copy the gradients" and pretend the VQ layer isn't there during backprop? Note that $z_e$ and $z_q$ are vectors of the same dimensionality $d$, and $z_q$ is the codebook entry *nearest* to $z_e$, so geometrically they sit close together in the same space. The **straight-through estimator** says: only in the backward pass, pretend the quantisation step was the identity function, and pass whatever gradient arrives at $z_q$ straight through to $z_e$.
+How do we "copy the gradients" and pretend the VQ layer isn't there during backprop? Note that $z_e$ and $z_q$ are vectors of the same dimensionality $d$, and $z_q$ is the codebook entry _nearest_ to $z_e$, so geometrically they sit close together in the same space. The **straight-through estimator** says: only in the backward pass, pretend the quantisation step was the identity function, and pass whatever gradient arrives at $z_q$ straight through to $z_e$.
 
 The justification is that the copied gradient points in a sensible direction — "produce outputs that make the decoder happier". The forward pass uses the true (discrete) quantisation; the backward pass uses the identity. It is an approximation, but it works well in practice.
 
 ### The VQ-VAE loss (three components)
 
-Here $\text{sg}[\cdot]$ is the **stop-gradient** operator: it is the identity in the forward pass but lets *no gradient* flow through whatever it wraps in the backward pass.
+Here $\text{sg}[\cdot]$ is the **stop-gradient** operator: it is the identity in the forward pass but lets _no gradient_ flow through whatever it wraps in the backward pass.
 
 $$
 \mathcal{L} = \underbrace{-\log p(x \mid z_q)}_{\text{reconstruction}} \;+\; \underbrace{\big\lVert \text{sg}[z_e(x)] - e \big\rVert^2}_{\text{codebook (VQ) loss}} \;+\; \underbrace{\beta \big\lVert z_e(x) - \text{sg}[e] \big\rVert^2}_{\text{commitment loss}}
 $$
 
 - **Reconstruction loss** $-\log p(x\mid z_q)$ optimises the decoder, and the encoder via the straight-through gradient.
-- **Codebook (VQ) loss.** Because the straight-through path gives the codebook entries *no* gradient, they would never learn on their own. This term — a dictionary-learning / k-means-style update — uses an $L_2$ error to pull each chosen codebook vector $e$ toward the encoder output it was matched with. With $\text{sg}$ on $z_e$, only the codebook moves. **This is what actually trains the embedding table.**
-- **Commitment loss.** The embedding space is dimensionless, so its volume could grow arbitrarily if the embeddings train slower than the encoder. With $\text{sg}$ on $e$, this term pulls the *encoder output* toward its chosen code, discouraging the encoder from drifting between codebook entries and keeping $z_e$ and $z_q$ close. The hyperparameter $\beta$ weights it against the other terms.
+- **Codebook (VQ) loss.** Because the straight-through path gives the codebook entries _no_ gradient, they would never learn on their own. This term — a dictionary-learning / k-means-style update — uses an $L_2$ error to pull each chosen codebook vector $e$ toward the encoder output it was matched with. With $\text{sg}$ on $z_e$, only the codebook moves. **This is what actually trains the embedding table.**
+- **Commitment loss.** The embedding space is dimensionless, so its volume could grow arbitrarily if the embeddings train slower than the encoder. With $\text{sg}$ on $e$, this term pulls the _encoder output_ toward its chosen code, discouraging the encoder from drifting between codebook entries and keeping $z_e$ and $z_q$ close. The hyperparameter $\beta$ weights it against the other terms.
 
 ---
 
 ## Reparameterising a Discrete Distribution
 
-We just saw how the reparameterisation trick relocates randomness so we can differentiate through continuous latents. The **Gumbel-Max trick** is the analogue for a *categorical* distribution.
+We just saw how the reparameterisation trick relocates randomness so we can differentiate through continuous latents. The **Gumbel-Max trick** is the analogue for a _categorical_ distribution.
 
-The core difficulty: the map from continuous parameters (class probabilities / logits) to a discrete outcome is a **step function**. Nudging the class probabilities by a tiny amount produces a *discontinuous* jump in the (one-hot) output — there is no smooth response to differentiate. For a continuous distribution the output can move continuously with the parameters; a discrete random variable cannot, because its output lives in a finite set.
+The core difficulty: the map from continuous parameters (class probabilities / logits) to a discrete outcome is a **step function**. Nudging the class probabilities by a tiny amount produces a _discontinuous_ jump in the (one-hot) output — there is no smooth response to differentiate. For a continuous distribution the output can move continuously with the parameters; a discrete random variable cannot, because its output lives in a finite set.
 
 ### The Gumbel-Max trick
 
@@ -459,7 +471,7 @@ $$
 \nabla_\theta J(\theta) = \int \nabla_\theta p_\theta(x)\, f(x)\, dx
 $$
 
-we hit a snag: $\nabla_\theta p_\theta(x)$ is **not** a probability distribution — it doesn't integrate to $1$ and can be negative. So this integral is *not* an expectation under $p_\theta$, and we cannot directly approximate it by Monte-Carlo sampling (Monte Carlo requires a genuine expectation). Both REINFORCE and the reparameterisation trick are ways of rewriting this quantity as a proper expectation we *can* sample.
+we hit a snag: $\nabla_\theta p_\theta(x)$ is **not** a probability distribution — it doesn't integrate to $1$ and can be negative. So this integral is _not_ an expectation under $p_\theta$, and we cannot directly approximate it by Monte-Carlo sampling (Monte Carlo requires a genuine expectation). Both REINFORCE and the reparameterisation trick are ways of rewriting this quantity as a proper expectation we _can_ sample.
 
 ### The log-derivative (score-function) trick
 
@@ -489,13 +501,13 @@ $$
 = \int f(x)\, p_\theta(x)\, \nabla_\theta \log p_\theta(x)\, dx = \mathbb{E}_{x \sim p_\theta(x)}\!\big[f(x)\, \nabla_\theta \log p_\theta(x)\big]
 $$
 
-This *is* a proper expectation under $p_\theta$, so we can estimate it by Monte-Carlo sampling:
+This _is_ a proper expectation under $p_\theta$, so we can estimate it by Monte-Carlo sampling:
 
 $$
 \nabla_\theta J(\theta) \approx \frac{1}{N} \sum_{i=1}^{N} f(x_i)\, \nabla_\theta \log p_\theta(x_i)
 $$
 
-Notice the estimator only ever *evaluates* $f$ — it never differentiates it. So $f$ and $x$ need not be differentiable in $\theta$, which is exactly why this estimator works for **discrete** distributions where reparameterisation does not apply.
+Notice the estimator only ever _evaluates_ $f$ — it never differentiates it. So $f$ and $x$ need not be differentiable in $\theta$, which is exactly why this estimator works for **discrete** distributions where reparameterisation does not apply.
 
 ### REINFORCE vs the Reparameterisation Trick
 
@@ -515,8 +527,8 @@ $$
 
 The contrast:
 
-- **Score function (REINFORCE)** differentiates the *distribution* (via the score) and only *evaluates* $f$. It works for discrete and non-differentiable $f$, but is typically **high-variance**.
-- **Reparameterisation** differentiates *through* $f$ and the sample path (it needs $f'$ and a differentiable $g_\theta$, i.e. a continuous, reparameterisable distribution), and is typically **lower-variance**.
+- **Score function (REINFORCE)** differentiates the _distribution_ (via the score) and only _evaluates_ $f$. It works for discrete and non-differentiable $f$, but is typically **high-variance**.
+- **Reparameterisation** differentiates _through_ $f$ and the sample path (it needs $f'$ and a differentiable $g_\theta$, i.e. a continuous, reparameterisable distribution), and is typically **lower-variance**.
 
 This is precisely why **continuous Gaussian latents (the VAE)** use reparameterisation, while **discrete latents (the VQ-VAE)** must fall back on the straight-through estimator, Gumbel-Softmax, or REINFORCE.
 

@@ -17,4 +17,3 @@ Use ADR files in `agent/adr/` for decisions that change architecture boundaries,
 - **Benefit:** Future contributors and agents can recover rationale quickly.
 - **Tradeoff:** Small overhead when recording durable decisions.
 - **Follow-up:** Link new ADRs from `agent/design-tree.md` settled decisions.
-

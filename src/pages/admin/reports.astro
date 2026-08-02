@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../styles/admin.css";
+---
+
+<BaseLayout
+  title="Monthly Poster"
+  description="Preview the previous month AI Soc Corpus contributor poster."
+  canonicalPath="/admin/reports/"
+>
+  <section class="admin-shell">
+    <div class="admin-hero">
+      <div>
+        <p class="admin-kicker">Recognition poster</p><h1>
+          Last month, ready for the group chat.
+        </h1><p>
+          The poster combines authored work and topic popularity to spotlight
+          contributors whose pages helped the corpus grow.
+        </p>
+      </div><div class="admin-stat">
+        <strong id="period">...</strong><span>Reporting period</span>
+      </div>
+    </div>
+    <section class="poster-frame admin-panel">
+      <img
+        id="poster"
+        src="/api/admin/reports/poster.png"
+        alt="Previous month AI Soc Corpus contributor poster"
+      /><a
+        class="admin-button"
+        href="/api/admin/reports/poster.png"
+        target="_blank"
+        rel="noopener noreferrer">Open PNG poster</a
+      >
+    </section>
+    <section class="admin-panel">
+      <h2>Included contributors</h2><div class="bar-list" id="contributors">
+      </div>
+    </section>
+    <p class="admin-status" id="status" role="status">Loading report...</p>
+  </section>
+  <script is:inline src="/ops-assets/reports.js" defer></script>
+</BaseLayout>

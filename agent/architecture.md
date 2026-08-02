@@ -15,6 +15,7 @@
 2. Internal files of another context are forbidden imports.
 3. External APIs, SDKs, and persistence details must be accessed through adapters (e.g., custom D3 adapters for React state).
 4. Domain logic (like the similarity algorithm or prerequisite resolver) must not depend directly on HTTP objects, UI state, or vendor client types.
+5. Admin runtime code must isolate Cloudflare, Email Service, Browser Run, and GitHub API details behind Worker adapters.
 
 ## Public Interface Rule
 
@@ -24,6 +25,7 @@ Each context exposes one explicit public entry point:
 - Graph Engine: `src/components/KnowledgeGraph.tsx`
 - Navigation/Reader UI: `src/layouts/ReaderLayout.astro`
 - Verification Script: `scripts/validate-pr.sh`
+- Admin Operations Runtime: `src/worker/index.ts`
 
 ## Forbidden Import Policy
 
@@ -31,5 +33,6 @@ Record concrete forbidden import patterns here once contexts exist:
 
 - `src/components/KnowledgeGraph.tsx -> src/content/topics/*.md` (Components must not directly import raw markdown files; they must read from precalculated static JSON or content collection API).
 - `src/content/topics/*.md -> src/components/**` (Markdown content must not import UI layout components directly; MDX components are allowed only if explicitly registered in the layout).
+- `src/worker/** -> src/content/topics/*.md` (Worker runtime must read generated static manifests or external APIs, not repo-owned source markdown directly).
 
 Keep this list small and high-signal. Add rules only after repeated boundary mistakes.

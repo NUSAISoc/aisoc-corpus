@@ -16,4 +16,3 @@
 - Prefer deterministic local checks over remote mutable operations.
 - Scope filesystem and external tool access to the repository workspace.
 - Use separate credentials for agent tooling where external access is required.
-

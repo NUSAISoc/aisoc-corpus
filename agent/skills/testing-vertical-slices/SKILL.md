@@ -83,4 +83,3 @@ Abort if:
 - May update: test files and test fixtures
 - Must update manifest with `./scripts/update-test-manifest.sh` when test files change intentionally
 - Must not weaken existing assertions without explicit behavior-change rationale
-

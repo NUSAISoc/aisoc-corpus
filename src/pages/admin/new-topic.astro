@@ -1,0 +1,439 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import {
+  TOPIC_CATEGORIES,
+  TOPIC_DIFFICULTIES,
+} from "../../lib/topic-submission";
+import "../../styles/admin.css";
+---
+
+<BaseLayout
+  title="Submit a topic"
+  description="Create an AI Soc Corpus topic submission and open a reviewed GitHub pull request."
+  canonicalPath="/admin/new-topic/"
+>
+  <section class="submission-console" data-submission-console>
+    <header class="submission-hero">
+      <p class="eyebrow">Admin intake / topic PR</p>
+      <div>
+        <h1>New topic flight deck</h1>
+        <p>
+          Package frontmatter, markdown, and images into a reviewed GitHub pull
+          request without asking contributors to operate Git directly.
+        </p>
+      </div>
+    </header>
+
+    <form class="topic-form" data-topic-form enctype="multipart/form-data">
+      <aside class="topic-form__rail" aria-label="Submission status">
+        <div class="status-card">
+          <span class="status-card__label">Route</span>
+          <strong>Form &rarr; Worker &rarr; GitHub PR</strong>
+        </div>
+        <div class="status-card">
+          <span class="status-card__label">Image limits</span>
+          <strong>8 files, 2 MB each</strong>
+          <small>png, jpg, webp, or gif only</small>
+        </div>
+        <div class="status-card">
+          <span class="status-card__label">Review gate</span>
+          <strong>Maintainer approval remains required</strong>
+        </div>
+      </aside>
+
+      <div class="topic-form__main">
+        <fieldset>
+          <legend>Topic identity</legend>
+          <label>
+            Title
+            <input
+              name="title"
+              data-title
+              required
+              placeholder="Mixture of Experts"
+            />
+          </label>
+          <label>
+            Slug
+            <input
+              name="slug"
+              data-slug
+              required
+              pattern="[a-z0-9]+(-[a-z0-9]+)*"
+              placeholder="mixture-of-experts"
+            />
+          </label>
+          <label>
+            Description
+            <textarea
+              name="description"
+              required
+              rows="3"
+              placeholder="A one-sentence summary of the topic."></textarea>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Frontmatter</legend>
+          <label>
+            Authors
+            <input
+              name="authors"
+              required
+              placeholder="github-user, second-user"
+            />
+          </label>
+          <div class="split-grid">
+            <label>
+              Difficulty
+              <select name="difficulty" required>
+                {
+                  TOPIC_DIFFICULTIES.map((difficulty) => (
+                    <option value={difficulty}>{difficulty}</option>
+                  ))
+                }
+              </select>
+            </label>
+            <label>
+              Category
+              <select name="category" required>
+                {
+                  TOPIC_CATEGORIES.map((category) => (
+                    <option value={category}>{category}</option>
+                  ))
+                }
+              </select>
+            </label>
+          </div>
+          <label>
+            Domains
+            <input name="domains" required placeholder="nlp, sparse-models" />
+          </label>
+          <label>
+            Tags
+            <input
+              name="tags"
+              required
+              placeholder="routing, transformers, scaling"
+            />
+          </label>
+          <label>
+            Prerequisites
+            <input
+              name="prerequisites"
+              placeholder="transformers, neural-networks"
+            />
+          </label>
+        </fieldset>
+
+        <fieldset data-reading-list>
+          <legend>Further Reading</legend>
+          <div class="reading-row">
+            <label>
+              Source title
+              <input
+                data-reading-title
+                required
+                placeholder="Switch Transformers"
+              />
+            </label>
+            <label>
+              Source URL
+              <input
+                data-reading-url
+                required
+                type="url"
+                placeholder="https://arxiv.org/abs/..."
+              />
+            </label>
+          </div>
+          <button class="ghost-button" type="button" data-add-reading
+            >Add another source</button
+          >
+        </fieldset>
+      </div>
+
+      <div class="topic-form__editor">
+        <fieldset>
+          <legend>Markdown body</legend>
+          <textarea
+            name="markdown"
+            required
+            rows="24"
+            placeholder={"## Overview\n\nStart with a short explanation. Use [[Topic Slug]] links and cite claims inline."}
+          ></textarea>
+        </fieldset>
+
+        <fieldset>
+          <legend>Images</legend>
+          <input
+            name="images"
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/gif"
+            multiple
+            data-images
+          />
+          <p class="field-help">
+            Images are committed under <code
+              >public/corpus-uploads/&lt;slug&gt;/</code
+            >. Reference them in Markdown as <code
+              >/corpus-uploads/&lt;slug&gt;/filename.png</code
+            >.
+          </p>
+        </fieldset>
+        <div class="submit-row">
+          <button class="submit-button" type="submit">Create GitHub PR</button>
+          <p
+            class="form-status"
+            data-form-status
+            role="status"
+            aria-live="polite"
+          >
+          </p>
+        </div>
+      </div>
+    </form>
+  </section>
+</BaseLayout>
+
+<template data-reading-template>
+  <div class="reading-row">
+    <label>
+      Source title
+      <input
+        data-reading-title
+        required
+        placeholder="Paper, book, or documentation title"
+      />
+    </label>
+    <label>
+      Source URL
+      <input
+        data-reading-url
+        required
+        type="url"
+        placeholder="https://example.com"
+      />
+    </label>
+    <button class="remove-button" type="button" data-remove-reading
+      >Remove</button
+    >
+  </div>
+</template>
+
+<script is:inline src="/ops-assets/new-topic.js" defer></script>
+
+<style>
+  .submission-console {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .submission-hero {
+    display: grid;
+    grid-template-columns: minmax(10rem, 0.35fr) 1fr;
+    gap: 1.5rem;
+    align-items: end;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 1.5rem;
+  }
+
+  .eyebrow,
+  legend,
+  .status-card__label {
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-size: clamp(2.4rem, 7vw, 5.8rem);
+    line-height: 0.9;
+    margin: 0 0 1rem;
+    text-transform: uppercase;
+  }
+
+  .submission-hero p:last-child {
+    color: var(--color-muted-strong);
+    max-width: 58rem;
+    margin: 0;
+  }
+
+  .topic-form {
+    display: grid;
+    grid-template-columns: minmax(12rem, 0.7fr) minmax(18rem, 1.1fr) minmax(
+        22rem,
+        1.2fr
+      );
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .topic-form__rail,
+  .topic-form__main,
+  .topic-form__editor {
+    display: grid;
+    gap: 1rem;
+  }
+
+  fieldset,
+  .status-card,
+  .password-field {
+    border: 1px solid var(--color-border);
+    background: linear-gradient(
+        135deg,
+        rgba(204, 255, 0, 0.07),
+        transparent 28%
+      ),
+      rgba(18, 18, 24, 0.82);
+    padding: 1rem;
+  }
+
+  fieldset {
+    display: grid;
+    gap: 0.9rem;
+    margin: 0;
+  }
+
+  legend {
+    padding: 0 0.4rem;
+  }
+
+  label,
+  .password-field {
+    display: grid;
+    gap: 0.4rem;
+    color: var(--color-muted-strong);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 0;
+    background: #08090c;
+    color: var(--color-text);
+    font: inherit;
+    letter-spacing: 0;
+    padding: 0.75rem;
+    text-transform: none;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus,
+  button:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .split-grid,
+  .reading-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+    align-items: end;
+  }
+
+  .status-card {
+    min-height: 7rem;
+  }
+
+  .status-card strong,
+  .status-card small {
+    display: block;
+  }
+
+  .status-card strong {
+    margin-top: 0.7rem;
+    line-height: 1.3;
+  }
+
+  .status-card small,
+  .field-help {
+    color: var(--color-muted);
+    font-size: 0.75rem;
+  }
+
+  .field-help code {
+    color: var(--color-accent);
+  }
+
+  button {
+    border: 1px solid var(--color-accent);
+    border-radius: 0;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .ghost-button,
+  .remove-button {
+    background: transparent;
+    color: var(--color-accent);
+    padding: 0.7rem 0.9rem;
+  }
+
+  .submit-row {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .submit-button {
+    background: var(--color-accent);
+    color: #08090c;
+    padding: 1rem;
+  }
+
+  .submit-button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+  }
+
+  .form-status {
+    min-height: 2.5rem;
+    margin: 0;
+    color: var(--color-muted-strong);
+    font-size: 0.82rem;
+  }
+
+  .form-status[data-state="error"] {
+    color: #ff8a8a;
+  }
+
+  .form-status[data-state="success"] {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 1040px) {
+    .topic-form {
+      grid-template-columns: 1fr;
+    }
+
+    .topic-form__rail {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 720px) {
+    .submission-hero,
+    .split-grid,
+    .reading-row,
+    .topic-form__rail {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

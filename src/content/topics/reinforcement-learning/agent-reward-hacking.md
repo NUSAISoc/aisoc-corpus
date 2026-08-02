@@ -54,12 +54,12 @@ The response to benchmark saturation was to move from static question-answering 
 
 **[SWE-bench: Can Language Models Resolve Real-World GitHub Issues?](https://arxiv.org/abs/2310.06770)** and its successor SWE-bench Pro force coding agents to interact with real, multi-file software repositories to resolve authentic bugs. The Pro version reveals something structurally important by comparing performance on public GPL-licensed code versus proprietary commercial codebases that have never appeared online:
 
-| Model | Public Set Score | Commercial Set Score | Delta |
-| --- | ---: | ---: | ---: |
-| GPT-5.4 (xHigh effort) | 62.8% | 47.1% | -15.7% |
-| Claude Opus 4.6 (thinking) | 51.9% | 47.1% | -4.8% |
+| Model                      | Public Set Score | Commercial Set Score |  Delta |
+| -------------------------- | ---------------: | -------------------: | -----: |
+| GPT-5.4 (xHigh effort)     |            62.8% |                47.1% | -15.7% |
+| Claude Opus 4.6 (thinking) |            51.9% |                47.1% |  -4.8% |
 
-*Source: Scale AI SEAL Leaderboard*
+_Source: Scale AI SEAL Leaderboard_
 
 The gap reveals the mechanism. GPT-5.4's advantage on public-domain code largely disappears on proprietary codebases, suggesting it benefits from training-data memorisation of publicly indexed code. Claude's extended internal thinking blocks maintain a steadier baseline across both conditions because structured reasoning over novel architecture generalises where pattern recall cannot.
 
@@ -89,13 +89,13 @@ The downstream consequence matters. RLHF loops trained on this feedback actively
 
 ## Landmark Events
 
-| Work | Year | Contribution |
-| --- | ---: | --- |
-| [Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena](https://arxiv.org/abs/2306.05685) | 2023 | Established LLM-as-judge as an evaluation standard and exposed initial judge biases. |
-| [SWE-bench: Can Language Models Resolve Real-World GitHub Issues?](https://arxiv.org/abs/2310.06770) | 2023 | Moved coding evaluation from single functions to real multi-file repository repair. |
-| [MMLU-Pro: A More Robust and Challenging Multi-Task Language Understanding Benchmark](https://arxiv.org/abs/2406.01574) | 2024 | Raised the ceiling on academic benchmarks with ten-choice questions and quality controls. |
-| [Humanity's Last Exam](https://arxiv.org/abs/2501.14249) | 2025 | Adversarially curated benchmark that prunes any question a current model answers correctly. |
-| BenchJack (UC Berkeley) | 2025 | Red-teaming scanner that demonstrated 100% exploit rates against production agent benchmarks using zero-capability agents. |
+| Work                                                                                                                    | Year | Contribution                                                                                                               |
+| ----------------------------------------------------------------------------------------------------------------------- | ---: | -------------------------------------------------------------------------------------------------------------------------- |
+| [Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena](https://arxiv.org/abs/2306.05685)                              | 2023 | Established LLM-as-judge as an evaluation standard and exposed initial judge biases.                                       |
+| [SWE-bench: Can Language Models Resolve Real-World GitHub Issues?](https://arxiv.org/abs/2310.06770)                    | 2023 | Moved coding evaluation from single functions to real multi-file repository repair.                                        |
+| [MMLU-Pro: A More Robust and Challenging Multi-Task Language Understanding Benchmark](https://arxiv.org/abs/2406.01574) | 2024 | Raised the ceiling on academic benchmarks with ten-choice questions and quality controls.                                  |
+| [Humanity's Last Exam](https://arxiv.org/abs/2501.14249)                                                                | 2025 | Adversarially curated benchmark that prunes any question a current model answers correctly.                                |
+| BenchJack (UC Berkeley)                                                                                                 | 2025 | Red-teaming scanner that demonstrated 100% exploit rates against production agent benchmarks using zero-capability agents. |
 
 ## Zero-Trust Evaluation Architecture
 

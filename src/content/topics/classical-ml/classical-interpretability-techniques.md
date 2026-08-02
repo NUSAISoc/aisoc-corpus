@@ -21,11 +21,12 @@ prerequisites: ["linear-regression"]
 furtherReading:
   - title: "Interpretable Machine Learning — Christoph Molnar"
     url: "https://christophm.github.io/interpretable-ml-book/"
-  - title: "\"Why Should I Trust You?\" Explaining the Predictions of Any Classifier — Ribeiro, Singh, Guestrin (2016)"
+  - title: '"Why Should I Trust You?" Explaining the Predictions of Any Classifier — Ribeiro, Singh, Guestrin (2016)'
     url: "https://arxiv.org/abs/1602.04938"
   - title: "A Unified Approach to Interpreting Model Predictions — Lundberg and Lee (2017)"
     url: "https://papers.neurips.cc/paper_files/paper/2017/hash/8a20a8621978632d76c43dfd28b67767-Abstract.html"
 ---
+
 ## What does it mean to interpret?
 
 We say that AI is a black-box because we don’t know why the model made a certain decision. For example, we can’t directly understand in human terms why an image classifier identified an image of a handwritten “7” as a 7.
@@ -137,9 +138,9 @@ ICE is useful when different groups of examples respond differently to the same 
 
 Let’s try to solve the problem that PDP faces when there is correlation between features (which creates unrealistic data points).
 
-We *could* try to average over only the values near the target (called an M-Plot). However, this means the prediction can’t be attributed to one feature anymore.
+We _could_ try to average over only the values near the target (called an M-Plot). However, this means the prediction can’t be attributed to one feature anymore.
 
-ALE solves this by calculating differences instead of averages. It studies how the prediction changes as the feature changes, leading to a more robust interpretation. This is great because we don’t expect the feature to make sense for all *possible* values. We are only moving in a small window.
+ALE solves this by calculating differences instead of averages. It studies how the prediction changes as the feature changes, leading to a more robust interpretation. This is great because we don’t expect the feature to make sense for all _possible_ values. We are only moving in a small window.
 
 ![1784778658724](image/classical-interpretability-techniques/1784778658724.png)
 
@@ -172,7 +173,7 @@ $$
 \operatorname*{arg\,min}_{g}\ \mathcal{L}(f,g,\pi_x) + \Omega(g)
 $$
 
-The first term measures the **fidelity** of the explanation (*locality aware loss*) while the second is a **complexity measure**. We can use multiple approaches to measuring model complexity including number of non-zero weights or the depth of the decision tree.
+The first term measures the **fidelity** of the explanation (_locality aware loss_) while the second is a **complexity measure**. We can use multiple approaches to measuring model complexity including number of non-zero weights or the depth of the decision tree.
 
 The resulting explanation from LIME is usually a small set of important features for one prediction. LIME is flexible and model-agnostic, but it can be unstable when perturbation strategy, random seed, kernel width, or interpretable representation changes.
 

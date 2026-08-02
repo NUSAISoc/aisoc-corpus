@@ -4,8 +4,22 @@ description: An introduction to recurrent state-space models, their training obj
 authors: ["Kia-Lok"]
 difficulty: advanced
 category: world-modelling
-domains: [reinforcement-learning, model-based-rl, representation-learning, latent-dynamics]
-tags: [rssm, world-models, dreamer, latent-imagination, variational-inference, redundancy-reduction]
+domains:
+  [
+    reinforcement-learning,
+    model-based-rl,
+    representation-learning,
+    latent-dynamics,
+  ]
+tags:
+  [
+    rssm,
+    world-models,
+    dreamer,
+    latent-imagination,
+    variational-inference,
+    redundancy-reduction,
+  ]
 prerequisites: [world-models, vae, neural-networks]
 furtherReading:
   - title: Learning Latent Dynamics for Planning from Pixels

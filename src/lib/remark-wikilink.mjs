@@ -16,7 +16,10 @@ export function remarkWikiLink() {
       let match;
       while ((match = wikiLinkRegex.exec(value)) !== null) {
         if (match.index > lastIndex) {
-          children.push({ type: "text", value: value.slice(lastIndex, match.index) });
+          children.push({
+            type: "text",
+            value: value.slice(lastIndex, match.index),
+          });
         }
         const slug = match[1].trim().toLowerCase().replace(/\s+/g, "-");
         const label = (match[2] || match[1]).trim();

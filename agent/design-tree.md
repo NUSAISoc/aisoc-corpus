@@ -15,15 +15,16 @@ An interconnected learning ecosystem that leverages Astro's performance for cont
 
 ## Settled Decisions
 
-| Decision | Choice | Date | ADR |
-| --- | --- | --- | --- |
-| Core Framework | Astro + React | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
-| Hosting Platform | Cloudflare Pages | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
-| Styling Source | Direct extraction from cloned `NUSAISoc/aisoc-website` | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
-| PR Verification CI | GitHub Actions running custom markdown lint, LaTeX compile validation, and link-check | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
-| Local Topic PR Auto-Review | Maintainer-run GitHub CLI workflow invokes a selected local coding agent and posts an advisory sticky PR comment | 2026-06-24 | — |
-| Topic Attribution | Required ordered `authors` list of equal GitHub co-authors | 2026-07-20 | [ADR 0003](adr/0003-multiple-topic-authors.md) |
-| Sharp Corners      | All `border-radius` must be `0`. No rounded edges anywhere on the site.               | 2026-06-04 | —                                                                                       |
+| Decision                   | Choice                                                                                                                                                     | Date       | ADR                                                                                     |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------- |
+| Core Framework             | Astro + React                                                                                                                                              | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
+| Hosting Platform           | Cloudflare Pages                                                                                                                                           | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
+| Styling Source             | Direct extraction from cloned `NUSAISoc/aisoc-website`                                                                                                     | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
+| PR Verification CI         | GitHub Actions running custom markdown lint, LaTeX compile validation, and link-check                                                                      | 2026-06-02 | [ADR 0002](file:///home/prane/coding/aisoc-corpus/agent/adr/0002-ai-soc-corpus-plan.md) |
+| Local Topic PR Auto-Review | Maintainer-run GitHub CLI workflow invokes a selected local coding agent and posts an advisory sticky PR comment                                           | 2026-06-24 | —                                                                                       |
+| Topic Attribution          | Required ordered `authors` list of equal GitHub co-authors                                                                                                 | 2026-07-20 | [ADR 0003](adr/0003-multiple-topic-authors.md)                                          |
+| Admin Operations Runtime   | Cloudflare Worker protects admin pages, records first-party analytics, creates GitHub PRs from form submissions, and generates monthly contributor posters | 2026-08-02 | [ADR 0004](adr/0004-cloudflare-admin-operations.md)                                     |
+| Sharp Corners              | All `border-radius` must be `0`. No rounded edges anywhere on the site.                                                                                    | 2026-06-04 | —                                                                                       |
 
 ## Pressure Points
 

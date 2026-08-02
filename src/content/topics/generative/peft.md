@@ -35,7 +35,7 @@ Fine-tuning adjusts the parameters $\theta$ of a pretrained network to minimise 
 
 ## Why It Works
 
-A pretrained model already encodes language, reasoning, and world knowledge. Specialising it to a task is a *small* adjustment, not a rewrite — empirically the useful update $\Delta\theta$ lives in a low-dimensional subspace. So you don't need to move all $d$ parameters; a tiny trainable set $\phi$ can express the adjustment, often matching full fine-tuning quality while training **under 1%** of the weights.
+A pretrained model already encodes language, reasoning, and world knowledge. Specialising it to a task is a _small_ adjustment, not a rewrite — empirically the useful update $\Delta\theta$ lives in a low-dimensional subspace. So you don't need to move all $d$ parameters; a tiny trainable set $\phi$ can express the adjustment, often matching full fine-tuning quality while training **under 1%** of the weights.
 
 ## Memory Savings
 
@@ -43,20 +43,19 @@ The weights are the small cost; the optimiser state around them dominates. With 
 
 $$M \approx \underbrace{4d}_{\text{fp32 weights}} + \underbrace{(4 + 4 + 4)\,d_{\text{train}}}_{\text{grad} + m + v} + M_{\text{act}}$$
 
-The key term is $d_{\text{train}}$, the number of **trainable** parameters. A frozen weight contributes to neither the gradient nor the moments — only its forward-pass storage. 
+The key term is $d_{\text{train}}$, the number of **trainable** parameters. A frozen weight contributes to neither the gradient nor the moments — only its forward-pass storage.
 
 PEFT saves incredible amounts of memory by driving $d_{\text{train}} \to \epsilon d$, where oftentimes $\epsilon < 0.01$, which practically zeroes the dominant $12\,d_{\text{train}}$ term and the per-step optimiser cost.
 
-
 ## The PEFT Family
 
-| Method | Mechanism | $d_{\text{train}}$ |
-|--------|-----------|--------------------|
-| **LoRA** | additive low-rank $\mathbf{B}\mathbf{A}$ | $r(m+n)$ |
-| **Prefix/Prompt tuning** | learn virtual tokens prepended to input; weights frozen | $\sim$ embeddings only |
-| **Adapters (2019)** | bottleneck layers inserted between frozen blocks | small, not mergeable |
-| **IA³** | learned vectors rescaling activations $\mathbf{h}\odot\mathbf{l}$ | one vector per target |
-| **DoRA (2024)** | decompose $\mathbf{W}=m\frac{\mathbf{V}}{\lVert\mathbf{V}\rVert}$, LoRA the direction | LoRA + magnitude |
+| Method                   | Mechanism                                                                             | $d_{\text{train}}$     |
+| ------------------------ | ------------------------------------------------------------------------------------- | ---------------------- |
+| **LoRA**                 | additive low-rank $\mathbf{B}\mathbf{A}$                                              | $r(m+n)$               |
+| **Prefix/Prompt tuning** | learn virtual tokens prepended to input; weights frozen                               | $\sim$ embeddings only |
+| **Adapters (2019)**      | bottleneck layers inserted between frozen blocks                                      | small, not mergeable   |
+| **IA³**                  | learned vectors rescaling activations $\mathbf{h}\odot\mathbf{l}$                     | one vector per target  |
+| **DoRA (2024)**          | decompose $\mathbf{W}=m\frac{\mathbf{V}}{\lVert\mathbf{V}\rVert}$, LoRA the direction | LoRA + magnitude       |
 
 All share the PEFT invariant: **freeze the base, learn a small $\Delta\theta$.** They differ only in the parametrisation of that delta.
 
@@ -70,12 +69,12 @@ All share the PEFT invariant: **freeze the base, learn a small $\Delta\theta$.**
 
 ## Choosing a Method
 
-| Situation | Use |
-|-----------|-----|
-| fp16 base fits the GPU | **LoRA** — no dequant tax |
-| base too big for 16-bit | **QLoRA** — 4-bit makes it fit at all |
-| max quality, spare compute | **DoRA** |
-| many cheap swappable tasks | **prompt/prefix tuning** |
+| Situation                  | Use                                   |
+| -------------------------- | ------------------------------------- |
+| fp16 base fits the GPU     | **LoRA** — no dequant tax             |
+| base too big for 16-bit    | **QLoRA** — 4-bit makes it fit at all |
+| max quality, spare compute | **DoRA**                              |
+| many cheap swappable tasks | **prompt/prefix tuning**              |
 
 2026 default: LoRA if it fits, QLoRA if it doesn't. Start $r=16,\ \alpha=32$, target attention + MLP projections, escalate only if the task demands it.
 
@@ -83,7 +82,7 @@ All share the PEFT invariant: **freeze the base, learn a small $\Delta\theta$.**
 
 - A small $\Delta\theta$ caps how far you can move the model; tasks needing deep behavioural change may still favour full fine-tuning.
 - Adapter capacity and placement are a tuning burden: too little underfits, too much overfits small datasets.
-- A caveat rather than a limitation: PEFT cuts only the *training* memory, not the base model's *inference* footprint — you still load all $d$ weights to serve it.
+- A caveat rather than a limitation: PEFT cuts only the _training_ memory, not the base model's _inference_ footprint — you still load all $d$ weights to serve it.
 
 ## Related Topics
 

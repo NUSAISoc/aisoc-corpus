@@ -47,6 +47,10 @@ export function generateBacklinks() {
 }
 
 // Run directly when called as a script
-if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(import.meta.url.replace("file://", ""))) {
+if (
+  process.argv[1] &&
+  path.resolve(process.argv[1]) ===
+    path.resolve(import.meta.url.replace("file://", ""))
+) {
   generateBacklinks();
 }

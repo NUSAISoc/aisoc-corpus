@@ -41,5 +41,31 @@ const pageTitle = title ? `${title} | AI Soc Corpus` : "AI Soc Corpus";
       </div>
     </main>
     <Footer />
+    <script is:inline>
+      (() => {
+        if (location.pathname.startsWith("/admin")) return;
+        const payload = {
+          path: location.pathname,
+          title: document.title,
+          referrer: document.referrer,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+        const body = JSON.stringify(payload);
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon(
+            "/api/analytics/pageview",
+            new Blob([body], { type: "application/json" }),
+          );
+          return;
+        }
+        fetch("/api/analytics/pageview", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body,
+          keepalive: true,
+        }).catch(() => {});
+      })();
+    </script>
   </body>
 </html>

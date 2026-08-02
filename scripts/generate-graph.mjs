@@ -137,7 +137,9 @@ export function generateGraphData() {
       childrenOf[edge.source].push(edge.target);
     }
   }
-  const roots = nodes.filter((n) => n.prerequisites.length === 0).map((n) => n.id);
+  const roots = nodes
+    .filter((n) => n.prerequisites.length === 0)
+    .map((n) => n.id);
   const queue = [...roots];
   while (queue.length > 0) {
     const id = queue.shift();
