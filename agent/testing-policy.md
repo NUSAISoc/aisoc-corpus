@@ -7,6 +7,7 @@
 | Markdown sanity                  | `./scripts/check-md.sh`              | available | Unclosed fences and tabs                                                                    |
 | Test manifest immutability check | `./scripts/check-tests-unchanged.sh` | available | Detects changes in configured test scope from `agent/test-manifest.conf`                    |
 | Aggregate deterministic gate     | `./scripts/check.sh`                 | available | Runs all deterministic checks                                                               |
+| SEO build-output contract        | `npm run check:seo`                  | available | Verifies canonical URLs, robots, sitemap, indexing directives, and social image metadata    |
 | Frontmatter & LaTeX validation   | `./scripts/validate-content.sh`      | planned   | Validates Markdown schemas (Zod), LaTeX syntax, and Further Reading source URLs             |
 | Code Format & Lint               | `npm run lint` / `npm run format`    | planned   | Prettier and ESLint for Astro/React source files                                            |
 | Typecheck                        | `npm run typecheck`                  | planned   | TypeScript verification of Astro and React interfaces                                       |

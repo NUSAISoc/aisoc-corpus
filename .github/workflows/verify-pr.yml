@@ -25,5 +25,8 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: SEO build output
+        run: npm run check:seo
+
       - name: Unit tests
         run: npm test

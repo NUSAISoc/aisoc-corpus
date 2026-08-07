@@ -2,6 +2,9 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "aisoc-corpus",
   "compatibility_date": "2026-08-02",
+  "build": {
+    "command": "npm run build",
+  },
   "main": "src/worker/index.ts",
   "assets": {
     "directory": "dist",
@@ -22,7 +25,6 @@
     "crons": ["15 0 1 * *"],
   },
   "vars": {
-    "SITE_URL": "https://aisoc-corpus.aisocietysoc.workers.dev",
     "GITHUB_OWNER": "NUSAISoc",
     "GITHUB_REPO": "aisoc-corpus",
     "GITHUB_BASE_BRANCH": "main",

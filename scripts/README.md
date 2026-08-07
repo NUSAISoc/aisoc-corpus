@@ -12,6 +12,10 @@ Single entrypoint:
 2. `check-tests-unchanged.sh`
 3. `check-project.sh` (project-specific extension point)
 
+After `npm run build`, run `npm run check:seo` to verify that every sitemap URL
+has matching canonical and indexing metadata, admin pages are excluded, and the
+social preview image has the expected dimensions.
+
 ## Test Immutability (Detection)
 
 This repo uses a committed SHA-256 manifest over a configurable test scope.

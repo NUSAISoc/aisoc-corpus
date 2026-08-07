@@ -1,11 +1,13 @@
 import { SOCIAL_LINKS } from "./socialLinks";
+import { SITE_URL } from "../config/site";
 
-export const SITE_URL = "https://aisoc-corpus.aisocietysoc.workers.dev";
+export { SITE_URL };
 export const SITE_NAME = "AI Soc Corpus";
 export const ORGANIZATION_NAME = "NUS AI Society";
 export const DEFAULT_DESCRIPTION =
   "An interconnected AI and machine learning knowledge base by NUS AI Society.";
-export const DEFAULT_SOCIAL_IMAGE = "/favicon.svg";
+export const DEFAULT_SOCIAL_IMAGE = "/images/ai-soc-corpus-social-card.png";
+export const ORGANIZATION_LOGO = "/favicon.svg";
 
 export interface BreadcrumbItem {
   readonly name: string;
@@ -38,6 +40,9 @@ export const canonicalUrl = (path = "/") => {
 export const socialImageUrl = (path = DEFAULT_SOCIAL_IMAGE) =>
   path.startsWith("http") ? path : canonicalUrl(path);
 
+export const robotsDirective = (indexable: boolean) =>
+  indexable ? "index, follow, max-image-preview:large" : "noindex, nofollow";
+
 export const serializeJsonLd = (items: readonly unknown[]) =>
   JSON.stringify(items.length === 1 ? items[0] : items, (_key, value) =>
     value === undefined ? undefined : value,
@@ -49,7 +54,7 @@ export const organizationSchema = () => ({
   name: ORGANIZATION_NAME,
   alternateName: "NUS SoC AI Society",
   url: SITE_URL,
-  logo: socialImageUrl(),
+  logo: socialImageUrl(ORGANIZATION_LOGO),
   email: SOCIAL_LINKS.email.href.replace("mailto:", ""),
   address: {
     "@type": "PostalAddress",

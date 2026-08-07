@@ -1,4 +1,45 @@
 import { test, expect } from "@playwright/test";
+import { SITE_URL } from "../../src/config/site";
+
+test("public search signals use one canonical origin", async ({
+  page,
+  request,
+}) => {
+  await page.goto("/topics/linear-regression/");
+
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    "href",
+    `${SITE_URL}/topics/linear-regression/`,
+  );
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    "content",
+    "index, follow, max-image-preview:large",
+  );
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    "content",
+    `${SITE_URL}/images/ai-soc-corpus-social-card.png`,
+  );
+
+  const robots = await request.get("/robots.txt");
+  expect(await robots.text()).toContain(`Sitemap: ${SITE_URL}/sitemap.xml`);
+
+  const sitemap = await request.get("/sitemap.xml");
+  const sitemapXml = await sitemap.text();
+  expect(sitemapXml).toContain(
+    `<loc>${SITE_URL}/topics/linear-regression/</loc>`,
+  );
+  expect(sitemapXml).not.toContain("<changefreq>");
+  expect(sitemapXml).not.toContain("<priority>");
+  expect(sitemapXml).not.toContain("/admin/");
+});
+
+test("admin pages opt out of search indexing", async ({ page }) => {
+  await page.goto("/admin/login/");
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    "content",
+    "noindex, nofollow",
+  );
+});
 
 test("homepage loads with graph and category buttons", async ({ page }) => {
   await page.goto("/");

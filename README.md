@@ -53,6 +53,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed instructions on adding top
 | ------------------------------- | ------------------------------------------------------------------------ |
 | `npm run dev`                   | Start development server (the app will differ from the one from `build`) |
 | `npm run build`                 | Generate graph + build for production                                    |
+| `npm run check:seo`             | Validate canonical, sitemap, robots, and social metadata in `dist`       |
 | `npm run preview`               | Preview production build (use this locally to check the app)             |
 | `npm test`                      | Run unit tests (Vitest)                                                  |
 | `npm run test:e2e`              | Run E2E tests (Playwright)                                               |
@@ -61,11 +62,13 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed instructions on adding top
 
 ### Environment Configuration
 
-| Variable      | Value           |
-| ------------- | --------------- |
-| Build command | `npm run build` |
-| Build output  | `dist`          |
-| Node version  | `20`            |
+| Variable                          | Value                                                       |
+| --------------------------------- | ----------------------------------------------------------- |
+| Build command                     | `npm run build`                                             |
+| Build output                      | `dist`                                                      |
+| Node version                      | `20`                                                        |
+| `PUBLIC_SITE_URL`                 | Optional canonical origin override, without a trailing path |
+| `PUBLIC_GOOGLE_SITE_VERIFICATION` | Optional Google Search Console HTML-tag token               |
 
 ## Tech Stack
 

@@ -13,24 +13,21 @@ const xmlEscape = (value: string) =>
 
 interface SitemapUrl {
   readonly path: string;
-  readonly priority: string;
   readonly lastmod?: string;
 }
 
 export async function GET() {
   const topics = await getCollection("topics");
   const urls: SitemapUrl[] = [
-    { path: "/", priority: "1.0" },
-    { path: "/topics/", priority: "0.9" },
-    { path: "/about/", priority: "0.7" },
-    { path: "/contribute/", priority: "0.6" },
+    { path: "/" },
+    { path: "/topics/" },
+    { path: "/about/" },
+    { path: "/contribute/" },
     ...TOPIC_CATEGORIES.map((category) => ({
       path: `/categories/${category.id}/`,
-      priority: "0.7",
     })),
     ...topics.map((topic) => ({
       path: `/topics/${topicSlugFromId(topic.id)}/`,
-      priority: "0.8",
       lastmod: topic.data.updatedDate,
     })),
   ];
@@ -43,8 +40,6 @@ ${urls
     <loc>${xmlEscape(canonicalUrl(url.path))}</loc>${
       url.lastmod ? `\n    <lastmod>${xmlEscape(url.lastmod)}</lastmod>` : ""
     }
-    <changefreq>weekly</changefreq>
-    <priority>${url.priority}</priority>
   </url>`,
   )
   .join("\n")}

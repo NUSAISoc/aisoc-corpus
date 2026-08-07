@@ -1,19 +1,41 @@
 import { describe, expect, it } from "vitest";
 import {
+  DEFAULT_SOCIAL_IMAGE,
+  SITE_URL,
   canonicalUrl,
+  robotsDirective,
   serializeJsonLd,
   topicSchema,
   organizationSchema,
 } from "./seo";
+import { normalizeSiteUrl } from "../config/site";
 
 describe("seo helpers", () => {
   it("builds canonical URLs from site-relative paths", () => {
     expect(canonicalUrl("/topics/linear-regression/")).toBe(
-      "https://aisoc-corpus.aisocietysoc.workers.dev/topics/linear-regression/",
+      `${SITE_URL}/topics/linear-regression/`,
     );
-    expect(canonicalUrl("about/")).toBe(
-      "https://aisoc-corpus.aisocietysoc.workers.dev/about/",
+    expect(canonicalUrl("about/")).toBe(`${SITE_URL}/about/`);
+  });
+
+  it("normalizes a configured canonical origin and rejects paths", () => {
+    expect(normalizeSiteUrl("https://corpus.example.org/")).toBe(
+      "https://corpus.example.org",
     );
+    expect(() => normalizeSiteUrl("https://example.org/corpus")).toThrow(
+      "without a path",
+    );
+  });
+
+  it("uses a share-ready default social image", () => {
+    expect(DEFAULT_SOCIAL_IMAGE).toBe("/images/ai-soc-corpus-social-card.png");
+  });
+
+  it("keeps private pages out of search results", () => {
+    expect(robotsDirective(true)).toBe(
+      "index, follow, max-image-preview:large",
+    );
+    expect(robotsDirective(false)).toBe("noindex, nofollow");
   });
 
   it("serializes JSON-LD without raw less-than characters", () => {
@@ -39,7 +61,7 @@ describe("seo helpers", () => {
 
     expect(schema).toMatchObject({
       headline: "Linear Regression",
-      url: "https://aisoc-corpus.aisocietysoc.workers.dev/topics/linear-regression/",
+      url: `${SITE_URL}/topics/linear-regression/`,
       educationalLevel: "beginner",
       author: [
         {

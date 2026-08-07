@@ -24,6 +24,7 @@ An interconnected learning ecosystem that leverages Astro's performance for cont
 | Local Topic PR Auto-Review | Maintainer-run GitHub CLI workflow invokes a selected local coding agent and posts an advisory sticky PR comment                                           | 2026-06-24 | —                                                                                       |
 | Topic Attribution          | Required ordered `authors` list of equal GitHub co-authors                                                                                                 | 2026-07-20 | [ADR 0003](adr/0003-multiple-topic-authors.md)                                          |
 | Admin Operations Runtime   | Cloudflare Worker protects admin pages, records first-party analytics, creates GitHub PRs from form submissions, and generates monthly contributor posters | 2026-08-02 | [ADR 0004](adr/0004-cloudflare-admin-operations.md)                                     |
+| Search Discovery Contract  | One build-time canonical origin drives canonical links, robots, sitemap, JSON-LD, and social metadata; admin pages are explicitly non-indexable            | 2026-08-07 | —                                                                                       |
 | Sharp Corners              | All `border-radius` must be `0`. No rounded edges anywhere on the site.                                                                                    | 2026-06-04 | —                                                                                       |
 
 ## Pressure Points
