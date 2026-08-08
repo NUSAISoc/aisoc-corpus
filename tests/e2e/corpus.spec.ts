@@ -41,6 +41,33 @@ test("admin pages opt out of search indexing", async ({ page }) => {
   );
 });
 
+test("admin tool pages use the admin navigation and return link", async ({
+  page,
+}) => {
+  await page.goto("/admin/new-topic/");
+
+  const adminNavigation = page.getByRole("navigation", {
+    name: "Admin navigation",
+  });
+  await expect(adminNavigation).toBeVisible();
+  await expect(
+    adminNavigation.getByRole("link", { name: "Graph" }),
+  ).toHaveAttribute("href", "/");
+  await expect(
+    adminNavigation.getByRole("link", { name: "Signal Deck" }),
+  ).toHaveAttribute("href", "/admin/signal-deck/");
+  await expect(
+    adminNavigation.getByRole("link", { name: "New Topic" }),
+  ).toHaveAttribute("href", "/admin/new-topic/");
+  await expect(
+    adminNavigation.getByRole("link", { name: "Monthly Poster" }),
+  ).toHaveAttribute("href", "/admin/reports/");
+  await expect(page.getByRole("link", { name: "Admin page" })).toHaveAttribute(
+    "href",
+    "/admin/",
+  );
+});
+
 test("homepage loads with graph and category buttons", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("h1")).toContainText("The Corpus");

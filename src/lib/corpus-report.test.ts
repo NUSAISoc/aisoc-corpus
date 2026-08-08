@@ -63,4 +63,34 @@ describe("monthly contributor report", () => {
       ranked[0].contributionMagnitude,
     );
   });
+
+  it("retains a contributor score when every topic has zero views", () => {
+    const period = previousMonthRange(new Date("2026-08-02T00:00:00Z"));
+    const ranked = scoreContributors(
+      [
+        {
+          slug: "short",
+          path: "/topics/short/",
+          title: "Short",
+          authors: ["alice"],
+          updatedDate: "2026-06-12",
+          wordCount: 900,
+        },
+        {
+          slug: "recent",
+          path: "/topics/recent/",
+          title: "Recent",
+          authors: ["bob"],
+          updatedDate: "2026-07-20",
+          wordCount: 2700,
+        },
+      ],
+      new Map(),
+      period,
+    );
+
+    expect(ranked.map((row) => row.popularity)).toEqual([0, 0]);
+    expect(ranked[0]).toMatchObject({ author: "bob", score: 0.55 });
+    expect(ranked[1].score).toBeGreaterThan(0);
+  });
 });

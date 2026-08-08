@@ -9,18 +9,17 @@ import "../../styles/admin.css";
 
 <BaseLayout
   title="Submit a topic"
-  description="Create an AI Soc Corpus topic submission and open a reviewed GitHub pull request."
+  description="Submit a topic."
   canonicalPath="/admin/new-topic/"
 >
   <section class="submission-console" data-submission-console>
     <header class="submission-hero">
-      <p class="eyebrow">Admin intake / topic PR</p>
-      <div>
-        <h1>New topic flight deck</h1>
-        <p>
-          Package frontmatter, markdown, and images into a reviewed GitHub pull
-          request without asking contributors to operate Git directly.
-        </p>
+      <div class="admin-page-header">
+        <a class="admin-back" href="/admin/">&larr; Admin page</a>
+        <div>
+          <p class="eyebrow">Admin page</p>
+          <h1>New topic</h1>
+        </div>
       </div>
     </header>
 
@@ -231,9 +230,7 @@ import "../../styles/admin.css";
 
   .submission-hero {
     display: grid;
-    grid-template-columns: minmax(10rem, 0.35fr) 1fr;
     gap: 1.5rem;
-    align-items: end;
     border-bottom: 1px solid var(--color-border);
     padding-bottom: 1.5rem;
   }
@@ -254,12 +251,6 @@ import "../../styles/admin.css";
     line-height: 0.9;
     margin: 0 0 1rem;
     text-transform: uppercase;
-  }
-
-  .submission-hero p:last-child {
-    color: var(--color-muted-strong);
-    max-width: 58rem;
-    margin: 0;
   }
 
   .topic-form {

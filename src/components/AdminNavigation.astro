@@ -1,0 +1,34 @@
+---
+const links = [
+  { href: "/", label: "Graph" },
+  { href: "/admin/signal-deck/", label: "Signal Deck" },
+  { href: "/admin/new-topic/", label: "New Topic" },
+  { href: "/admin/reports/", label: "Monthly Poster" },
+];
+
+const pathname = Astro.url?.pathname ?? "/admin/";
+---
+
+<nav class="admin-nav" aria-label="Admin navigation">
+  <div class="container admin-nav__inner">
+    <a class="admin-nav__brand" href="/admin/">Admin</a>
+    <div class="admin-nav__links">
+      {
+        links.map(({ href, label }) => {
+          const isActive = href.startsWith("/admin/") && pathname === href;
+          return (
+            <a
+              href={href}
+              class:list={[
+                "admin-nav__link",
+                isActive && "admin-nav__link--active",
+              ]}
+            >
+              {label}
+            </a>
+          );
+        })
+      }
+    </div>
+  </div>
+</nav>

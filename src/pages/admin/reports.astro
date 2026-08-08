@@ -5,20 +5,17 @@ import "../../styles/admin.css";
 
 <BaseLayout
   title="Monthly Poster"
-  description="Preview the previous month AI Soc Corpus contributor poster."
+  description="Monthly contributor poster."
   canonicalPath="/admin/reports/"
 >
   <section class="admin-shell">
     <div class="admin-hero">
-      <div>
-        <p class="admin-kicker">Recognition poster</p><h1>
-          Last month, ready for the group chat.
-        </h1><p>
-          The poster combines authored work and topic popularity to spotlight
-          contributors whose pages helped the corpus grow.
-        </p>
-      </div><div class="admin-stat">
-        <strong id="period">...</strong><span>Reporting period</span>
+      <div class="admin-page-header">
+        <a class="admin-back" href="/admin/">&larr; Admin page</a>
+        <div>
+          <p class="admin-kicker">Admin page</p><h1>Monthly poster</h1>
+          <p class="admin-label" id="period">Loading period</p>
+        </div>
       </div>
     </div>
     <section class="poster-frame admin-panel">
@@ -34,8 +31,7 @@ import "../../styles/admin.css";
       >
     </section>
     <section class="admin-panel">
-      <h2>Included contributors</h2><div class="bar-list" id="contributors">
-      </div>
+      <h2>Contributor score</h2><div class="bar-list" id="contributors"></div>
     </section>
     <p class="admin-status" id="status" role="status">Loading report...</p>
   </section>
