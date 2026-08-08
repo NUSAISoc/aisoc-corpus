@@ -11,6 +11,12 @@
     "binding": "ASSETS",
     "run_worker_first": ["/api/*", "/admin*"],
   },
+  "analytics_engine_datasets": [
+    {
+      "binding": "ANALYTICS",
+      "dataset": "aisoc_corpus_pageviews",
+    },
+  ],
   "browser": {
     "binding": "BROWSER",
     "remote": true,
