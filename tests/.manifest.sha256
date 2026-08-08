@@ -1,6 +1,7 @@
 7c3bbad07f697b5d8cf04086e61af95f78762639056460944a0cf44c5be05d92  src/content/topic-schema.test.ts
 c41afde43b91f750d0d1d9bdc8b31e64844688ce93548420c93c16565a4eb9f1  src/lib/admin-auth.test.ts
 90286c3097e957096d1c5d38f8955979c688599c7ddd422d6e0608d8d58b1b3e  src/lib/backlinks.test.mjs
+b2e5b02f385241064da960b4743903f893ae5b02643653c2a19a32d68d30d712  src/lib/corpus-analytics.test.ts
 5eda1b832ca947000b1a333b82266fa66a0b3e423d96b88bf3c3ec724352db34  src/lib/corpus-report.test.ts
 eee1131668148f4b52a8f9586fe20279a608f8f74a38d9578c43acaba98fb264  src/lib/github-topic-pr.test.ts
 80ce3188fb369396412c17bb1f0f3443869d6142dd4fea153b799d373fe8dfe0  src/lib/jaccard.test.ts

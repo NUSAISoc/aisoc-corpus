@@ -106,6 +106,18 @@ export async function queryAnalyticsEngine(
   return response.json();
 }
 
+export function buildAnalyticsOverviewQueries(days: number, dataset: string) {
+  const interval = `INTERVAL '${days}' DAY`;
+  return [
+    `SELECT SUM(_sample_interval) AS views, count(DISTINCT blob1) AS unique_paths FROM ${dataset} WHERE timestamp > NOW() - ${interval} FORMAT JSON`,
+    `SELECT blob1 AS path, argMax(blob2, timestamp) AS title, SUM(_sample_interval) AS views FROM ${dataset} WHERE timestamp > NOW() - ${interval} GROUP BY path ORDER BY views DESC LIMIT 12 FORMAT JSON`,
+    `SELECT formatDateTime(timestamp, '%Y-%m-%d') AS day, SUM(_sample_interval) AS views FROM ${dataset} WHERE timestamp > NOW() - ${interval} GROUP BY day ORDER BY day ASC FORMAT JSON`,
+    `SELECT blob3 AS referrer, SUM(_sample_interval) AS views FROM ${dataset} WHERE timestamp > NOW() - ${interval} GROUP BY referrer ORDER BY views DESC LIMIT 8 FORMAT JSON`,
+    `SELECT blob5 AS device, SUM(_sample_interval) AS views FROM ${dataset} WHERE timestamp > NOW() - ${interval} GROUP BY device ORDER BY views DESC FORMAT JSON`,
+    `SELECT blob4 AS country, SUM(_sample_interval) AS views FROM ${dataset} WHERE timestamp > NOW() - ${interval} GROUP BY country ORDER BY views DESC LIMIT 10 FORMAT JSON`,
+  ];
+}
+
 export async function buildAnalyticsOverview(
   request: Request,
   env: AnalyticsEnv,
@@ -117,35 +129,10 @@ export async function buildAnalyticsOverview(
     90,
   );
   const dataset = normalizeDataset(env.ANALYTICS_DATASET);
-  const interval = `INTERVAL ${days} DAY`;
+  const queries = buildAnalyticsOverviewQueries(days, dataset);
 
   const [summary, topPages, dailyViews, referrers, devices, countries] =
-    await Promise.all([
-      queryAnalyticsEngine(
-        env,
-        `SELECT SUM(_sample_interval) AS views, uniq(blob1) AS unique_paths FROM ${dataset} WHERE timestamp > NOW() - ${interval} FORMAT JSON`,
-      ),
-      queryAnalyticsEngine(
-        env,
-        `SELECT blob1 AS path, any(blob2) AS title, SUM(_sample_interval) AS views FROM ${dataset} WHERE timestamp > NOW() - ${interval} GROUP BY path ORDER BY views DESC LIMIT 12 FORMAT JSON`,
-      ),
-      queryAnalyticsEngine(
-        env,
-        `SELECT toDate(timestamp) AS day, SUM(_sample_interval) AS views FROM ${dataset} WHERE timestamp > NOW() - ${interval} GROUP BY day ORDER BY day ASC FORMAT JSON`,
-      ),
-      queryAnalyticsEngine(
-        env,
-        `SELECT blob3 AS referrer, SUM(_sample_interval) AS views FROM ${dataset} WHERE timestamp > NOW() - ${interval} GROUP BY referrer ORDER BY views DESC LIMIT 8 FORMAT JSON`,
-      ),
-      queryAnalyticsEngine(
-        env,
-        `SELECT blob5 AS device, SUM(_sample_interval) AS views FROM ${dataset} WHERE timestamp > NOW() - ${interval} GROUP BY device ORDER BY views DESC FORMAT JSON`,
-      ),
-      queryAnalyticsEngine(
-        env,
-        `SELECT blob4 AS country, SUM(_sample_interval) AS views FROM ${dataset} WHERE timestamp > NOW() - ${interval} GROUP BY country ORDER BY views DESC LIMIT 10 FORMAT JSON`,
-      ),
-    ]);
+    await Promise.all(queries.map((query) => queryAnalyticsEngine(env, query)));
 
   return {
     name: "Signal Deck",
