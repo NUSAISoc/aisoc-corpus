@@ -50,6 +50,10 @@ test("admin tool pages use the admin navigation and return link", async ({
     name: "Admin navigation",
   });
   await expect(adminNavigation).toBeVisible();
+  await expect(adminNavigation).toHaveCSS("z-index", "20");
+  await expect(
+    adminNavigation.getByRole("link", { name: "NUS AI Society AI Soc Corpus" }),
+  ).toHaveAttribute("href", "/");
   await expect(
     adminNavigation.getByRole("link", { name: "Graph" }),
   ).toHaveAttribute("href", "/");
@@ -62,10 +66,7 @@ test("admin tool pages use the admin navigation and return link", async ({
   await expect(
     adminNavigation.getByRole("link", { name: "Monthly Poster" }),
   ).toHaveAttribute("href", "/admin/reports/");
-  await expect(page.getByRole("link", { name: "Admin page" })).toHaveAttribute(
-    "href",
-    "/admin/",
-  );
+  await expect(page.locator(".admin-back")).toHaveAttribute("href", "/admin/");
 });
 
 test("homepage loads with graph and category buttons", async ({ page }) => {

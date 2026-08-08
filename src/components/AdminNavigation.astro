@@ -9,20 +9,20 @@ const links = [
 const pathname = Astro.url?.pathname ?? "/admin/";
 ---
 
-<nav class="admin-nav" aria-label="Admin navigation">
-  <div class="container admin-nav__inner">
-    <a class="admin-nav__brand" href="/admin/">Admin</a>
-    <div class="admin-nav__links">
+<nav class="navbar" aria-label="Admin navigation">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="/">
+      <span>NUS AI Society</span>
+      <strong>AI Soc Corpus</strong>
+    </a>
+    <div class="navbar__links">
       {
         links.map(({ href, label }) => {
           const isActive = href.startsWith("/admin/") && pathname === href;
           return (
             <a
               href={href}
-              class:list={[
-                "admin-nav__link",
-                isActive && "admin-nav__link--active",
-              ]}
+              class:list={["navbar__link", isActive && "navbar__link--active"]}
             >
               {label}
             </a>
